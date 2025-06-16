@@ -1,23 +1,19 @@
+using HelperPE.API.Setup;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+SetupAspNet.AddAspNet(builder);
+SetupSwagger.AddSwagger(builder);
+SetupDatabases.AddDatabases(builder);
+SetupServices.AddServices(builder.Services);
+SetupRepositories.AddRepositories(builder.Services);
+SetupAuth.AddAuth(builder);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+SetupSwagger.UseSwagger(app);
+SetupDatabases.RunMigrations(app);
+SetupAuth.UseAuth(app);
+SetupAspNet.UseAspNet(app);
 
 app.Run();
