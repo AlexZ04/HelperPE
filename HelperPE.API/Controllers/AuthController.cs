@@ -4,7 +4,7 @@ namespace HelperPE.API.Controllers
 {
     [ApiController]
     [Route("api")]
-    public class WeatherForecastController : ControllerBase
+    public class AuthController : ControllerBase
     {
         [HttpGet()]
         public IActionResult Get()

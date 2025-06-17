@@ -7,7 +7,7 @@ namespace HelperPE.API.Setup
     {
         public static void AddAspNet(WebApplicationBuilder builder)
         {
-            //builder.Services.AddExceptionHandler<ExceptionHandler>();
+            builder.Services.AddExceptionHandler<ExceptionHandler>();
             builder.Services.AddProblemDetails();
 
             builder.Services.AddControllers()
