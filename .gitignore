@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 HelperPE.API/appsettings.Development.json
+HelperPE.API/Setup/SetupAuth.cs

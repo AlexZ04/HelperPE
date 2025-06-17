@@ -16,4 +16,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HelperPE.Common\HelperPE.Common.csproj" />
+  </ItemGroup>
+
 </Project>
