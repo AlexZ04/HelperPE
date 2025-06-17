@@ -1,4 +1,7 @@
-﻿namespace HelperPE.API.Setup
+﻿using HelperPE.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
+
+namespace HelperPE.API.Setup
 {
     public class SetupDatabases
     {
@@ -11,16 +14,16 @@
         {
             var applicationsConnection = builder.Configuration.GetConnectionString("DbConnection");
 
-            //builder.Services.AddDbContext<ApplicationDataContext>(options => options.UseNpgsql(applicationsConnection));
+            builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(applicationsConnection));
         }
 
         public static void RunMigrations(WebApplication app)
         {
             using var serviceScope = app.Services.CreateScope();
 
-            //var applicationContext = serviceScope.ServiceProvider.GetService<DataContext>();
+            var applicationContext = serviceScope.ServiceProvider.GetService<DataContext>();
 
-            //applicationContext?.Database.Migrate();
+            applicationContext?.Database.Migrate();
         }
     }
 }
