@@ -1,6 +1,7 @@
 ﻿using HelperPE.Common.Enums;
 using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Entities.Faculty;
+using HelperPE.Persistence.Entities.Pairs;
 
 namespace HelperPE.Persistence.Entities.Users
 {
@@ -13,7 +14,8 @@ namespace HelperPE.Persistence.Entities.Users
         public required string Group { get; set; }
         public required FacultyEntity Faculty { get; set; }
 
-        // посещения
         public List<EventAttendanceEntity> EventsAttendances { get; set; } = new List<EventAttendanceEntity>();
+        public List<PairAttendanceEntity> PairAttendanceEntities { get; set; } = new List<PairAttendanceEntity>();
+        public List<OtherActivitiesEntity> OtherActivities { get; set; } = new List<OtherActivitiesEntity>();
     }
 }
