@@ -15,7 +15,7 @@ namespace HelperPE.Persistence.Entities.Users
         public required FacultyEntity Faculty { get; set; }
 
         public List<EventAttendanceEntity> EventsAttendances { get; set; } = new List<EventAttendanceEntity>();
-        public List<PairAttendanceEntity> PairAttendanceEntities { get; set; } = new List<PairAttendanceEntity>();
+        public List<PairAttendanceEntity> PairAttendances { get; set; } = new List<PairAttendanceEntity>();
         public List<OtherActivitiesEntity> OtherActivities { get; set; } = new List<OtherActivitiesEntity>();
     }
 }

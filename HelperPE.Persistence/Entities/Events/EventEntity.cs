@@ -2,7 +2,7 @@
 {
     public class EventEntity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid EventId { get; set; } = Guid.NewGuid();
         public required string Name { get; set; }
         public int ClassesAmount { get; set; } = 1;
         public string? Description { get; set; } 
