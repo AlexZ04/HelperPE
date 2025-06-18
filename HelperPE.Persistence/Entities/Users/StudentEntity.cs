@@ -1,4 +1,5 @@
 ﻿using HelperPE.Common.Enums;
+using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Entities.Faculty;
 
 namespace HelperPE.Persistence.Entities.Users
@@ -13,5 +14,6 @@ namespace HelperPE.Persistence.Entities.Users
         public required FacultyEntity Faculty { get; set; }
 
         // посещения
+        public List<EventAttendanceEntity> EventsAttendances { get; set; } = new List<EventAttendanceEntity>();
     }
 }
