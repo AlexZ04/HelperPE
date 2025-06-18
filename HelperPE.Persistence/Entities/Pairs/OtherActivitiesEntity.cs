@@ -9,5 +9,6 @@ namespace HelperPE.Persistence.Entities.Pairs
         public int ClassesAmount { get; set; } = 1;
         public required StudentEntity Student { get; set; }
         public required TeacherEntity Teacher { get; set; }
+        public DateTime Date { get; set; } = DateTime.UtcNow;
     }
 }
