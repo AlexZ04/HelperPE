@@ -2,5 +2,10 @@
 {
     public enum UserRole
     {
+        Student,
+        SportsOrganizer,
+        Teacher,
+        Curator,
+        Admin
     }
 }
