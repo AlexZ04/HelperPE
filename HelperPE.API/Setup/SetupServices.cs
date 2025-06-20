@@ -1,10 +1,13 @@
-﻿namespace HelperPE.API.Setup
+﻿using HelperPE.Application.Services;
+using HelperPE.Application.Services.Implementations;
+
+namespace HelperPE.API.Setup
 {
     public class SetupServices
     {
         public static void AddServices(IServiceCollection services)
         {
-
+            services.AddTransient<IAuthService, AuthService>();
         }
     }
 }

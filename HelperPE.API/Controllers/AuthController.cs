@@ -1,3 +1,5 @@
+using HelperPE.Common.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelperPE.API.Controllers
@@ -6,8 +8,11 @@ namespace HelperPE.API.Controllers
     [Route("api")]
     public class AuthController : ControllerBase
     {
-        [HttpGet()]
-        public IActionResult Get()
+
+
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> LoginUser([FromBody] LoginUserModel loginModel)
         {
             return Ok();
         }
