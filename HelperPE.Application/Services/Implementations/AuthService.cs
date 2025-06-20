@@ -4,12 +4,12 @@ namespace HelperPE.Application.Services.Implementations
 {
     public class AuthService : IAuthService
     {
-        public async Task<TokenResponseModel> TokenResponse()
+        public async Task<TokenResponseModel> Login(LoginUserModel loginModel)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<TokenResponseModel> RefreshToken()
+        public async Task<TokenResponseModel> RefreshToken(RefreshTokenModel refreshModel)
         {
             throw new NotImplementedException();
         }

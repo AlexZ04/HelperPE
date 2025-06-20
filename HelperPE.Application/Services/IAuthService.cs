@@ -4,8 +4,8 @@ namespace HelperPE.Application.Services
 {
     public interface IAuthService
     {
-        public Task<TokenResponseModel> TokenResponse();
-        public Task<TokenResponseModel> RefreshToken();
+        public Task<TokenResponseModel> Login(LoginUserModel loginModel);
+        public Task<TokenResponseModel> RefreshToken(RefreshTokenModel refreshModel);
         public Task Logout();
     }
 }
