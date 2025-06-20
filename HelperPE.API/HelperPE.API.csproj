@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HelperPE.Application\HelperPE.Application.csproj" />
     <ProjectReference Include="..\HelperPE.Common\HelperPE.Common.csproj" />
     <ProjectReference Include="..\HelperPE.Persistence\HelperPE.Persistence.csproj" />
   </ItemGroup>

@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HelperPE.Common\HelperPE.Common.csproj" />
+    <ProjectReference Include="..\HelperPE.Persistence\HelperPE.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

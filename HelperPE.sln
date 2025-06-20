@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperPE.Common", "HelperPE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperPE.Persistence", "HelperPE.Persistence\HelperPE.Persistence.csproj", "{42C1561C-B22F-402F-A4D4-335A0B6B787E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperPE.Application", "HelperPE.Application\HelperPE.Application.csproj", "{FA899FA1-2038-4C81-BD10-3329B66F354D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{42C1561C-B22F-402F-A4D4-335A0B6B787E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42C1561C-B22F-402F-A4D4-335A0B6B787E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42C1561C-B22F-402F-A4D4-335A0B6B787E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA899FA1-2038-4C81-BD10-3329B66F354D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA899FA1-2038-4C81-BD10-3329B66F354D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA899FA1-2038-4C81-BD10-3329B66F354D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA899FA1-2038-4C81-BD10-3329B66F354D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
