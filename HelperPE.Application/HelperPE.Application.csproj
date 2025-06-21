@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HelperPE.Common\HelperPE.Common.csproj" />
     <ProjectReference Include="..\HelperPE.Persistence\HelperPE.Persistence.csproj" />
+	<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.2" />
   </ItemGroup>
 
 </Project>

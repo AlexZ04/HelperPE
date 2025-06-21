@@ -6,6 +6,6 @@ namespace HelperPE.Application.Services
     {
         public Task<TokenResponseModel> Login(LoginUserModel loginModel);
         public Task<TokenResponseModel> RefreshToken(RefreshTokenModel refreshModel);
-        public Task Logout();
+        public Task Logout(string? accessToken, Guid userId);
     }
 }
