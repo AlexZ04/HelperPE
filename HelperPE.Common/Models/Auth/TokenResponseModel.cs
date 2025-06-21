@@ -4,6 +4,6 @@
     {
         public string AccessToken { get; set; } = string.Empty;
         public string RefreshToken { get; set; } = string.Empty;
-        public DateTime AccessInspires { get; set; } = DateTime.UtcNow;
+        public DateTime AccessExpires { get; set; } = DateTime.UtcNow;
     }
 }
