@@ -1,5 +1,6 @@
 using HelperPE.Application.Services;
 using HelperPE.Common.Models.Auth;
+using HelperPE.Infrastructure.Filters;
 using HelperPE.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -34,6 +35,7 @@ namespace HelperPE.API.Controllers
 
         [HttpPost("logout")]
         [Authorize]
+        [CheckTokens]
         public async Task<IActionResult> Logout()
         {
             await _authService.Logout(HttpContext.GetTokenAsync("access_token").Result,
