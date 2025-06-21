@@ -1,9 +1,12 @@
-﻿using HelperPE.Common.Models.Auth;
+﻿using HelperPE.Common.Constants;
+using HelperPE.Common.Exceptions;
+using HelperPE.Common.Models.Auth;
 using HelperPE.Common.ProjectSettings;
 using HelperPE.Infrastructure.Utilities;
 using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Entities.Users;
 using HelperPE.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace HelperPE.Application.Services.Implementations
 {
@@ -41,7 +44,29 @@ namespace HelperPE.Application.Services.Implementations
 
         public async Task<TokenResponseModel> RefreshToken(RefreshTokenModel refreshModel)
         {
-            throw new NotImplementedException();
+            var refreshToken = await _context.RefreshTokens
+                .Include(t => t.User)
+                .FirstOrDefaultAsync(t => t.Token == refreshModel.RefreshToken);
+
+            if (refreshToken == null)
+                throw new NotFoundException(ErrorMessages.TOKEN_NOT_FOUND);
+
+            refreshToken.Token = _tokenService.GenerateRefreshToken();
+            refreshToken.Expires = DateTime.Now.AddDays(GeneralSettings.REFRESH_TOKEN_LIFETIME)
+                .ToUniversalTime();
+
+            await _tokenService.HandleTokens(refreshToken.User.Id, refreshToken.Id);
+            await _context.SaveChangesAsync();
+
+            string accessToken = _tokenService.GenerateAccessToken(refreshToken.User.Id,
+                refreshToken.User.Role.ToString());
+
+            return new TokenResponseModel
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken.Token,
+                AccessExpires = DateTime.Now.AddMinutes(AuthOptions.LIFETIME_MINUTES).ToUniversalTime(),
+            };
         }
 
         public async Task Logout()
