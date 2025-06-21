@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using HelperPE.Common.ProjectSettings;
 
 namespace HelperPE.API.Setup
 {
@@ -12,16 +13,16 @@ namespace HelperPE.API.Setup
                 {
                     options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
-                    //options.TokenValidationParameters = new TokenValidationParameters
-                    //{
-                    //    ValidateIssuer = true,
-                    //    ValidIssuer = "",
-                    //    ValidateAudience = true,
-                    //    ValidAudience = "",
-                    //    ValidateLifetime = true,
-                    //    IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                    //    ValidateIssuerSigningKey = true,
-                    //};
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = AuthOptions.ISSUER,
+                        ValidateAudience = true,
+                        ValidAudience = AuthOptions.AUDIENCE,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true,
+                    };
                 });
 
             builder.Services.AddAuthorization();
