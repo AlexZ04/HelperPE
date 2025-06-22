@@ -42,5 +42,18 @@ namespace HelperPE.Persistence.Extensions
                                 .Select(s => s.ToDto()).ToList()
             };
         }
+
+        public static CuratorProfileDTO ToDto(this CuratorEntity model)
+        {
+            return new CuratorProfileDTO
+            {
+                Id = model.Id,
+                Email = model.Email,
+                FullName = model.FullName,
+                Role = model.Role,
+                Faculties = model.Faculties
+                                .Select(f => f.ToDto()).ToList()
+            };
+        }
     }
 }
