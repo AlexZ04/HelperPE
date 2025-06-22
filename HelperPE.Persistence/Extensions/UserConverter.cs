@@ -3,7 +3,7 @@ using HelperPE.Persistence.Entities.Users;
 
 namespace HelperPE.Persistence.Extensions
 {
-    public static class StudentConverter
+    public static class UserConverter
     {
         public static StudentProfileDTO ToDto(this StudentEntity model)
         {
@@ -27,6 +27,19 @@ namespace HelperPE.Persistence.Extensions
                 Group = model.Group,
                 Faculty = model.Faculty.ToDto(),
                 ClassesAmount = classesAmount
+            };
+        }
+
+        public static TeacherProfileDTO ToDto(this TeacherEntity model)
+        {
+            return new TeacherProfileDTO
+            {
+                Id = model.Id,
+                Email = model.Email,
+                FullName = model.FullName,
+                Role = model.Role,
+                Subjects = model.Subjects
+                                .Select(s => s.ToDto()).ToList()
             };
         }
     }
