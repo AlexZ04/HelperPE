@@ -28,15 +28,19 @@ namespace HelperPE.API.Controllers
         }
 
         [HttpGet("teacher")]
+        [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
+        [CheckTokens]
         public async Task<IActionResult> GetTeacherProfile()
         {
-            return Ok();
+            return Ok(await _profileService.GetTeacherProfileById(UserDescriptor.GetUserId(User)));
         }
 
         [HttpGet("curator")]
+        [Authorize(Roles = RolesCombinations.CURATOR)]
+        [CheckTokens]
         public async Task<IActionResult> GetCuratorProfile()
         {
-            return Ok();
+            return Ok(await _profileService.GetCuratorProfileById(UserDescriptor.GetUserId(User)));
         } 
     }
 }

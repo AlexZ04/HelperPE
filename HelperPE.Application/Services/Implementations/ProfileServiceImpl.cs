@@ -33,7 +33,36 @@ namespace HelperPE.Application.Services.Implementations
             if (student == null)
                 throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
 
-            return ((StudentEntity)student).ToDto();
+            return student.ToDto();
+        }
+
+        public async Task<TeacherProfileDTO> GetTeacherProfileById(Guid id)
+        {
+            var teacher = await _context.Users
+                .OfType<TeacherEntity>()
+                .Include(t => t.Pairs)
+                .Include(t => t.Subjects)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (teacher == null)
+                throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
+
+            return teacher.ToDto();
+        }
+
+        public async Task<CuratorProfileDTO> GetCuratorProfileById(Guid id)
+        {
+            var curator = await _context.Users
+                .OfType<CuratorEntity>()
+                .Include(t => t.Pairs)
+                .Include(t => t.Subjects)
+                .Include(t => t.Faculties)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (curator == null)
+                throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
+
+            return curator.ToDto();
         }
     }
 }
