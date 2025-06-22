@@ -9,6 +9,8 @@ namespace HelperPE.API.Setup
         {
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<ITokenService, TokenServiceImpl>();
+
+            services.AddTransient<IProfileService, ProfileServiceImpl>();
         }
     }
 }

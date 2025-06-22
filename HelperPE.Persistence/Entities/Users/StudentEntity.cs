@@ -1,4 +1,5 @@
 ﻿using HelperPE.Common.Enums;
+using HelperPE.Common.Models.Profile;
 using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Entities.Faculty;
 using HelperPE.Persistence.Entities.Pairs;
@@ -17,5 +18,20 @@ namespace HelperPE.Persistence.Entities.Users
         public List<EventAttendanceEntity> EventsAttendances { get; set; } = new List<EventAttendanceEntity>();
         public List<PairAttendanceEntity> PairAttendances { get; set; } = new List<PairAttendanceEntity>();
         public List<OtherActivitiesEntity> OtherActivities { get; set; } = new List<OtherActivitiesEntity>();
+
+        public StudentProfileDTO ToDto()
+        {
+            return new StudentProfileDTO
+            {
+                Id = Id,
+                Email = Email,
+                FullName = FullName,
+                Role = Role,
+                Course = Course,
+                Group = Group,
+                //Faculty = model.Faculty,
+                ClassesAmount = 0
+            };
+        }
     }
 }
