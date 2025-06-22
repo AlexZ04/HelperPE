@@ -18,20 +18,5 @@ namespace HelperPE.Persistence.Entities.Users
         public List<EventAttendanceEntity> EventsAttendances { get; set; } = new List<EventAttendanceEntity>();
         public List<PairAttendanceEntity> PairAttendances { get; set; } = new List<PairAttendanceEntity>();
         public List<OtherActivitiesEntity> OtherActivities { get; set; } = new List<OtherActivitiesEntity>();
-
-        public StudentProfileDTO ToDto()
-        {
-            return new StudentProfileDTO
-            {
-                Id = Id,
-                Email = Email,
-                FullName = FullName,
-                Role = Role,
-                Course = Course,
-                Group = Group,
-                //Faculty = model.Faculty,
-                ClassesAmount = 0
-            };
-        }
     }
 }

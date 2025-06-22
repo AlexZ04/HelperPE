@@ -10,7 +10,7 @@ namespace HelperPE.Common.Models.Profile
         public UserRole Role { get; set; }
         public required int Course { get; set; }
         public required string Group { get; set; }
-        //public required FacultyDTO Faculty { get; set; }
+        public required FacultyDTO Faculty { get; set; }
         public required int ClassesAmount { get; set; }
     }
 }
