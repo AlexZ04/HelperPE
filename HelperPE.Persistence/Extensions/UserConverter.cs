@@ -51,6 +51,8 @@ namespace HelperPE.Persistence.Extensions
                 Email = model.Email,
                 FullName = model.FullName,
                 Role = model.Role,
+                Subjects = model.Subjects
+                                .Select(s => s.ToDto()).ToList(),
                 Faculties = model.Faculties
                                 .Select(f => f.ToDto()).ToList()
             };

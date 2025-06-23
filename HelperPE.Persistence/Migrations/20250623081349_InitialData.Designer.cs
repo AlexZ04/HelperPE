@@ -3,6 +3,7 @@ using System;
 using HelperPE.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HelperPE.Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250623081349_InitialData")]
+    partial class InitialData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,12 +62,7 @@ namespace HelperPE.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("SportsOrganizerEntityId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("EventId");
-
-                    b.HasIndex("SportsOrganizerEntityId");
 
                     b.ToTable("Events");
                 });
@@ -75,16 +73,11 @@ namespace HelperPE.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CuratorEntityId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CuratorEntityId");
 
                     b.ToTable("Faculties");
 
@@ -192,13 +185,6 @@ namespace HelperPE.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subjects");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("6a541e68-cd4c-45bc-94fb-97634ef8a3ef"),
-                            Name = "Баскетбол"
-                        });
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.RefreshTokenEntity", b =>
@@ -230,6 +216,11 @@ namespace HelperPE.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -245,16 +236,11 @@ namespace HelperPE.Persistence.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("integer");
 
-                    b.Property<string>("UserType")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("character varying(21)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Users");
 
-                    b.HasDiscriminator<string>("UserType").HasValue("UserEntity");
+                    b.HasDiscriminator().HasValue("UserEntity");
 
                     b.UseTphMappingStrategy();
                 });
@@ -272,13 +258,6 @@ namespace HelperPE.Persistence.Migrations
                     b.HasIndex("TeachersId");
 
                     b.ToTable("SubjectEntityTeacherEntity");
-
-                    b.HasData(
-                        new
-                        {
-                            SubjectsId = new Guid("6a541e68-cd4c-45bc-94fb-97634ef8a3ef"),
-                            TeachersId = new Guid("1ea30ff4-00c9-44f9-afb9-651471a366f6")
-                        });
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.StudentEntity", b =>
@@ -297,41 +276,14 @@ namespace HelperPE.Persistence.Migrations
 
                     b.HasIndex("FacultyId");
 
-                    b.HasDiscriminator().HasValue("Student");
+                    b.HasDiscriminator().HasValue("StudentEntity");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.TeacherEntity", b =>
                 {
                     b.HasBaseType("HelperPE.Persistence.Entities.Users.UserEntity");
 
-                    b.HasDiscriminator().HasValue("Teacher");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("1ea30ff4-00c9-44f9-afb9-651471a366f6"),
-                            Email = "peteacher@example.com",
-                            FullName = "Thomas Zane",
-                            Password = "string",
-                            Role = 2
-                        });
-                });
-
-            modelBuilder.Entity("HelperPE.Persistence.Entities.Users.SportsOrganizerEntity", b =>
-                {
-                    b.HasBaseType("HelperPE.Persistence.Entities.Users.StudentEntity");
-
-                    b.Property<DateTime>("AppointmentDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasDiscriminator().HasValue("SportsOrganizer");
-                });
-
-            modelBuilder.Entity("HelperPE.Persistence.Entities.Users.CuratorEntity", b =>
-                {
-                    b.HasBaseType("HelperPE.Persistence.Entities.Users.TeacherEntity");
-
-                    b.HasDiscriminator().HasValue("Curator");
+                    b.HasDiscriminator().HasValue("TeacherEntity");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Events.EventAttendanceEntity", b =>
@@ -351,20 +303,6 @@ namespace HelperPE.Persistence.Migrations
                     b.Navigation("Event");
 
                     b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("HelperPE.Persistence.Entities.Events.EventEntity", b =>
-                {
-                    b.HasOne("HelperPE.Persistence.Entities.Users.SportsOrganizerEntity", null)
-                        .WithMany("Events")
-                        .HasForeignKey("SportsOrganizerEntityId");
-                });
-
-            modelBuilder.Entity("HelperPE.Persistence.Entities.Faculty.FacultyEntity", b =>
-                {
-                    b.HasOne("HelperPE.Persistence.Entities.Users.CuratorEntity", null)
-                        .WithMany("Faculties")
-                        .HasForeignKey("CuratorEntityId");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Pairs.OtherActivitiesEntity", b =>
@@ -483,16 +421,6 @@ namespace HelperPE.Persistence.Migrations
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.TeacherEntity", b =>
                 {
                     b.Navigation("Pairs");
-                });
-
-            modelBuilder.Entity("HelperPE.Persistence.Entities.Users.SportsOrganizerEntity", b =>
-                {
-                    b.Navigation("Events");
-                });
-
-            modelBuilder.Entity("HelperPE.Persistence.Entities.Users.CuratorEntity", b =>
-                {
-                    b.Navigation("Faculties");
                 });
 #pragma warning restore 612, 618
         }

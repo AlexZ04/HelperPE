@@ -7,5 +7,7 @@ namespace HelperPE.Application.Services
         public Task<StudentProfileDTO> GetStudenProfileById(Guid id);
         public Task<TeacherProfileDTO> GetTeacherProfileById(Guid id);
         public Task<CuratorProfileDTO> GetCuratorProfileById(Guid id);
+        public Task<List<CuratorProfileDTO>> GetCurators();
+        public Task<List<TeacherProfileDTO>> GetTeachers();
     }
 }

@@ -1,4 +1,6 @@
-﻿using HelperPE.Persistence.Entities.Events;
+﻿using HelperPE.Common.Enums;
+using HelperPE.Infrastructure.Utilities;
+using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Entities.Faculty;
 using HelperPE.Persistence.Entities.Pairs;
 using HelperPE.Persistence.Entities.Users;
@@ -21,8 +23,15 @@ namespace HelperPE.Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.Entity<UserEntity>()
+            //    .HasKey(u => u.Id);
             modelBuilder.Entity<UserEntity>()
-                .HasKey(u => u.Id);
+                .HasDiscriminator<string>("UserType")
+                .HasValue<TeacherEntity>("Teacher")
+                .HasValue<CuratorEntity>("Curator")
+                .HasValue<SportsOrganizerEntity>("SportsOrganizer")
+                .HasValue<StudentEntity>("Student");
+                //? нужен админ
 
             modelBuilder.Entity<EventEntity>()
                 .HasKey(e => e.EventId);
@@ -69,6 +78,34 @@ namespace HelperPE.Persistence.Contexts
 
             modelBuilder.Entity<RefreshTokenEntity>()
                 .HasKey(t => t.Id);
+
+
+            var basketball = new SubjectEntity()
+            {
+                Id = Guid.Parse("6a541e68-cd4c-45bc-94fb-97634ef8a3ef"),
+                Name = "Баскетбол"
+            };
+
+            modelBuilder.Entity<SubjectEntity>().HasData(basketball);
+            TeacherEntity peTeacher = new TeacherEntity()
+            {
+                Id = Guid.Parse("1ea30ff4-00c9-44f9-afb9-651471a366f6"),
+                Email = "peteacher@example.com",
+                FullName = "Thomas Zane",
+                Password =  "string"
+
+            };
+
+            modelBuilder.Entity<TeacherEntity>().HasData(peTeacher);
+
+            modelBuilder.Entity("SubjectEntityTeacherEntity").HasData(
+                new { SubjectsId = basketball.Id, TeachersId = peTeacher.Id }
+            );
+            modelBuilder.Entity<FacultyEntity>().HasData(
+                new FacultyEntity { Id = Guid.Parse("12345678-1234-1234-1234-123456789012"), Name = "Отдел подготовки кадров высшей квалификации" },
+                new FacultyEntity { Id = Guid.Parse("23456789-2345-2345-2345-234567890123"), Name = "Факультет иностранных языков" },
+                new FacultyEntity { Id = Guid.Parse("34567890-3456-3456-3456-345678901234"), Name = "САЕ Институт «Умные материалы и технологии»" }
+            );
 
             base.OnModelCreating(modelBuilder);
         }

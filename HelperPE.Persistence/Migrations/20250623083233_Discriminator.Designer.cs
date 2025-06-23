@@ -3,6 +3,7 @@ using System;
 using HelperPE.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HelperPE.Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250623083233_Discriminator")]
+    partial class Discriminator
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,13 +195,6 @@ namespace HelperPE.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subjects");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("6a541e68-cd4c-45bc-94fb-97634ef8a3ef"),
-                            Name = "Баскетбол"
-                        });
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.RefreshTokenEntity", b =>
@@ -272,13 +268,6 @@ namespace HelperPE.Persistence.Migrations
                     b.HasIndex("TeachersId");
 
                     b.ToTable("SubjectEntityTeacherEntity");
-
-                    b.HasData(
-                        new
-                        {
-                            SubjectsId = new Guid("6a541e68-cd4c-45bc-94fb-97634ef8a3ef"),
-                            TeachersId = new Guid("1ea30ff4-00c9-44f9-afb9-651471a366f6")
-                        });
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.StudentEntity", b =>
@@ -305,16 +294,6 @@ namespace HelperPE.Persistence.Migrations
                     b.HasBaseType("HelperPE.Persistence.Entities.Users.UserEntity");
 
                     b.HasDiscriminator().HasValue("Teacher");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("1ea30ff4-00c9-44f9-afb9-651471a366f6"),
-                            Email = "peteacher@example.com",
-                            FullName = "Thomas Zane",
-                            Password = "string",
-                            Role = 2
-                        });
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.SportsOrganizerEntity", b =>
