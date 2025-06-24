@@ -10,7 +10,7 @@ namespace HelperPE.Application.Services
     public interface IAdminService
     {
         //public Task AddСurator(Guid teacherId, Guid facultyId);
-        public Task<List<CuratorProfileDTO>> getCurators();
-        public Task<List<TeacherProfileDTO>> getTeachers();
+        public Task<List<CuratorProfileDTO>> GetCurators();
+        public Task<List<TeacherProfileDTO>> GetTeachers();
     }
 }

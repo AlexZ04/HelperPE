@@ -19,13 +19,13 @@ namespace HelperPE.Application.Services.Implementations
             _profileServiceImpl = profileServiceImpl;
         }
 
-        public async Task<List<CuratorProfileDTO>> getCurators()
+        public async Task<List<CuratorProfileDTO>> GetCurators()
         {
             var curators = await _profileServiceImpl.GetCurators();
             return (curators);
         }
 
-        public async Task<List<TeacherProfileDTO>> getTeachers()
+        public async Task<List<TeacherProfileDTO>> GetTeachers()
         {
             var teachers = await _profileServiceImpl.GetTeachers();
             return (teachers);

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HelperPE.API.Controllers
 {
-
     [Route("api/admin")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -19,22 +18,20 @@ namespace HelperPE.API.Controllers
             _adminService = adminService;
         }
 
-
-
         [HttpGet("teachers")]
-        //[Authorize(Roles = RolesCombinations.ADMIN)]
-        //[CheckTokens]
+        [Authorize(Roles = RolesCombinations.ADMIN)]
+        [CheckTokens]
         public async Task<IActionResult> GetTeachers()
         {
-            return Ok(await _adminService.getTeachers());
+            return Ok(await _adminService.GetTeachers());
         }
 
         [HttpGet("curators")]
-        //[Authorize(Roles = RolesCombinations.ADMIN)]
-        //[CheckTokens]
+        [Authorize(Roles = RolesCombinations.ADMIN)]
+        [CheckTokens]
         public async Task<IActionResult> GetCurators()
         {
-            return Ok(await _adminService.getCurators());
+            return Ok(await _adminService.GetCurators());
         }
 
     }

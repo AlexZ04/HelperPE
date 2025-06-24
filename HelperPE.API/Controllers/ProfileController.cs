@@ -41,6 +41,14 @@ namespace HelperPE.API.Controllers
         public async Task<IActionResult> GetCuratorProfile()
         {
             return Ok(await _profileService.GetCuratorProfileById(UserDescriptor.GetUserId(User)));
-        } 
+        }
+
+        [HttpGet("all-attendances")]
+        [Authorize(Roles = RolesCombinations.STUDENT_AND_SPORTS)]
+        [CheckTokens]
+        public async Task<IActionResult> GetStudenActivities()
+        {
+            return Ok();
+        }
     }
 }
