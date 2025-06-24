@@ -25,6 +25,20 @@ namespace HelperPE.Persistence.Contexts
                 context.Subjects.Add(basketball);
             }
 
+            var fitnessId = new Guid("d718b0d0-16a1-4d74-9be3-8d98d3af2bb3");
+            var fitness = context.Subjects
+                .Include(s => s.Teachers)
+                .FirstOrDefault(s => s.Id == fitnessId);
+            if (fitness == null)
+            {
+                fitness = new SubjectEntity
+                {
+                    Id = fitnessId,
+                    Name = "Фитнес"
+                };
+                context.Subjects.Add(fitness);
+            }
+
             var peTeacherId = new Guid("1ea30ff4-00c9-44f9-afb9-651471a366f6");
             var peTeacher = context.Users.OfType<TeacherEntity>()
                 .FirstOrDefault(t => t.Id == peTeacherId);
@@ -40,7 +54,7 @@ namespace HelperPE.Persistence.Contexts
                 context.Users.Add(peTeacher);
             }
 
-            var adminId = Guid.NewGuid();
+            var adminId = new Guid("9dc037bf-624a-464e-84d0-4ff4c1ae0529");
             var admin = context.Users.OfType<AdminEntity>()
                 .FirstOrDefault(t => t.Id == adminId);
             if (admin == null)
@@ -127,13 +141,11 @@ namespace HelperPE.Persistence.Contexts
             }
 
             if (!basketball.Teachers.Any(t => t.Id == peTeacherId))
-            {
                 basketball.Teachers.Add(peTeacher);
-            }
             if (!basketball.Teachers.Any(t => t.Id == curatorId))
-            {
                 basketball.Teachers.Add(curator);
-            }
+            if (!fitness.Teachers.Any(t => t.Id == peTeacherId))
+                fitness.Teachers.Add(peTeacher);
 
             await context.SaveChangesAsync();
         }
