@@ -87,28 +87,6 @@ namespace HelperPE.Persistence.Migrations
                     b.HasIndex("CuratorEntityId");
 
                     b.ToTable("Faculties");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("12345678-1234-1234-1234-123456789012"),
-                            Name = "Отдел подготовки кадров высшей квалификации"
-                        },
-                        new
-                        {
-                            Id = new Guid("23456789-2345-2345-2345-234567890123"),
-                            Name = "Факультет иностранных языков"
-                        },
-                        new
-                        {
-                            Id = new Guid("34567890-3456-3456-3456-345678901234"),
-                            Name = "САЕ Институт «Умные материалы и технологии»"
-                        },
-                        new
-                        {
-                            Id = new Guid("3f339655-3c00-4c8d-991e-7708eb5bee6c"),
-                            Name = "НОЦ «Высшая ИТ-Школа»"
-                        });
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Pairs.OtherActivitiesEntity", b =>
@@ -197,13 +175,6 @@ namespace HelperPE.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subjects");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("6a541e68-cd4c-45bc-94fb-97634ef8a3ef"),
-                            Name = "Баскетбол"
-                        });
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.RefreshTokenEntity", b =>
@@ -277,13 +248,13 @@ namespace HelperPE.Persistence.Migrations
                     b.HasIndex("TeachersId");
 
                     b.ToTable("SubjectEntityTeacherEntity");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            SubjectsId = new Guid("6a541e68-cd4c-45bc-94fb-97634ef8a3ef"),
-                            TeachersId = new Guid("1ea30ff4-00c9-44f9-afb9-651471a366f6")
-                        });
+            modelBuilder.Entity("HelperPE.Persistence.Entities.Users.AdminEntity", b =>
+                {
+                    b.HasBaseType("HelperPE.Persistence.Entities.Users.UserEntity");
+
+                    b.HasDiscriminator().HasValue("Admin");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.StudentEntity", b =>
@@ -310,16 +281,6 @@ namespace HelperPE.Persistence.Migrations
                     b.HasBaseType("HelperPE.Persistence.Entities.Users.UserEntity");
 
                     b.HasDiscriminator().HasValue("Teacher");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("1ea30ff4-00c9-44f9-afb9-651471a366f6"),
-                            Email = "peteacher@example.com",
-                            FullName = "Thomas Zane",
-                            Password = "$2a$11$Ug2z7Jxu7srXwiGMEuqfK.MW7uXoH.hP/VsjtygCSobdtJwldDl/q",
-                            Role = 2
-                        });
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.SportsOrganizerEntity", b =>

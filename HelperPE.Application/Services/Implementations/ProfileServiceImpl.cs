@@ -83,8 +83,7 @@ namespace HelperPE.Application.Services.Implementations
             //.Include(t => t.Pairs)
             .Include(t => t.Subjects)
             .ToListAsync();
-
-                
+     
             return teachers.Select(c => c.ToDto()).ToList();
         }
     }

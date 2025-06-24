@@ -12,7 +12,7 @@ SetupAuth.AddAuth(builder);
 var app = builder.Build();
 
 SetupSwagger.UseSwagger(app);
-SetupDatabases.RunMigrations(app);
+await SetupDatabases.RunMigrations(app);
 SetupAuth.UseAuth(app);
 SetupAspNet.UseAspNet(app);
 

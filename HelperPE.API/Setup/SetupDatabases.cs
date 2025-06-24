@@ -26,13 +26,16 @@ namespace HelperPE.API.Setup
             });
         }
 
-        public static void RunMigrations(WebApplication app)
+        public async static Task RunMigrations(WebApplication app)
         {
             using var serviceScope = app.Services.CreateScope();
 
             var applicationContext = serviceScope.ServiceProvider.GetService<DataContext>();
 
             applicationContext?.Database.Migrate();
+
+            if (applicationContext != null)
+                await DataSeeder.Seed(applicationContext);
         }
     }
 }

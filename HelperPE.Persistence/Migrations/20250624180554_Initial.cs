@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace HelperPE.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -221,32 +219,6 @@ namespace HelperPE.Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.InsertData(
-                table: "Faculties",
-                columns: new[] { "Id", "CuratorEntityId", "Name" },
-                values: new object[,]
-                {
-                    { new Guid("12345678-1234-1234-1234-123456789012"), null, "Отдел подготовки кадров высшей квалификации" },
-                    { new Guid("23456789-2345-2345-2345-234567890123"), null, "Факультет иностранных языков" },
-                    { new Guid("34567890-3456-3456-3456-345678901234"), null, "САЕ Институт «Умные материалы и технологии»" },
-                    { new Guid("3f339655-3c00-4c8d-991e-7708eb5bee6c"), null, "НОЦ «Высшая ИТ-Школа»" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Subjects",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { new Guid("6a541e68-cd4c-45bc-94fb-97634ef8a3ef"), "Баскетбол" });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Email", "FullName", "Password", "Role", "UserType" },
-                values: new object[] { new Guid("1ea30ff4-00c9-44f9-afb9-651471a366f6"), "peteacher@example.com", "Thomas Zane", "$2a$11$Ug2z7Jxu7srXwiGMEuqfK.MW7uXoH.hP/VsjtygCSobdtJwldDl/q", 2, "Teacher" });
-
-            migrationBuilder.InsertData(
-                table: "SubjectEntityTeacherEntity",
-                columns: new[] { "SubjectsId", "TeachersId" },
-                values: new object[] { new Guid("6a541e68-cd4c-45bc-94fb-97634ef8a3ef"), new Guid("1ea30ff4-00c9-44f9-afb9-651471a366f6") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_SportsOrganizerEntityId",

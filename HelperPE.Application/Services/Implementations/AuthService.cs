@@ -32,8 +32,6 @@ namespace HelperPE.Application.Services.Implementations
 
         public async Task<TokenResponseModel> Login(LoginUserModel loginModel)
         {
-            //await AddUser();
-
             var user = await _userRepository
                 .GetUsersByCredentials(loginModel.Email, loginModel.Password);
 
@@ -135,25 +133,6 @@ namespace HelperPE.Application.Services.Implementations
             if (isTokenCached == null)
                 return true;
             return false;
-        }
-
-        private async Task AddUser()
-        {
-            var user = new StudentEntity
-            {
-                Course = 1,
-                Group = "972401",
-                Faculty = new Persistence.Entities.Faculty.FacultyEntity() { Name = "test " },
-                FullName = "First test user",
-                Email = "student@example.com",
-                Password = Hasher.HashPassword("123456")
-            };
-
-            _context.Users.Add(user);
-
-            await _context.SaveChangesAsync();
-
-            throw new NotImplementedException();
         }
     }
 }
