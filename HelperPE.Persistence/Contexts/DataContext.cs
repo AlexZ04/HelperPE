@@ -92,7 +92,7 @@ namespace HelperPE.Persistence.Contexts
                 Id = Guid.Parse("1ea30ff4-00c9-44f9-afb9-651471a366f6"),
                 Email = "peteacher@example.com",
                 FullName = "Thomas Zane",
-                Password =  "string"
+                Password = "$2a$11$Ug2z7Jxu7srXwiGMEuqfK.MW7uXoH.hP/VsjtygCSobdtJwldDl/q"
 
             };
 
@@ -104,7 +104,9 @@ namespace HelperPE.Persistence.Contexts
             modelBuilder.Entity<FacultyEntity>().HasData(
                 new FacultyEntity { Id = Guid.Parse("12345678-1234-1234-1234-123456789012"), Name = "Отдел подготовки кадров высшей квалификации" },
                 new FacultyEntity { Id = Guid.Parse("23456789-2345-2345-2345-234567890123"), Name = "Факультет иностранных языков" },
-                new FacultyEntity { Id = Guid.Parse("34567890-3456-3456-3456-345678901234"), Name = "САЕ Институт «Умные материалы и технологии»" }
+                new FacultyEntity { Id = Guid.Parse("34567890-3456-3456-3456-345678901234"), Name = "САЕ Институт «Умные материалы и технологии»" },
+                new FacultyEntity { Id = Guid.Parse("3f339655-3c00-4c8d-991e-7708eb5bee6c"), Name = "НОЦ «Высшая ИТ-Школа»" }
+
             );
 
             base.OnModelCreating(modelBuilder);

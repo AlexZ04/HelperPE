@@ -103,6 +103,11 @@ namespace HelperPE.Persistence.Migrations
                         {
                             Id = new Guid("34567890-3456-3456-3456-345678901234"),
                             Name = "САЕ Институт «Умные материалы и технологии»"
+                        },
+                        new
+                        {
+                            Id = new Guid("3f339655-3c00-4c8d-991e-7708eb5bee6c"),
+                            Name = "НОЦ «Высшая ИТ-Школа»"
                         });
                 });
 
@@ -312,7 +317,7 @@ namespace HelperPE.Persistence.Migrations
                             Id = new Guid("1ea30ff4-00c9-44f9-afb9-651471a366f6"),
                             Email = "peteacher@example.com",
                             FullName = "Thomas Zane",
-                            Password = "string",
+                            Password = "$2a$11$Ug2z7Jxu7srXwiGMEuqfK.MW7uXoH.hP/VsjtygCSobdtJwldDl/q",
                             Role = 2
                         });
                 });
