@@ -30,6 +30,32 @@ namespace HelperPE.Persistence.Extensions
             };
         }
 
+        public static SportsOrganizerProfileDTO ToDto(this SportsOrganizerEntity model)
+        {
+            var classesAmount = 0;
+
+            foreach (var attendance in model.EventsAttendances)
+                classesAmount += attendance.Event.ClassesAmount;
+
+            foreach (var attendance in model.OtherActivities)
+                classesAmount += attendance.ClassesAmount;
+
+            classesAmount += model.PairAttendances.Count();
+
+            return new SportsOrganizerProfileDTO
+            {
+                Id = model.Id,
+                Email = model.Email,
+                FullName = model.FullName,
+                Role = model.Role,
+                Course = model.Course,
+                Group = model.Group,
+                Faculty = model.Faculty.ToDto(),
+                ClassesAmount = classesAmount,
+                AppointmentDate = model.AppointmentDate
+            };
+        }
+
         public static TeacherProfileDTO ToDto(this TeacherEntity model)
         {
             return new TeacherProfileDTO

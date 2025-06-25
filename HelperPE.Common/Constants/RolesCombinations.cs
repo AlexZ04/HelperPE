@@ -7,5 +7,6 @@
         public const string TEACHER_AND_CURATOR = "Teacher,Curator";
         public const string ADMIN = "Admin";
         public const string SPORTS = "SportsOrganizer";
+        public const string STUDENT = "Student";
     }
 }

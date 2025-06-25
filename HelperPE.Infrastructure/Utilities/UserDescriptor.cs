@@ -13,5 +13,15 @@ namespace HelperPE.Infrastructure.Utilities
 
             return new Guid(userId);
         }
+
+        public static string GetUserRole(ClaimsPrincipal principal)
+        {
+            string? userRole = principal.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (userRole == null)
+                throw new UnauthorizedAccessException();
+
+            return userRole;
+        }
     }
 }

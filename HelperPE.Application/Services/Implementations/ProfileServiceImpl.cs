@@ -28,10 +28,14 @@ namespace HelperPE.Application.Services.Implementations
         {
             var student = await _userRepository.GetStudentById(id);
 
-            if (student == null)
-                throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
-
             return student.ToDto();
+        }
+
+        public async Task<SportsOrganizerProfileDTO> GetSportsProfileById(Guid id)
+        {
+            var sports = await _userRepository.GetSportsById(id);
+
+            return sports.ToDto();
         }
 
         public async Task<TeacherProfileDTO> GetTeacherProfileById(Guid id)

@@ -24,7 +24,11 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetStudentProfile()
         {
-            return Ok(await _profileService.GetStudentProfileById(UserDescriptor.GetUserId(User)));
+            var userId = UserDescriptor.GetUserId(User);
+            if (UserDescriptor.GetUserRole(User) == RolesCombinations.SPORTS)
+                return Ok(await _profileService.GetSportsProfileById(userId));
+
+            return Ok(await _profileService.GetStudentProfileById(userId));
         }
 
         [HttpGet("teacher")]
