@@ -24,7 +24,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetStudentProfile()
         {
-            return Ok(await _profileService.GetStudenProfileById(UserDescriptor.GetUserId(User)));
+            return Ok(await _profileService.GetStudentProfileById(UserDescriptor.GetUserId(User)));
         }
 
         [HttpGet("teacher")]
@@ -48,7 +48,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetStudenActivities()
         {
-            return Ok();
+            return Ok(await _profileService.GetUserActivities(UserDescriptor.GetUserId(User)));
         }
     }
 }

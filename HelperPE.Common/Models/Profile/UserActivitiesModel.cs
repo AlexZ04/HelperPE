@@ -4,6 +4,7 @@ namespace HelperPE.Common.Models.Profile
 {
     public class UserActivitiesModel
     {
+        public required StudentProfileDTO Student { get; set; }
         public List<PairAttendanceModel> Pairs { get; set; } 
             = new List<PairAttendanceModel>();
 

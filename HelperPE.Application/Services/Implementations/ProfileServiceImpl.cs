@@ -1,9 +1,12 @@
 ﻿using HelperPE.Common.Constants;
+using HelperPE.Common.Enums;
 using HelperPE.Common.Exceptions;
+using HelperPE.Common.Models.Attendances;
 using HelperPE.Common.Models.Profile;
 using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Entities.Users;
 using HelperPE.Persistence.Extensions;
+using HelperPE.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace HelperPE.Application.Services.Implementations
@@ -11,24 +14,19 @@ namespace HelperPE.Application.Services.Implementations
     public class ProfileServiceImpl : IProfileService
     {
         private readonly DataContext _context;
+        private readonly IUserRepository _userRepository;
 
-        public ProfileServiceImpl(DataContext context)
+        public ProfileServiceImpl(
+            DataContext context,
+            IUserRepository userRepository)
         {
             _context = context;
+            _userRepository = userRepository;
         }
 
-        public async Task<StudentProfileDTO> GetStudenProfileById(Guid id)
+        public async Task<StudentProfileDTO> GetStudentProfileById(Guid id)
         {
-            var student = await _context.Users
-                .OfType<StudentEntity>()
-                .Include(u => u.Faculty)
-                .Include(u => u.PairAttendances)
-                    .ThenInclude(a => a.Pair)
-                .Include(u => u.OtherActivities)
-                    .ThenInclude(a => a.Teacher)
-                .Include(u => u.EventsAttendances)
-                    .ThenInclude(a => a.Event)
-                .FirstOrDefaultAsync(u => u.Id == id);
+            var student = await _userRepository.GetStudentById(id);
 
             if (student == null)
                 throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
@@ -64,6 +62,7 @@ namespace HelperPE.Application.Services.Implementations
 
             return curator.ToDto();
         }
+
         public async Task<List<CuratorProfileDTO>> GetCurators()
         {
             var curators = await _context.Users
@@ -85,6 +84,24 @@ namespace HelperPE.Application.Services.Implementations
             .ToListAsync();
      
             return teachers.Select(c => c.ToDto()).ToList();
+        }
+
+        public async Task<UserActivitiesModel> GetUserActivities(Guid id)
+        {
+            var student = await _userRepository.GetStudentById(id);
+
+            var activitiesModel = new UserActivitiesModel
+            {
+                Student = student.ToDto(),
+                Pairs = student.PairAttendances
+                    .Select(a => a.ToDto()).ToList(),
+                Events = student.EventsAttendances
+                    .Select(a => a.ToDto()).ToList(),
+                OtherActivities = student.OtherActivities
+                    .Select(a => a.ToDto()).ToList()
+            };
+
+            return activitiesModel;
         }
     }
 }
