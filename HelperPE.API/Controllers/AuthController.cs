@@ -43,5 +43,18 @@ namespace HelperPE.API.Controllers
 
             return Ok();
         }
+
+        [HttpGet("session")]
+        [Authorize]
+        [CheckTokens]
+        public IActionResult GetCurrentSession()
+        {
+            var sessionModel = new SessionModel
+            {
+                Role = UserDescriptor.GetUserRole(User)
+            };
+
+            return Ok(sessionModel);
+        }
     }
 }
