@@ -7,5 +7,6 @@
         public int ClassesAmount { get; set; } = 1;
         public string? Description { get; set; }
         public DateTime Date { get; set; } = DateTime.UtcNow;
+        public required FacultyDTO Faculty { get; set; }
     }
 }

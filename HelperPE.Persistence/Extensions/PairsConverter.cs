@@ -25,6 +25,7 @@ namespace HelperPE.Persistence.Extensions
                 ClassesAmount = model.ClassesAmount,
                 Description = model.Description,
                 Date = model.Date,
+                Faculty = model.Faculty.ToDto(),
             };
         }
 

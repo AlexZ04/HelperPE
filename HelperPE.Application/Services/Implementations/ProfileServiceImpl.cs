@@ -2,6 +2,7 @@
 using HelperPE.Common.Enums;
 using HelperPE.Common.Exceptions;
 using HelperPE.Common.Models.Attendances;
+using HelperPE.Common.Models.Event;
 using HelperPE.Common.Models.Profile;
 using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Entities.Users;
@@ -106,6 +107,16 @@ namespace HelperPE.Application.Services.Implementations
             };
 
             return activitiesModel;
+        }
+
+        public async Task<EventListModel> GetSportsOrgEventList(Guid sportsOrgId)
+        {
+            var sportsOrg = await _userRepository.GetSportsById(sportsOrgId);
+
+            return new EventListModel
+            {
+                Events = sportsOrg.Events.Select(e => e.ToDto()).ToList(),  
+            };
         }
     }
 }

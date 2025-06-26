@@ -59,6 +59,8 @@ namespace HelperPE.Persistence.Repositories.Implementations
                 .Include(u => u.EventsAttendances)
                     .ThenInclude(a => a.Event)
                 .Include(s => s.Events)
+                    .ThenInclude(s => s.Faculty)
+                .Include(s => s.Events)
                     .ThenInclude(e => e.Attendances)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 

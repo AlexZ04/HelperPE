@@ -54,5 +54,13 @@ namespace HelperPE.API.Controllers
         {
             return Ok(await _profileService.GetUserActivities(UserDescriptor.GetUserId(User)));
         }
+
+        [HttpGet("created-events")]
+        [Authorize(Roles = RolesCombinations.SPORTS)]
+        [CheckTokens]
+        public async Task<IActionResult> GetCreatedEvents()
+        {
+            return Ok(await _profileService.GetSportsOrgEventList(UserDescriptor.GetUserId(User)));
+        }
     }
 }
