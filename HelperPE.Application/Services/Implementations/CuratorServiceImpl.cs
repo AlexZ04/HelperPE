@@ -2,6 +2,7 @@
 using HelperPE.Common.Enums;
 using HelperPE.Common.Exceptions;
 using HelperPE.Common.Models;
+using HelperPE.Common.Models.Attendances;
 using HelperPE.Common.Models.Curator;
 using HelperPE.Common.Models.Event;
 using HelperPE.Common.Models.Profile;
@@ -10,6 +11,7 @@ using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Entities.Users;
 using HelperPE.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace HelperPE.Application.Services.Implementations
@@ -88,7 +90,7 @@ namespace HelperPE.Application.Services.Implementations
         {
             var user = await _profileService.GetCuratorProfileById(userId);
 
-            var events = await GetListOfEvents(user.Faculties);
+            var events = await GetListOfEventsFaculty(user.Faculties);
 
             return new EventListModel
             {
@@ -96,7 +98,7 @@ namespace HelperPE.Application.Services.Implementations
             };
         }
 
-        private async Task<List<EventEntity>> GetListOfEvents(List<FacultyDTO> faculties)
+        private async Task<List<EventEntity>> GetListOfEventsFaculty(List<FacultyDTO> faculties)
         {
             var events = await _context.Events
                 .Include(e => e.Faculty)
@@ -106,6 +108,30 @@ namespace HelperPE.Application.Services.Implementations
                 .ToListAsync();
 
             return events;
+        }
+
+        public async Task<ApplicationsListModel> GetListOfEventsApplications(Guid userId)
+        {
+            var user = await _profileService.GetCuratorProfileById(userId);
+
+            var eventsList = await GetListOfEventsFaculty(user.Faculties);
+
+            var attendances = eventsList.Select(e => e.Attendances).ToList();
+
+            var validAttendances = new List<EventAttendanceFullModel>();
+
+            foreach (var attendance in attendances)
+            {
+                validAttendances.AddRange(attendance
+                    .Where(a => a.Status == EventApplicationStatus.Accepted)
+                    .Select(a => a.ToFullDto())
+                    .ToList());
+            }
+
+            return new ApplicationsListModel
+            {
+                Attendances = validAttendances,
+            };
         }
     }
 }

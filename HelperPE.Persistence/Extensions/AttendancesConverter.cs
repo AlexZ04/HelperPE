@@ -15,6 +15,16 @@ namespace HelperPE.Persistence.Extensions
             };
         }
 
+        public static EventAttendanceFullModel ToFullDto(this EventAttendanceEntity model)
+        {
+            return new EventAttendanceFullModel
+            {
+                Event = model.Event.ToDto(),
+                Profile = model.Student.ToDto(),
+                Status = model.Status,
+            };
+        }
+
         public static PairAttendanceModel ToDto(this PairAttendanceEntity model)
         {
             return new PairAttendanceModel 

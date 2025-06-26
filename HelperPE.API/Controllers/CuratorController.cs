@@ -83,7 +83,8 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetCuratorFaculties()
         {
-            return Ok(await _curatorService.GetCuratorFaculties(UserDescriptor.GetUserId(User)));
+            return Ok(await _curatorService
+                .GetCuratorFaculties(UserDescriptor.GetUserId(User)));
         }
 
         [HttpGet("event/applications")]
@@ -91,7 +92,8 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetListOfEventsApplications()
         {
-            return Ok();
+            return Ok(await _curatorService
+                .GetListOfEventsApplications(UserDescriptor.GetUserId(User)));
         }
     }
 }

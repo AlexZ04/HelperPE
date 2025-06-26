@@ -12,5 +12,6 @@ namespace HelperPE.Application.Services
         public Task<FacultiesModal> GetCuratorFaculties(Guid userId);
         public Task<StudentsGroupModal> GetStudentsGroup(string groupNumber);
         public Task<EventListModel> GetListOfEvents(Guid userId);
+        public Task<ApplicationsListModel> GetListOfEventsApplications(Guid userId);
     }
 }
