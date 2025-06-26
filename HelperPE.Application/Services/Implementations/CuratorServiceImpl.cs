@@ -1,9 +1,11 @@
 ﻿using HelperPE.Common.Constants;
 using HelperPE.Common.Enums;
 using HelperPE.Common.Exceptions;
+using HelperPE.Common.Models.Curator;
 using HelperPE.Common.Models.Profile;
 using HelperPE.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
+using HelperPE.Persistence.Extensions;
 
 namespace HelperPE.Application.Services.Implementations
 {
@@ -46,6 +48,16 @@ namespace HelperPE.Application.Services.Implementations
                 : EventApplicationStatus.Declined;
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<FacultiesModal> GetCuratorFaculties(Guid userId)
+        {
+            var user = await _profileService.GetCuratorProfileById(userId);
+
+            return new FacultiesModal
+            {
+                Faculties = user.Faculties,
+            };
         }
     }
 }

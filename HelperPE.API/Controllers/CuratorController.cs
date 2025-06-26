@@ -1,6 +1,7 @@
 ﻿using HelperPE.Application.Services;
 using HelperPE.Common.Constants;
 using HelperPE.Infrastructure.Filters;
+using HelperPE.Infrastructure.Utilities;
 using HelperPE.Persistence.Contexts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -82,13 +83,13 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetCuratorFaculties()
         {
-            return Ok();
+            return Ok(await _curatorService.GetCuratorFaculties(UserDescriptor.GetUserId(User)));
         }
 
         [HttpGet("event/applications")]
         [Authorize(Roles = RolesCombinations.CURATOR)]
         [CheckTokens]
-        public async Task<IActionResult> GetListOfEventApplications()
+        public async Task<IActionResult> GetListOfEventsApplications()
         {
             return Ok();
         }
