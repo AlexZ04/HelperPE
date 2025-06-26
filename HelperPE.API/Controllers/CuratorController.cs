@@ -29,7 +29,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetEvents()
         {
-            return Ok();
+            return Ok(await _curatorService.GetListOfEvents(UserDescriptor.GetUserId(User)));
         }
 
         [HttpGet("events/{eventId}")]

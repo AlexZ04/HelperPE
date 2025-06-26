@@ -1,9 +1,12 @@
 ﻿using HelperPE.Common.Constants;
 using HelperPE.Common.Enums;
 using HelperPE.Common.Exceptions;
+using HelperPE.Common.Models;
 using HelperPE.Common.Models.Curator;
+using HelperPE.Common.Models.Event;
 using HelperPE.Common.Models.Profile;
 using HelperPE.Persistence.Contexts;
+using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Entities.Users;
 using HelperPE.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -79,6 +82,30 @@ namespace HelperPE.Application.Services.Implementations
                 Group = groupNumber,
                 Students = users.Select(u => u.ToShortDto()).ToList()
             };
+        }
+
+        public async Task<EventListModel> GetListOfEvents(Guid userId)
+        {
+            var user = await _profileService.GetCuratorProfileById(userId);
+
+            var events = await GetListOfEvents(user.Faculties);
+
+            return new EventListModel
+            {
+                Events = events.Select(e => e.ToDto()).ToList()
+            };
+        }
+
+        private async Task<List<EventEntity>> GetListOfEvents(List<FacultyDTO> faculties)
+        {
+            var events = await _context.Events
+                .Include(e => e.Faculty)
+                .Include(e => e.Attendances)
+                    .ThenInclude(a => a.Student)
+                .Where(e => faculties.Select(f => f.Id).Contains(e.Faculty.Id))
+                .ToListAsync();
+
+            return events;
         }
     }
 }
