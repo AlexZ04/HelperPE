@@ -36,5 +36,14 @@ namespace HelperPE.Persistence.Extensions
                 Date = model.Date,
             };
         }
+
+        public static ProfileAttendanceEventModel ToProfileDto(this EventAttendanceEntity model)
+        {
+            return new ProfileAttendanceEventModel
+            {
+                Status = model.Status,
+                Profile = model.Student.ToDto()
+            };
+        }
     }
 }

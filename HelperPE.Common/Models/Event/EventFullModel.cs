@@ -1,4 +1,5 @@
 ﻿using HelperPE.Common.Models.Attendances;
+using HelperPE.Common.Models.Profile;
 
 namespace HelperPE.Common.Models.Event
 {
@@ -10,7 +11,7 @@ namespace HelperPE.Common.Models.Event
         public string? Description { get; set; }
         public DateTime Date { get; set; } = DateTime.UtcNow;
         public required FacultyDTO Faculty { get; set; }
-        public List<EventAttendanceModel> Attendances { get; set; }
-            = new List<EventAttendanceModel>();
+        public List<ProfileAttendanceEventModel> Attendances { get; set; }
+            = new List<ProfileAttendanceEventModel>();
     }
 }

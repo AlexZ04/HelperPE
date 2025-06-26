@@ -1,8 +1,12 @@
-﻿using HelperPE.Common.Models.Event;
+﻿using HelperPE.Common.Constants;
+using HelperPE.Common.Enums;
+using HelperPE.Common.Exceptions;
+using HelperPE.Common.Models.Event;
 using HelperPE.Persistence.Contexts;
-using HelperPE.Persistence.Repositories;
-using HelperPE.Persistence.Extensions;
 using HelperPE.Persistence.Entities.Events;
+using HelperPE.Persistence.Extensions;
+using HelperPE.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace HelperPE.Application.Services.Implementations
 {
@@ -57,5 +61,28 @@ namespace HelperPE.Application.Services.Implementations
             _context.Events.Add(eventEntity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task EditEventApplicationStatus(Guid eventId, Guid userId, SportsOrgEventStatus status)
+        {
+            var application = await _context.EventsAttendances
+                .FirstOrDefaultAsync(a => a.StudentId == userId && a.EventId == eventId);
+
+            if (application == null)
+                throw new NotFoundException(ErrorMessages.APPLICATION_NOT_FOUND);
+
+            if (application.Status == EventApplicationStatus.Credited)
+                throw new BadRequestException(ErrorMessages.CAN_NOT_CHANGE_FIELD);
+
+            EventApplicationStatus newStatus = EventApplicationStatus.Pending;
+
+            if (status == SportsOrgEventStatus.Accepted)
+                newStatus = EventApplicationStatus.Accepted;
+            else if (status == SportsOrgEventStatus.Declined)
+                newStatus = EventApplicationStatus.Declined;
+
+            application.Status = newStatus;
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

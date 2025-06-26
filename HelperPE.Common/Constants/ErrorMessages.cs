@@ -11,5 +11,6 @@
         public const string USER_HAS_NO_APPLICATION = "The user does not have a application for this event";
         public const string APPLICATION_NOT_FOUND = "Application not found";
         public const string ATTENDANCE_NOT_FOUND = "Attendance not found";
+        public const string CAN_NOT_CHANGE_FIELD = "You can't change this field";
     }
 }

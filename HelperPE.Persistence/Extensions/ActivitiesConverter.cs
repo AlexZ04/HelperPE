@@ -40,7 +40,7 @@ namespace HelperPE.Persistence.Extensions
                 Description = model.Description,
                 Date = model.Date,
                 Faculty = model.Faculty.ToDto(),
-                Attendances = model.Attendances.Select(a => a.ToDto()).ToList()
+                Attendances = model.Attendances.Select(a => a.ToProfileDto()).ToList()
             };
         }
 

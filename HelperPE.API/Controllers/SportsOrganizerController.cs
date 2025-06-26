@@ -1,5 +1,6 @@
 ﻿using HelperPE.Application.Services;
 using HelperPE.Common.Constants;
+using HelperPE.Common.Enums;
 using HelperPE.Common.Models.Event;
 using HelperPE.Infrastructure.Filters;
 using HelperPE.Infrastructure.Utilities;
@@ -52,6 +53,18 @@ namespace HelperPE.API.Controllers
         public async Task<IActionResult> DeleteEvent([FromRoute] Guid id)
         {
             await _sportsService.DeleteEvent(id);
+
+            return Ok();
+        }
+
+        [HttpPut("events/{id}/application")]
+        [Authorize(Roles = RolesCombinations.SPORTS)]
+        [CheckTokens]
+        public async Task<IActionResult> EditEventApplicationStatus([FromRoute] Guid id,
+            [FromQuery] Guid userId,
+            [FromQuery] SportsOrgEventStatus status)
+        {
+            await _sportsService.EditEventApplicationStatus(id, userId, status);
 
             return Ok();
         }
