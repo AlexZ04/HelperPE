@@ -1,4 +1,5 @@
-﻿using HelperPE.Common.Models.Profile;
+﻿using HelperPE.Common.Enums;
+using HelperPE.Common.Models.Profile;
 using HelperPE.Persistence.Entities.Users;
 
 namespace HelperPE.Persistence.Extensions
@@ -10,12 +11,16 @@ namespace HelperPE.Persistence.Extensions
             var classesAmount = 0;
 
             foreach (var attendance in model.EventsAttendances)
-                classesAmount += attendance.Event.ClassesAmount;
+            {
+                if (attendance.Status == EventApplicationStatus.Credited)
+                    classesAmount += attendance.Event.ClassesAmount;
+            }
 
             foreach (var attendance in model.OtherActivities)
                 classesAmount += attendance.ClassesAmount;
 
-            classesAmount += model.PairAttendances.Count();
+            classesAmount += model.PairAttendances
+                .Where(a => a.Status == PairAttendanceStatus.Accepted).Count();
 
             return new StudentProfileDTO
             {
@@ -35,12 +40,16 @@ namespace HelperPE.Persistence.Extensions
             var classesAmount = 0;
 
             foreach (var attendance in model.EventsAttendances)
-                classesAmount += attendance.Event.ClassesAmount;
+            {
+                if (attendance.Status == EventApplicationStatus.Credited)
+                    classesAmount += attendance.Event.ClassesAmount;
+            }
 
             foreach (var attendance in model.OtherActivities)
                 classesAmount += attendance.ClassesAmount;
 
-            classesAmount += model.PairAttendances.Count();
+            classesAmount += model.PairAttendances
+                .Where(a => a.Status == PairAttendanceStatus.Accepted).Count();
 
             return new SportsOrganizerProfileDTO
             {
