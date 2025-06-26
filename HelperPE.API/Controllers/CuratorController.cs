@@ -13,7 +13,8 @@ namespace HelperPE.API.Controllers
     {
         private readonly ICuratorService _curatorService;
 
-        public CuratorController(ICuratorService curatorService)
+        public CuratorController(
+            ICuratorService curatorService)
         {
             _curatorService = curatorService;
         }
@@ -39,7 +40,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetUserInfo([FromRoute] Guid studentId)
         {
-            return Ok();
+            return Ok(await _curatorService.GetUserInfo(studentId));
         }
 
         [HttpPut("event/check/{eventId}")]
@@ -72,6 +73,14 @@ namespace HelperPE.API.Controllers
         [Authorize(Roles = RolesCombinations.CURATOR)]
         [CheckTokens]
         public async Task<IActionResult> GetCuratorFaculties()
+        {
+            return Ok();
+        }
+
+        [HttpGet("event/applications")]
+        [Authorize(Roles = RolesCombinations.CURATOR)]
+        [CheckTokens]
+        public async Task<IActionResult> GetListOfEventApplications()
         {
             return Ok();
         }

@@ -1,9 +1,4 @@
-﻿using HelperPE.Common.Constants;
-using HelperPE.Common.Enums;
-using HelperPE.Common.Exceptions;
-using HelperPE.Common.Models.Attendances;
-using HelperPE.Common.Models.Event;
-using HelperPE.Common.Models.Profile;
+﻿using HelperPE.Common.Models.Profile;
 using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Entities.Users;
 using HelperPE.Persistence.Extensions;
