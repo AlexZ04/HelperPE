@@ -9,5 +9,6 @@ namespace HelperPE.Application.Services
         public Task<UserActivitiesModel> GetUserInfo(Guid userId);
         public Task EditEventApplicationStatus(Guid eventId, Guid userId, bool approve = true);
         public Task<FacultiesModal> GetCuratorFaculties(Guid userId);
+        public Task<StudentsGroupModal> GetStudentsGroup(string groupNumber);
     }
 }

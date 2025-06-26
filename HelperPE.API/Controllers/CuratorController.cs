@@ -75,7 +75,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetListOfGroup(string groupNumber)
         {
-            return Ok();
+            return Ok(await _curatorService.GetStudentsGroup(groupNumber));
         }
 
         [HttpGet("faculties")]

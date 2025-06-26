@@ -4,8 +4,10 @@ using HelperPE.Common.Exceptions;
 using HelperPE.Common.Models.Curator;
 using HelperPE.Common.Models.Profile;
 using HelperPE.Persistence.Contexts;
-using Microsoft.EntityFrameworkCore;
+using HelperPE.Persistence.Entities.Users;
 using HelperPE.Persistence.Extensions;
+using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace HelperPE.Application.Services.Implementations
 {
@@ -57,6 +59,25 @@ namespace HelperPE.Application.Services.Implementations
             return new FacultiesModal
             {
                 Faculties = user.Faculties,
+            };
+        }
+
+        public async Task<StudentsGroupModal> GetStudentsGroup(string groupNumber)
+        {
+            var users = await _context.Users
+                .OfType<StudentEntity>()
+                .Include(u => u.Faculty)
+                .Where(u => u.Group == groupNumber)
+                .ToListAsync();
+
+            if (users.Count == 0)
+                throw new NotFoundException(ErrorMessages.GROUP_NOT_FOUND);
+
+            return new StudentsGroupModal 
+            {
+                Faculty = users[0].Faculty.ToDto(),
+                Group = groupNumber,
+                Students = users.Select(u => u.ToShortDto()).ToList()
             };
         }
     }
