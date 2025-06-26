@@ -1,5 +1,6 @@
 ﻿using HelperPE.Application.Services;
 using HelperPE.Common.Constants;
+using HelperPE.Common.Models.Event;
 using HelperPE.Infrastructure.Filters;
 using HelperPE.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authorization;
@@ -38,8 +39,10 @@ namespace HelperPE.API.Controllers
         [HttpPost("events")]
         [Authorize(Roles = RolesCombinations.SPORTS)]
         [CheckTokens]
-        public async Task<IActionResult> CreateEvent()
+        public async Task<IActionResult> CreateEvent([FromBody] EventCreateModel eventModel)
         {
+            await _sportsService.CreateEvent(UserDescriptor.GetUserId(User), eventModel);
+
             return Ok();
         }
 

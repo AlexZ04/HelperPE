@@ -2,6 +2,7 @@
 using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Repositories;
 using HelperPE.Persistence.Extensions;
+using HelperPE.Persistence.Entities.Events;
 
 namespace HelperPE.Application.Services.Implementations
 {
@@ -43,6 +44,17 @@ namespace HelperPE.Application.Services.Implementations
             var foundEvent = await _eventRepository.GetEvent(eventId);
 
             _context.Events.Remove(foundEvent);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task CreateEvent(Guid creatorId, EventCreateModel model)
+        {
+            var user = await _userRepository.GetSportsById(creatorId);
+
+            var eventEntity = model.CreateEvent(user.Faculty);
+            user.Events.Add(eventEntity);
+
+            _context.Events.Add(eventEntity);
             await _context.SaveChangesAsync();
         }
     }

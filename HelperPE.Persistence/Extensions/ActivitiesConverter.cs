@@ -1,11 +1,12 @@
 ﻿using HelperPE.Common.Models.Event;
 using HelperPE.Common.Models.Pairs;
 using HelperPE.Persistence.Entities.Events;
+using HelperPE.Persistence.Entities.Faculty;
 using HelperPE.Persistence.Entities.Pairs;
 
 namespace HelperPE.Persistence.Extensions
 {
-    public static class PairsConverter
+    public static class ActivitiesConverter
     {
         public static SubjectDTO ToDto(this SubjectEntity model)
         {
@@ -37,6 +38,18 @@ namespace HelperPE.Persistence.Extensions
                 PairNumber = model.PairNumber,
                 Teacher = model.Teacher.ToDto(),
                 Subject = model.Subject.ToDto(),
+            };
+        }
+
+        public static EventEntity CreateEvent(this EventCreateModel model, FacultyEntity faculty)
+        {
+            return new EventEntity
+            {
+                Faculty = faculty,
+                Name = model.Name,
+                Description = model.Description,
+                Date = model.Date,
+                ClassesAmount = model.ClassesAmount
             };
         }
     }

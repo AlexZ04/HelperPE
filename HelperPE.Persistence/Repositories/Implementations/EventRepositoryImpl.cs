@@ -18,6 +18,9 @@ namespace HelperPE.Persistence.Repositories.Implementations
         public async Task<EventEntity> GetEvent(Guid eventId)
         {
             var foundEvent = await _context.Events
+                .Include(e => e.Faculty)
+                .Include(e => e.Attendances)
+                    .ThenInclude(a => a.Student)
                 .FirstOrDefaultAsync(e => e.EventId == eventId);
 
             if (foundEvent == null)
