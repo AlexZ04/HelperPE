@@ -1,6 +1,7 @@
 ﻿using HelperPE.Application.Services;
 using HelperPE.Common.Constants;
 using HelperPE.Infrastructure.Filters;
+using HelperPE.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,9 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> SubmitApplicationToEvent([FromRoute] Guid eventId)
         {
+            await _studentService.SubmitApplicationToEvent(eventId, 
+                UserDescriptor.GetUserId(User), UserDescriptor.GetUserRole(User));
+
             return Ok();
         }
 
@@ -31,7 +35,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> CheckApplicationStatus([FromRoute] Guid eventId)
         {
-            return Ok();
+            return Ok(await _studentService.CheckApplicationStatus(eventId, UserDescriptor.GetUserId(User)));
         }
 
         [HttpDelete("application/{eventId}")]
@@ -39,6 +43,8 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> RestrictApplication([FromRoute] Guid eventId)
         {
+            await _studentService.RestrictApplication(eventId, UserDescriptor.GetUserId(User));
+
             return Ok();
         }
     }
