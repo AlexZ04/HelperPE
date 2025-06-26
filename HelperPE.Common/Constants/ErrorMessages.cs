@@ -6,5 +6,6 @@
         public const string TOKEN_NOT_FOUND = "Invalid token";
         public const string USER_NOT_FOUND = "User not found";
         public const string INVALID_ROLE = "User has another role!";
+        public const string EVENT_NOT_FOUND = "Event not found!";
     }
 }

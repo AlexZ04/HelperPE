@@ -8,6 +8,7 @@ namespace HelperPE.API.Setup
         public static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepositoryImpl>();
+            services.AddScoped<IEventRepository, EventRepositoryImpl>();
         }
     }
 }

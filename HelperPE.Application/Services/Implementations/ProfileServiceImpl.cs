@@ -108,15 +108,5 @@ namespace HelperPE.Application.Services.Implementations
 
             return activitiesModel;
         }
-
-        public async Task<EventListModel> GetSportsOrgEventList(Guid sportsOrgId)
-        {
-            var sportsOrg = await _userRepository.GetSportsById(sportsOrgId);
-
-            return new EventListModel
-            {
-                Events = sportsOrg.Events.Select(e => e.ToDto()).ToList(),  
-            };
-        }
     }
 }

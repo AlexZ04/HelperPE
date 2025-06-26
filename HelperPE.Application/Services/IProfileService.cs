@@ -12,6 +12,5 @@ namespace HelperPE.Application.Services
         public Task<List<CuratorProfileDTO>> GetCurators();
         public Task<List<TeacherProfileDTO>> GetTeachers();
         public Task<UserActivitiesModel> GetUserActivities(Guid id);
-        public Task<EventListModel> GetSportsOrgEventList(Guid sportsOrgId);
     }
 }
