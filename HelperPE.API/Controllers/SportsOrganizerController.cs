@@ -48,7 +48,9 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> DeleteEvent([FromRoute] Guid id)
         {
-            //await 
+            await _sportsService.DeleteEvent(id);
+
+            return Ok();
         }
     }
 }

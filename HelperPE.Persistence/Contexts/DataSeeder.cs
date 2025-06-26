@@ -73,7 +73,10 @@ namespace HelperPE.Persistence.Contexts
             var faculty2Id = new Guid("23456789-2345-2345-2345-234567890123");
             var faculty3Id = new Guid("34567890-3456-3456-3456-345678901234");
             var faculty4Id = new Guid("3f339655-3c00-4c8d-991e-7708eb5bee6c");
-            var HITs = new FacultyEntity { Id = faculty4Id, Name = "НОЦ «Высшая ИТ-Школа»" };
+            
+            var HITs = context.Faculties.FirstOrDefault(f => f.Id == faculty4Id);
+            if (HITs == null)
+                HITs = new FacultyEntity { Id = faculty4Id, Name = "НОЦ «Высшая ИТ-Школа»" };
 
             if (!context.Faculties.Any())
             {
@@ -118,6 +121,44 @@ namespace HelperPE.Persistence.Contexts
                     Role = UserRole.Student
                 };
                 context.Users.Add(student);
+            }
+
+            var student2Id = new Guid("57bd840f-09b8-4ce4-9350-4df1dd695643");
+            var student2 = context.Users.OfType<StudentEntity>()
+                .FirstOrDefault(s => s.Id == student2Id);
+            if (student2 == null)
+            {
+                student2 = new StudentEntity
+                {
+                    Id = student2Id,
+                    Course = 1,
+                    Group = "972401",
+                    Faculty = HITs,
+                    FullName = "PE lover 2",
+                    Email = "student2@example.com",
+                    Password = Hasher.HashPassword("string"),
+                    Role = UserRole.Student
+                };
+                context.Users.Add(student2);
+            }
+
+            var student3Id = new Guid("57bd840f-09b8-4ce4-9350-4df1dd695644");
+            var student3 = context.Users.OfType<StudentEntity>()
+                .FirstOrDefault(s => s.Id == student3Id);
+            if (student3 == null)
+            {
+                student3 = new StudentEntity
+                {
+                    Id = student3Id,
+                    Course = 1,
+                    Group = "972401",
+                    Faculty = HITs,
+                    FullName = "PE lover 3",
+                    Email = "student3@example.com",
+                    Password = Hasher.HashPassword("string"),
+                    Role = UserRole.Student
+                };
+                context.Users.Add(student3);
             }
 
             var sportsOrganizerId = new Guid("72b5c6ad-501b-4f17-b0d6-35384b589154");
