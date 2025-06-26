@@ -32,11 +32,11 @@ namespace HelperPE.Application.Services.Implementations
             };
         }
 
-        public async Task<EventModel> GetEventInfo(Guid eventId)
+        public async Task<EventFullModel> GetEventInfo(Guid eventId)
         {
             var foundEvent = await _eventRepository.GetEvent(eventId);
 
-            return foundEvent.ToDto();
+            return foundEvent.ToFullDto();
         }
 
         public async Task DeleteEvent(Guid eventId)

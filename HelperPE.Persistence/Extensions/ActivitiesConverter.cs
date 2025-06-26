@@ -30,6 +30,20 @@ namespace HelperPE.Persistence.Extensions
             };
         }
 
+        public static EventFullModel ToFullDto(this EventEntity model)
+        {
+            return new EventFullModel
+            {
+                Id = model.EventId,
+                Name = model.Name,
+                ClassesAmount = model.ClassesAmount,
+                Description = model.Description,
+                Date = model.Date,
+                Faculty = model.Faculty.ToDto(),
+                Attendances = model.Attendances.Select(a => a.ToDto()).ToList()
+            };
+        }
+
         public static PairModel ToDto(this PairEntity model)
         {
             return new PairModel
