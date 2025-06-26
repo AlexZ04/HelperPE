@@ -7,5 +7,6 @@ namespace HelperPE.Application.Services
     public interface ICuratorService
     {
         public Task<UserActivitiesModel> GetUserInfo(Guid userId);
+        public Task EditEventApplicationStatus(Guid eventId, Guid userId, bool approve = true);
     }
 }

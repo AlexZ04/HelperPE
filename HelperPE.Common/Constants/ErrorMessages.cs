@@ -12,5 +12,6 @@
         public const string APPLICATION_NOT_FOUND = "Application not found";
         public const string ATTENDANCE_NOT_FOUND = "Attendance not found";
         public const string CAN_NOT_CHANGE_FIELD = "You can't change this field";
+        public const string ACTION_ALREADY_DONE = "Action is already done";
     }
 }

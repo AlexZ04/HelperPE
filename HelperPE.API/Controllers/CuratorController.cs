@@ -1,6 +1,7 @@
 ﻿using HelperPE.Application.Services;
 using HelperPE.Common.Constants;
 using HelperPE.Infrastructure.Filters;
+using HelperPE.Persistence.Contexts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,14 @@ namespace HelperPE.API.Controllers
     public class CuratorController : ControllerBase
     {
         private readonly ICuratorService _curatorService;
+        private readonly ISportsService _sportsService;
 
         public CuratorController(
-            ICuratorService curatorService)
+            ICuratorService curatorService,
+            ISportsService sportsService)
         {
             _curatorService = curatorService;
+            _sportsService = sportsService;
         }
 
         [HttpGet("events")]
@@ -32,7 +36,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetEventInfo([FromRoute] Guid eventId)
         {
-            return Ok();
+            return Ok(await _sportsService.GetEventInfo(eventId));
         }
 
         [HttpGet("profile/{studentId}")]
@@ -49,6 +53,8 @@ namespace HelperPE.API.Controllers
         public async Task<IActionResult> ApproveStudentApplication(
             [FromRoute] Guid eventId, [FromQuery] Guid studentId)
         {
+            await _curatorService.EditEventApplicationStatus(eventId, studentId);
+
             return Ok();
         }
 
@@ -58,6 +64,8 @@ namespace HelperPE.API.Controllers
         public async Task<IActionResult> DeclineStudentApplication(
             [FromRoute] Guid eventId, [FromQuery] Guid studentId)
         {
+            await _curatorService.EditEventApplicationStatus(eventId, studentId, false);
+
             return Ok();
         }
 
