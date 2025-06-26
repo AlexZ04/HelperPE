@@ -69,5 +69,36 @@ namespace HelperPE.Persistence.Repositories.Implementations
 
             return user;
         }
+
+        public async Task<TeacherEntity> GetTeacherById(Guid userId)
+        {
+            var teacher = await _context.Users
+                .OfType<TeacherEntity>()
+                .Include(t => t.Pairs)
+                    .ThenInclude(p => p.Subject)
+                .Include(t => t.Subjects)
+                .FirstOrDefaultAsync(t => t.Id == userId);
+
+            if (teacher == null)
+                throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
+
+            return teacher;
+        }
+
+        public async Task<CuratorEntity> GetCuratorById(Guid userId)
+        {
+            var curator = await _context.Users
+                .OfType<CuratorEntity>()
+                .Include(t => t.Pairs)
+                    .ThenInclude(p => p.Subject)
+                .Include(t => t.Subjects)
+                .Include(t => t.Faculties)
+                .FirstOrDefaultAsync(t => t.Id == userId);
+
+            if (curator == null)
+                throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
+
+            return curator;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HelperPE.Common.Enums;
+using HelperPE.Common.Models.Curator;
 using HelperPE.Common.Models.Profile;
 using HelperPE.Persistence.Entities.Users;
 
@@ -32,6 +33,18 @@ namespace HelperPE.Persistence.Extensions
                 Group = model.Group,
                 Faculty = model.Faculty.ToDto(),
                 ClassesAmount = classesAmount
+            };
+        }
+
+        public static StudentProfileShortModel ToShortDto(this StudentEntity model)
+        {
+            return new StudentProfileShortModel
+            {
+                Id = model.Id,
+                Name = model.FullName,
+                Course = model.Course,
+                Group = model.Group,
+                Role = model.Role,
             };
         }
 

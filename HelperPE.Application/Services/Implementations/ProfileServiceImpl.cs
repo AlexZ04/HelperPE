@@ -41,29 +41,14 @@ namespace HelperPE.Application.Services.Implementations
 
         public async Task<TeacherProfileDTO> GetTeacherProfileById(Guid id)
         {
-            var teacher = await _context.Users
-                .OfType<TeacherEntity>()
-                .Include(t => t.Pairs)
-                .Include(t => t.Subjects)
-                .FirstOrDefaultAsync(t => t.Id == id);
-
-            if (teacher == null)
-                throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
+            var teacher = await _userRepository.GetTeacherById(id);
 
             return teacher.ToDto();
         }
 
         public async Task<CuratorProfileDTO> GetCuratorProfileById(Guid id)
         {
-            var curator = await _context.Users
-                .OfType<CuratorEntity>()
-                .Include(t => t.Pairs)
-                .Include(t => t.Subjects)
-                .Include(t => t.Faculties)
-                .FirstOrDefaultAsync(t => t.Id == id);
-
-            if (curator == null)
-                throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
+            var curator = await _userRepository.GetCuratorById(id);
 
             return curator.ToDto();
         }
@@ -71,11 +56,11 @@ namespace HelperPE.Application.Services.Implementations
         public async Task<List<CuratorProfileDTO>> GetCurators()
         {
             var curators = await _context.Users
-            .OfType<CuratorEntity>()
-            //.Include(t => t.Pairs)
-            .Include(t => t.Subjects)
-            .Include(t => t.Faculties)
-            .ToListAsync();
+                .OfType<CuratorEntity>()
+                //.Include(t => t.Pairs)
+                .Include(t => t.Subjects)
+                .Include(t => t.Faculties)
+                .ToListAsync();
 
             return curators.Select(c => c.ToDto()).ToList();
         }
@@ -83,10 +68,10 @@ namespace HelperPE.Application.Services.Implementations
         public async Task<List<TeacherProfileDTO>> GetTeachers()
         {
             var teachers = await _context.Users
-            .OfType<TeacherEntity>()
-            //.Include(t => t.Pairs)
-            .Include(t => t.Subjects)
-            .ToListAsync();
+                .OfType<TeacherEntity>()
+                //.Include(t => t.Pairs)
+                .Include(t => t.Subjects)
+                .ToListAsync();
      
             return teachers.Select(c => c.ToDto()).ToList();
         }
