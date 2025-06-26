@@ -6,5 +6,6 @@ namespace HelperPE.Application.Services
     {
         public Task<EventListModel> GetSportsOrgEventList(Guid sportsOrgId);
         public Task<EventModel> GetEventInfo(Guid eventId);
+        public Task DeleteEvent(Guid eventId);
     }
 }

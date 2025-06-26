@@ -37,5 +37,13 @@ namespace HelperPE.Application.Services.Implementations
 
             return foundEvent.ToDto();
         }
+
+        public async Task DeleteEvent(Guid eventId)
+        {
+            var foundEvent = await _eventRepository.GetEvent(eventId);
+
+            _context.Events.Remove(foundEvent);
+            await _context.SaveChangesAsync();
+        }
     }
 }

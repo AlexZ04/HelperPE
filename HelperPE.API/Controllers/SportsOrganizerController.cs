@@ -32,7 +32,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetEventInfo([FromRoute] Guid id)
         {
-            return Ok();
+            return Ok(await _sportsService.GetEventInfo(id));
         }
 
         [HttpPost("events")]
@@ -41,6 +41,14 @@ namespace HelperPE.API.Controllers
         public async Task<IActionResult> CreateEvent()
         {
             return Ok();
+        }
+
+        [HttpDelete("events/{id}")]
+        [Authorize(Roles = RolesCombinations.SPORTS)]
+        [CheckTokens]
+        public async Task<IActionResult> DeleteEvent([FromRoute] Guid id)
+        {
+            //await 
         }
     }
 }
