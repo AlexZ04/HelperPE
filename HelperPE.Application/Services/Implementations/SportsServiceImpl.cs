@@ -9,13 +9,16 @@ namespace HelperPE.Application.Services.Implementations
     {
         private readonly DataContext _context;
         private readonly IUserRepository _userRepository;
+        private readonly IEventRepository _eventRepository;
 
         public SportsServiceImpl(
             DataContext context,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IEventRepository eventRepository)
         {
             _context = context;
             _userRepository = userRepository;
+            _eventRepository = eventRepository;
         }
 
         public async Task<EventListModel> GetSportsOrgEventList(Guid sportsOrgId)
@@ -26,6 +29,13 @@ namespace HelperPE.Application.Services.Implementations
             {
                 Events = sportsOrg.Events.Select(e => e.ToDto()).ToList(),
             };
+        }
+
+        public async Task<EventModel> GetEventInfo(Guid eventId)
+        {
+            var foundEvent = await _eventRepository.GetEvent(eventId);
+
+            return foundEvent.ToDto();
         }
     }
 }

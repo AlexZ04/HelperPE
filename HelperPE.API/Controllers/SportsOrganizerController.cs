@@ -30,7 +30,7 @@ namespace HelperPE.API.Controllers
         [HttpGet("events/{id}")]
         [Authorize(Roles = RolesCombinations.SPORTS)]
         [CheckTokens]
-        public async Task<IActionResult> GetEventInfo()
+        public async Task<IActionResult> GetEventInfo([FromRoute] Guid id)
         {
             return Ok();
         }

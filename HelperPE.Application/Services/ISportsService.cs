@@ -5,5 +5,6 @@ namespace HelperPE.Application.Services
     public interface ISportsService
     {
         public Task<EventListModel> GetSportsOrgEventList(Guid sportsOrgId);
+        public Task<EventModel> GetEventInfo(Guid eventId);
     }
 }
