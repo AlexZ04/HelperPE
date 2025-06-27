@@ -25,7 +25,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetAvailableEvents()
         {
-            return Ok();
+            return Ok(await _studentService.GetAvailableEvents(UserDescriptor.GetUserId(User)));
         }
 
         [HttpPost("application/{eventId}")]
@@ -62,7 +62,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetAvailablePairs()
         {
-            return Ok();
+            return Ok(await _studentService.GetAvailablePairs(UserDescriptor.GetUserId(User)));
         }
 
         [HttpPost("attendance/{pairId}")]

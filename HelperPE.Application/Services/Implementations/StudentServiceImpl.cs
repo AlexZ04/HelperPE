@@ -1,5 +1,6 @@
 ﻿using HelperPE.Common.Constants;
 using HelperPE.Common.Exceptions;
+using HelperPE.Common.Models;
 using HelperPE.Common.Models.Event;
 using HelperPE.Common.Models.Pairs;
 using HelperPE.Persistence.Contexts;
@@ -7,6 +8,7 @@ using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Entities.Pairs;
 using HelperPE.Persistence.Extensions;
 using HelperPE.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace HelperPE.Application.Services.Implementations
 {
@@ -144,6 +146,43 @@ namespace HelperPE.Application.Services.Implementations
                                 .FirstOrDefault(a => a.StudentId == userId);
 
             return attendance ?? throw new NotFoundException(ErrorMessages.ATTENDANCE_NOT_FOUND);
+        }
+
+        public async Task<PairListModel> GetAvailablePairs(Guid userId)
+        {
+            var todayPairs = await _context.Pairs
+                .Include(p => p.Teacher)
+                .Include(p => p.Subject)
+                .Where(p => p.Date.Date == DateTime.Today)
+                .ToListAsync();
+
+            return new PairListModel
+            {
+                Pairs = todayPairs.Select(p => p.ToDto()).ToList(),   
+            };
+        }
+
+        public async Task<EventListModel> GetAvailableEvents(Guid userId)
+        {
+            var user = await _userRepository.GetStudentById(userId);
+            var availableEvents = await GetListOfEventsFaculty(user.Faculty.ToDto());
+
+            return new EventListModel
+            {
+                Events = availableEvents.Select(e => e.ToDto()).ToList(),
+            };
+        }
+
+        private async Task<List<EventEntity>> GetListOfEventsFaculty(FacultyDTO faculty)
+        {
+            var events = await _context.Events
+                .Include(e => e.Faculty)
+                .Include(e => e.Attendances)
+                    .ThenInclude(a => a.Student)
+                .Where(e => faculty.Id == e.Faculty.Id)
+                .ToListAsync();
+
+            return events;
         }
     }
 }

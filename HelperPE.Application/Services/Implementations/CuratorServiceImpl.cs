@@ -12,8 +12,6 @@ using HelperPE.Persistence.Entities.Users;
 using HelperPE.Persistence.Extensions;
 using HelperPE.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace HelperPE.Application.Services.Implementations
 {

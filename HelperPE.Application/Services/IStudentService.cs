@@ -12,5 +12,8 @@ namespace HelperPE.Application.Services
         public Task SubmitAttendanceToPair(Guid pairId, Guid userId);
         public Task<PairAttendanceStatusModel> CheckPairAttendanceStatus(Guid pairId, Guid userId);
         public Task RestrictPairAttendance(Guid pairId, Guid userId);
+
+        public Task<PairListModel> GetAvailablePairs(Guid userId);
+        public Task<EventListModel> GetAvailableEvents(Guid userId);
     }
 }
