@@ -5,6 +5,7 @@ using HelperPE.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace HelperPE.API.Controllers
 {
@@ -47,5 +48,35 @@ namespace HelperPE.API.Controllers
 
             return Ok();
         }
+
+        [HttpPost("attendance/{pairId}")]
+        [Authorize(Roles = RolesCombinations.STUDENT_AND_SPORTS)]
+        [CheckTokens]
+        public async Task<IActionResult> SubmitAttendanceToPair([FromRoute] Guid pairId)
+        {
+            await _studentService.SubmitAttendanceToPair(pairId, UserDescriptor.GetUserId(User));
+
+            return Ok();
+        }
+
+        [HttpGet("attendance/{pairId}")]
+        [Authorize(Roles = RolesCombinations.STUDENT_AND_SPORTS)]
+        [CheckTokens]
+        public async Task<IActionResult> CheckAttendanceStatus([FromRoute] Guid pairId)
+        {
+            return Ok(await _studentService
+                .CheckPairAttendanceStatus(pairId, UserDescriptor.GetUserId(User)));
+        }
+
+        [HttpDelete("attendance/{pairId}")]
+        [Authorize(Roles = RolesCombinations.STUDENT_AND_SPORTS)]
+        [CheckTokens]
+        public async Task<IActionResult> RestrictAttendance([FromRoute] Guid pairId)
+        {
+            await _studentService.RestrictPairAttendance(pairId, UserDescriptor.GetUserId(User));
+
+            return Ok();
+        }
+
     }
 }

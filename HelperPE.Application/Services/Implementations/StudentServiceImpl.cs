@@ -1,6 +1,7 @@
 ﻿using HelperPE.Common.Constants;
 using HelperPE.Common.Exceptions;
 using HelperPE.Common.Models.Event;
+using HelperPE.Common.Models.Pairs;
 using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Repositories;
@@ -86,5 +87,19 @@ namespace HelperPE.Application.Services.Implementations
             return application;
         }
 
+        public async Task SubmitAttendanceToPair(Guid pairId, Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<PairAttendanceStatusModel> CheckPairAttendanceStatus(Guid pairId, Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task RestrictPairAttendance(Guid pairId, Guid userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
