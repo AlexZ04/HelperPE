@@ -1,6 +1,7 @@
 ﻿using HelperPE.Application.Services;
 using HelperPE.Common.Constants;
 using HelperPE.Infrastructure.Filters;
+using HelperPE.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -63,7 +64,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetTeacherSubjects()
         {
-            return Ok();
+            return Ok(await _teacherService.GetTeacherSubjects(UserDescriptor.GetUserId(User)));
         }
 
         [HttpGet("pairs/teacher")]
