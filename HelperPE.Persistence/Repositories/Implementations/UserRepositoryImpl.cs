@@ -76,6 +76,8 @@ namespace HelperPE.Persistence.Repositories.Implementations
                 .OfType<TeacherEntity>()
                 .Include(t => t.Pairs)
                     .ThenInclude(p => p.Subject)
+                .Include(t => t.Pairs)
+                    .ThenInclude(p => p.Attendances)
                 .Include(t => t.Subjects)
                 .FirstOrDefaultAsync(t => t.Id == userId);
 

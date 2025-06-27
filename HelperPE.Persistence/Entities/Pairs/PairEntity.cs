@@ -9,5 +9,6 @@ namespace HelperPE.Persistence.Entities.Pairs
         public required TeacherEntity Teacher { get; set; }
         public required SubjectEntity Subject { get; set; }
         public List<PairAttendanceEntity> Attendances { get; set; } = new List<PairAttendanceEntity>();
+        public DateTime Date { get; set; } = DateTime.UtcNow;
     }
 }

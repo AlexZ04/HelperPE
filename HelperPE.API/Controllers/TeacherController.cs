@@ -22,17 +22,9 @@ namespace HelperPE.API.Controllers
         [HttpGet("pairs")]
         [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
         [CheckTokens]
-        public async Task<IActionResult> GetActualPairs()
+        public async Task<IActionResult> GetTodayPairs()
         {
-            return Ok();
-        }
-
-        [HttpGet("pairs/{pairId}")]
-        [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
-        [CheckTokens]
-        public async Task<IActionResult> GetPairInfo([FromRoute] Guid pairId)
-        {
-            return Ok();
+            return Ok(await _teacherService.GetTodayPairs(UserDescriptor.GetUserId(User)));
         }
 
         [HttpPost("pairs")]
@@ -59,7 +51,7 @@ namespace HelperPE.API.Controllers
             return Ok();
         }
 
-        [HttpGet("subjects/teacher")]
+        [HttpGet("subjects")]
         [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
         [CheckTokens]
         public async Task<IActionResult> GetTeacherSubjects()
@@ -67,10 +59,10 @@ namespace HelperPE.API.Controllers
             return Ok(await _teacherService.GetTeacherSubjects(UserDescriptor.GetUserId(User)));
         }
 
-        [HttpGet("pairs/teacher")]
+        [HttpGet("attendance")]
         [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
         [CheckTokens]
-        public async Task<IActionResult> GetAllTeacherPairs()
+        public async Task<IActionResult> GetActualAttendancesRequests()
         {
             return Ok();
         }

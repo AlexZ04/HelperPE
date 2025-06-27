@@ -54,6 +54,7 @@ namespace HelperPE.Persistence.Extensions
                 PairNumber = model.PairNumber,
                 Teacher = model.Teacher.ToDto(),
                 Subject = model.Subject.ToDto(),
+                Date = model.Date
             };
         }
 
