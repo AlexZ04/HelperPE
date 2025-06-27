@@ -13,10 +13,13 @@ namespace HelperPE.API.Controllers
     public class TeacherController : ControllerBase
     {
         private readonly ITeacherService _teacherService;
+        private readonly ITimeService _timeService;
 
-        public TeacherController(ITeacherService teacherService)
+        public TeacherController(
+            ITeacherService teacherService, ITimeService timeService)
         {
             _teacherService = teacherService;
+            _timeService = timeService;
         }
 
         [HttpGet("pairs")]
@@ -32,7 +35,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> CreatePair()
         {
-            return Ok();
+            return Ok(_timeService.GetSemesterNumber());
         }
 
         [HttpPut("pairs/{pairId}")]

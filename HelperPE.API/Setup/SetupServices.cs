@@ -16,6 +16,7 @@ namespace HelperPE.API.Setup
             services.AddTransient<IStudentService, StudentServiceImpl>();
             services.AddTransient<ICuratorService, CuratorServiceImpl>();
             services.AddTransient<ITeacherService, TeacherServiceImpl>();
+            services.AddTransient<ITimeService, TimeServiceImpl>();
         }
     }
 }
