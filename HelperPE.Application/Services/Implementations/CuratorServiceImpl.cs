@@ -102,11 +102,14 @@ namespace HelperPE.Application.Services.Implementations
 
         private async Task<List<EventEntity>> GetListOfEventsFaculty(List<FacultyDTO> faculties)
         {
+            var monthAgo = DateTime.UtcNow.AddMonths(-1);
+
             var events = await _context.Events
                 .Include(e => e.Faculty)
                 .Include(e => e.Attendances)
                     .ThenInclude(a => a.Student)
-                .Where(e => faculties.Select(f => f.Id).Contains(e.Faculty.Id))
+                .Where(e => faculties.Select(f => f.Id).Contains(e.Faculty.Id)
+                            && e.Date >= monthAgo)
                 .ToListAsync();
 
             return events;
