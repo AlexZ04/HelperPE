@@ -57,7 +57,7 @@ namespace HelperPE.API.Controllers
             return Ok();
         }
 
-        [HttpGet("events")]
+        [HttpGet("pairs")]
         [Authorize(Roles = RolesCombinations.STUDENT_AND_SPORTS)]
         [CheckTokens]
         public async Task<IActionResult> GetAvailablePairs()

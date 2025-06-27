@@ -2,6 +2,6 @@
 {
     public class PairListModel
     {
-        public List<PairModel> Pairs { get; set; } = new List<PairModel>();
+        public List<PairShortModel> Pairs { get; set; } = new List<PairShortModel>();
     }
 }

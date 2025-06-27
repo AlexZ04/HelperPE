@@ -58,6 +58,18 @@ namespace HelperPE.Persistence.Extensions
             };
         }
 
+        public static PairShortModel ToShortDto(this PairEntity model)
+        {
+            return new PairShortModel
+            {
+                Id = model.PairId,
+                PairNumber = model.PairNumber,
+                Teacher = model.Teacher.ToShortDto(),
+                Subject = model.Subject.ToDto(),
+                Date = model.Date
+            };
+        }
+
         public static EventEntity CreateEvent(this EventCreateModel model, FacultyEntity faculty)
         {
             return new EventEntity

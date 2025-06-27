@@ -40,6 +40,7 @@ namespace HelperPE.Persistence.Extensions
         {
             return new PairAttendanceProfileModel
             {
+                Pair = model.Pair.ToShortDto(),
                 ClassesAmount = model.ClassesAmount,
                 Status = model.Status,
                 Student = model.Student.ToShortDto()

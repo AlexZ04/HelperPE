@@ -91,6 +91,17 @@ namespace HelperPE.Persistence.Extensions
             };
         }
 
+        public static TeacherProfileShortModel ToShortDto(this TeacherEntity model)
+        {
+            return new TeacherProfileShortModel
+            {
+                Id = model.Id,
+                Email = model.Email,
+                FullName = model.FullName,
+                Role = model.Role,
+            };
+        }
+
         public static CuratorProfileDTO ToDto(this CuratorEntity model)
         {
             return new CuratorProfileDTO

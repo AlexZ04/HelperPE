@@ -150,15 +150,17 @@ namespace HelperPE.Application.Services.Implementations
 
         public async Task<PairListModel> GetAvailablePairs(Guid userId)
         {
+            var today = DateTime.UtcNow.Date;
+            var tomorrow = today.AddDays(1);
             var todayPairs = await _context.Pairs
                 .Include(p => p.Teacher)
                 .Include(p => p.Subject)
-                .Where(p => p.Date.Date == DateTime.Today)
+                .Where(p => p.Date >= today && p.Date < tomorrow)
                 .ToListAsync();
 
             return new PairListModel
             {
-                Pairs = todayPairs.Select(p => p.ToDto()).ToList(),   
+                Pairs = todayPairs.Select(p => p.ToShortDto()).ToList(),   
             };
         }
 
