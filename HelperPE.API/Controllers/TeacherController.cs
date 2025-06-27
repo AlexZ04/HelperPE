@@ -40,16 +40,22 @@ namespace HelperPE.API.Controllers
         [HttpPut("pairs/{pairId}")]
         [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
         [CheckTokens]
-        public async Task<IActionResult> ApproveStudentOnPair([FromRoute] Guid pairId, [FromQuery] Guid userId)
+        public async Task<IActionResult> ApproveStudentOnPair(
+            [FromRoute] Guid pairId, [FromQuery] Guid userId, [FromQuery] int classesAmount = 1)
         {
+            await _teacherService.EditPairAttendanceStatus(pairId, userId, classesAmount);
+
             return Ok();
         }
 
         [HttpDelete("pairs/{pairId}")]
         [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
         [CheckTokens]
-        public async Task<IActionResult> DeclineStudentOnPair([FromRoute] Guid pairId, [FromQuery] Guid userId)
+        public async Task<IActionResult> DeclineStudentOnPair(
+            [FromRoute] Guid pairId, [FromQuery] Guid userId, [FromQuery] int classesAmount = 1)
         {
+            await _teacherService.EditPairAttendanceStatus(pairId, userId, classesAmount, false);
+
             return Ok();
         }
 

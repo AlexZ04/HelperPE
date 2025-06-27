@@ -152,6 +152,7 @@ namespace HelperPE.Application.Services.Implementations
         {
             var today = DateTime.UtcNow.Date;
             var tomorrow = today.AddDays(1);
+
             var todayPairs = await _context.Pairs
                 .Include(p => p.Teacher)
                 .Include(p => p.Subject)

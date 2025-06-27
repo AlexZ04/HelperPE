@@ -6,6 +6,8 @@ using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Entities.Pairs;
 using HelperPE.Persistence.Extensions;
 using HelperPE.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HelperPE.Application.Services.Implementations
 {
@@ -107,6 +109,30 @@ namespace HelperPE.Application.Services.Implementations
             {
                 Attendances = pendingAttendances
             };
+        }
+
+        public async Task EditPairAttendanceStatus(
+            Guid pairId, Guid userId,
+            int classesAmount = 1, bool approve = true)
+        {
+            var attendance = await _context.PairsAttendances
+                 .FirstOrDefaultAsync(a => a.StudentId == userId && a.PairId == pairId);
+
+            if (attendance == null)
+                throw new DirectoryNotFoundException(ErrorMessages.ATTENDANCE_NOT_FOUND);
+
+            if (attendance.Status == PairAttendanceStatus.Accepted && approve ||
+                !approve && attendance.Status == PairAttendanceStatus.Declined)
+                throw new BadRequestException(ErrorMessages.ACTION_ALREADY_DONE);
+
+            attendance.ClassesAmount = classesAmount;
+
+            if (approve)
+                attendance.Status = PairAttendanceStatus.Accepted;
+            else
+                attendance.Status = PairAttendanceStatus.Declined;
+
+                await _context.SaveChangesAsync();
         }
     }
 }
