@@ -1,5 +1,6 @@
 ﻿using HelperPE.Application.Services;
 using HelperPE.Common.Constants;
+using HelperPE.Common.Models.Curator;
 using HelperPE.Infrastructure.Filters;
 using HelperPE.Infrastructure.Utilities;
 using HelperPE.Persistence.Contexts;
@@ -94,6 +95,19 @@ namespace HelperPE.API.Controllers
         {
             return Ok(await _curatorService
                 .GetListOfEventsApplications(UserDescriptor.GetUserId(User)));
+        }
+
+        [HttpPost("activity/student")]
+        [Authorize(Roles = RolesCombinations.CURATOR)]
+        [CheckTokens]
+        public async Task<IActionResult> CreateOtherActivity(
+            [FromBody] OtherActivityCreateModel activity,
+            [FromQuery] Guid studentId)
+        {
+            await _curatorService.CreateOtherActivity(activity,
+                studentId, UserDescriptor.GetUserId(User));
+
+            return Ok();
         }
     }
 }

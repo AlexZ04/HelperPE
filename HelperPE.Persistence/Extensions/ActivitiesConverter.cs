@@ -1,8 +1,10 @@
-﻿using HelperPE.Common.Models.Event;
+﻿using HelperPE.Common.Models.Curator;
+using HelperPE.Common.Models.Event;
 using HelperPE.Common.Models.Pairs;
 using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Entities.Faculty;
 using HelperPE.Persistence.Entities.Pairs;
+using HelperPE.Persistence.Entities.Users;
 
 namespace HelperPE.Persistence.Extensions
 {
@@ -64,6 +66,18 @@ namespace HelperPE.Persistence.Extensions
                 Description = model.Description,
                 Date = model.Date,
                 ClassesAmount = model.ClassesAmount
+            };
+        }
+
+        public static OtherActivitiesEntity CreateOtherActivity(
+            this OtherActivityCreateModel model, CuratorEntity curator, StudentEntity student)
+        {
+            return new OtherActivitiesEntity
+            {
+                Teacher = curator,
+                Student = student,
+                Comment = model.Comment,
+                ClassesAmount = model.ClassesAmount,
             };
         }
     }

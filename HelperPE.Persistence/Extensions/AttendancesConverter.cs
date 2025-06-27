@@ -41,8 +41,6 @@ namespace HelperPE.Persistence.Extensions
                 Id = model.Id,
                 Comment = model.Comment,
                 ClassesAmount = model.ClassesAmount,
-                Student = model.Student.ToDto(),
-                Teacher = model.Teacher.ToDto(),
                 Date = model.Date,
             };
         }

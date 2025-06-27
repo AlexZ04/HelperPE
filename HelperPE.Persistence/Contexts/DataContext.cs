@@ -18,6 +18,7 @@ namespace HelperPE.Persistence.Contexts
         public DbSet<PairEntity> Pairs { get; set; }  
         public DbSet<PairAttendanceEntity> PairsAttendances { get; set; }
         public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
+        public DbSet<OtherActivitiesEntity> OtherActivities { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
@@ -76,6 +77,9 @@ namespace HelperPE.Persistence.Contexts
 
             modelBuilder.Entity<RefreshTokenEntity>()
                 .HasKey(t => t.Id);
+
+            modelBuilder.Entity<OtherActivitiesEntity>()
+                .HasKey(a => a.Id);
 
             base.OnModelCreating(modelBuilder);
         }

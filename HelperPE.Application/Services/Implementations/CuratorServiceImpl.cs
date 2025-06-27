@@ -10,6 +10,7 @@ using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Entities.Users;
 using HelperPE.Persistence.Extensions;
+using HelperPE.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -19,14 +20,17 @@ namespace HelperPE.Application.Services.Implementations
     public class CuratorServiceImpl : ICuratorService
     {
         private readonly IProfileService _profileService;
+        private readonly IUserRepository _userRepository;
         private readonly DataContext _context;
 
         public CuratorServiceImpl(
             IProfileService profileService,
-            DataContext context)
+            DataContext context,
+            IUserRepository userRepository)
         {
             _profileService = profileService;
             _context = context;
+            _userRepository = userRepository;
         }
 
         public async Task<UserActivitiesModel> GetUserInfo(Guid userId)
@@ -132,6 +136,21 @@ namespace HelperPE.Application.Services.Implementations
             {
                 Attendances = validAttendances,
             };
+        }
+
+        public async Task CreateOtherActivity(
+            OtherActivityCreateModel activity,
+            Guid studentId,
+            Guid curatorId)
+        {
+            var curator = await _userRepository.GetCuratorById(curatorId);
+            var student = await _userRepository.GetStudentById(studentId);
+
+            var newActivity = activity.CreateOtherActivity(curator, student);
+
+            student.OtherActivities.Add(newActivity);
+            _context.OtherActivities.Add(newActivity);
+            await _context.SaveChangesAsync();
         }
     }
 }
