@@ -6,5 +6,6 @@ namespace HelperPE.Application.Services
     {
         public Task<SubjectListModel> GetTeacherSubjects(Guid teacherId);
         public Task<TeacherPairsModel> GetTodayPairs(Guid teacherId);
+        public Task CreatePair(Guid subjectId, Guid teacherId);
     }
 }

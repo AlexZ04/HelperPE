@@ -13,13 +13,10 @@ namespace HelperPE.API.Controllers
     public class TeacherController : ControllerBase
     {
         private readonly ITeacherService _teacherService;
-        private readonly ITimeService _timeService;
 
-        public TeacherController(
-            ITeacherService teacherService, ITimeService timeService)
+        public TeacherController(ITeacherService teacherService)
         {
             _teacherService = teacherService;
-            _timeService = timeService;
         }
 
         [HttpGet("pairs")]
@@ -33,9 +30,11 @@ namespace HelperPE.API.Controllers
         [HttpPost("pairs")]
         [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
         [CheckTokens]
-        public async Task<IActionResult> CreatePair()
+        public async Task<IActionResult> CreatePair([FromQuery] Guid subjectId)
         {
-            return Ok(_timeService.GetSemesterNumber());
+            await _teacherService.CreatePair(subjectId, UserDescriptor.GetUserId(User));
+
+            return Ok();
         }
 
         [HttpPut("pairs/{pairId}")]
@@ -62,7 +61,7 @@ namespace HelperPE.API.Controllers
             return Ok(await _teacherService.GetTeacherSubjects(UserDescriptor.GetUserId(User)));
         }
 
-        [HttpGet("attendance")]
+        [HttpGet("attendances")]
         [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
         [CheckTokens]
         public async Task<IActionResult> GetActualAttendancesRequests()

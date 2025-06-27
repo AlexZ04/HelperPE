@@ -14,5 +14,7 @@
         public const string CAN_NOT_CHANGE_FIELD = "You can't change this field";
         public const string ACTION_ALREADY_DONE = "Action is already done";
         public const string GROUP_NOT_FOUND = "There is no students in this group";
+        public const string CAN_NOT_CREATE_PAIR = "Error with pair creation";
+        public const string SUBJECT_NOT_FOUND = "Subject not found";
     }
 }

@@ -7,7 +7,6 @@ namespace HelperPE.Persistence.Entities.Pairs
     {
         public Guid StudentId { get; set; }
         public Guid PairId { get; set; }
-
         public required StudentEntity Student { get; set; }
         public required PairEntity Pair { get; set; }
         public PairAttendanceStatus Status { get; set; } = PairAttendanceStatus.Pending;
