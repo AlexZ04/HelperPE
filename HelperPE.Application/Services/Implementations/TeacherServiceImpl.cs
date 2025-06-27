@@ -2,6 +2,7 @@
 using HelperPE.Common.Enums;
 using HelperPE.Common.Exceptions;
 using HelperPE.Common.Models.Teacher;
+using HelperPE.Infrastructure.Utilities;
 using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Entities.Pairs;
 using HelperPE.Persistence.Extensions;
@@ -14,19 +15,16 @@ namespace HelperPE.Application.Services.Implementations
     public class TeacherServiceImpl : ITeacherService
     {
         private readonly IUserRepository _userRepository;
-        private readonly ITimeService _timeService;
         private readonly IPairRepository _pairRepository;
         private readonly DataContext _context;
 
         public TeacherServiceImpl(
             DataContext context,
             IUserRepository userRepository,
-            ITimeService timeService,
             IPairRepository pairRepository)
         {
             _context = context;
             _userRepository = userRepository;
-            _timeService = timeService;
             _pairRepository = pairRepository;
         }
 
@@ -71,7 +69,7 @@ namespace HelperPE.Application.Services.Implementations
             var teacher = await _userRepository.GetTeacherById(teacherId);
             var subject = await _pairRepository.GetSubject(subjectId);
 
-            var currentPairNumber = _timeService.GetPairNumber();
+            var currentPairNumber = TimeUtility.GetPairNumber();
 
             //if (currentPairNumber == -1)
             //    throw new BadRequestException(ErrorMessages.CAN_NOT_CREATE_PAIR);

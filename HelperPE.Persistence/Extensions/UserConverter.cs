@@ -1,6 +1,7 @@
 ﻿using HelperPE.Common.Enums;
 using HelperPE.Common.Models.Curator;
 using HelperPE.Common.Models.Profile;
+using HelperPE.Infrastructure.Utilities;
 using HelperPE.Persistence.Entities.Users;
 
 namespace HelperPE.Persistence.Extensions
@@ -9,20 +10,6 @@ namespace HelperPE.Persistence.Extensions
     {
         public static StudentProfileDTO ToDto(this StudentEntity model)
         {
-            var classesAmount = 0;
-
-            foreach (var attendance in model.EventsAttendances)
-            {
-                if (attendance.Status == EventApplicationStatus.Credited)
-                    classesAmount += attendance.Event.ClassesAmount;
-            }
-
-            foreach (var attendance in model.OtherActivities)
-                classesAmount += attendance.ClassesAmount;
-
-            classesAmount += model.PairAttendances
-                .Where(a => a.Status == PairAttendanceStatus.Accepted).Count();
-
             return new StudentProfileDTO
             {
                 Id = model.Id,
@@ -32,8 +19,37 @@ namespace HelperPE.Persistence.Extensions
                 Course = model.Course,
                 Group = model.Group,
                 Faculty = model.Faculty.ToDto(),
-                ClassesAmount = classesAmount
+                ClassesAmount = CalculateClassesAmount(model)
             };
+        }
+
+        private static int CalculateClassesAmount(StudentEntity model)
+        {
+            var classesAmount = 0;
+            var semesterStart = TimeUtility.GetCurrentSemesterStart();
+            var semesterEnd = TimeUtility.GetCurrentSemesterEnd();
+
+            foreach (var attendance in model.EventsAttendances)
+            {
+                if (attendance.Status == EventApplicationStatus.Credited &&
+                    attendance.Event.Date >= semesterStart && attendance.Event.Date < semesterEnd)
+                {
+                    classesAmount += attendance.Event.ClassesAmount;
+                }
+            }
+
+            foreach (var attendance in model.OtherActivities)
+            {
+                if (attendance.Date >= semesterStart && attendance.Date < semesterEnd)
+                    classesAmount += attendance.ClassesAmount;
+            }
+
+            classesAmount += model.PairAttendances
+                .Where(a => a.Status == PairAttendanceStatus.Accepted &&
+                            a.Pair.Date >= semesterStart && a.Pair.Date < semesterEnd)
+                .Count();
+
+            return classesAmount;
         }
 
         public static StudentProfileShortModel ToShortDto(this StudentEntity model)
