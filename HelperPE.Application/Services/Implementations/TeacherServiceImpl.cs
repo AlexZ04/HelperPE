@@ -19,11 +19,23 @@ namespace HelperPE.Application.Services.Implementations
 
         public async Task<SubjectListModel> GetTeacherSubjects(Guid teacherId)
         {
-            var teacher = await _profileService.GetTeacherProfileById(teacherId);
+            var teacher = await _userRepository.GetTeacherById(teacherId);
+
+            var pairCounts = teacher.Pairs
+                .GroupBy(p => p.Subject.Id)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            var subjectsWithCounts = teacher.Subjects
+                .Select(s => new {
+                    Subject = s,
+                    Count = pairCounts.ContainsKey(s.Id) ? pairCounts[s.Id] : 0
+                })
+                .OrderByDescending(x => x.Count)
+                .ToList();
 
             return new SubjectListModel
             {
-                Subjects = teacher.Subjects
+                Subjects = subjectsWithCounts.Select(x => x.Subject.ToDto()).ToList()
             };
         }
 
