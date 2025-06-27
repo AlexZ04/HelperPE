@@ -1,4 +1,5 @@
 ﻿using HelperPE.Common.Models.Attendances;
+using HelperPE.Common.Models.Pairs;
 using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Entities.Pairs;
 
@@ -31,6 +32,17 @@ namespace HelperPE.Persistence.Extensions
             {
                 ClassesAmount = model.ClassesAmount,
                 Pair = model.Pair.ToDto(),
+                Status = model.Status
+            };
+        }
+
+        public static PairAttendanceProfileModel ToProfileDto(this PairAttendanceEntity model)
+        {
+            return new PairAttendanceProfileModel
+            {
+                ClassesAmount = model.ClassesAmount,
+                Status = model.Status,
+                Student = model.Student.ToShortDto()
             };
         }
 

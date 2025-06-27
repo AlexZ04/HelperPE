@@ -1,4 +1,5 @@
 ﻿using HelperPE.Common.Constants;
+using HelperPE.Common.Enums;
 using HelperPE.Common.Exceptions;
 using HelperPE.Common.Models.Teacher;
 using HelperPE.Persistence.Contexts;
@@ -86,6 +87,26 @@ namespace HelperPE.Application.Services.Implementations
             teacher.Pairs.Add(newPair);
             _context.Pairs.Add(newPair);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<PairAttendancesListModel> GetPairAttendances(Guid teacherId)
+        {
+            var teacher = await _userRepository.GetTeacherById(teacherId);
+
+            var todayPairs = teacher.Pairs
+                .Where(p => p.Date.Date == DateTime.Today)
+                .ToList();
+
+            var pendingAttendances = todayPairs
+                .SelectMany(p => p.Attendances)
+                .Where(a => a.Status == PairAttendanceStatus.Pending)
+                .Select(a => a.ToProfileDto())
+                .ToList();
+
+            return new PairAttendancesListModel
+            {
+                Attendances = pendingAttendances
+            };
         }
     }
 }

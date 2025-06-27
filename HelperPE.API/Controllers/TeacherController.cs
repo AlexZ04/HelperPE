@@ -66,7 +66,7 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetActualAttendancesRequests()
         {
-            return Ok();
+            return Ok(await _teacherService.GetPairAttendances(UserDescriptor.GetUserId(User)));
         }
     }
 }
