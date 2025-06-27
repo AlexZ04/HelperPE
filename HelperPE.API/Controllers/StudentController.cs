@@ -20,6 +20,14 @@ namespace HelperPE.API.Controllers
             _studentService = studentService;
         }
 
+        [HttpGet("events")]
+        [Authorize(Roles = RolesCombinations.STUDENT_AND_SPORTS)]
+        [CheckTokens]
+        public async Task<IActionResult> GetAvailableEvents()
+        {
+            return Ok();
+        }
+
         [HttpPost("application/{eventId}")]
         [Authorize(Roles = RolesCombinations.STUDENT_AND_SPORTS)]
         [CheckTokens]
@@ -46,6 +54,14 @@ namespace HelperPE.API.Controllers
         {
             await _studentService.RestrictApplication(eventId, UserDescriptor.GetUserId(User));
 
+            return Ok();
+        }
+
+        [HttpGet("events")]
+        [Authorize(Roles = RolesCombinations.STUDENT_AND_SPORTS)]
+        [CheckTokens]
+        public async Task<IActionResult> GetAvailablePairs()
+        {
             return Ok();
         }
 

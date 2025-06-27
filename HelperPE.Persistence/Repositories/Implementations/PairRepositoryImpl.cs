@@ -23,5 +23,18 @@ namespace HelperPE.Persistence.Repositories.Implementations
 
             return subject ?? throw new NotFoundException(ErrorMessages.SUBJECT_NOT_FOUND);
         }
+
+        public async Task<PairEntity> GetPair(Guid id)
+        {
+            var pair = await _context.Pairs
+                .Include(p => p.Teacher)
+                .Include(p => p.Attendances)
+                    .ThenInclude(a => a.Student)
+                        .ThenInclude(s => s.Faculty)
+                .Include(p => p.Subject)
+                .FirstOrDefaultAsync(p => p.PairId == id);
+
+            return pair ?? throw new NotFoundException(ErrorMessages.PAIR_NOT_FOUND);
+        }
     }
 }

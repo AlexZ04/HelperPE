@@ -4,6 +4,8 @@ using HelperPE.Common.Models.Event;
 using HelperPE.Common.Models.Pairs;
 using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Entities.Events;
+using HelperPE.Persistence.Entities.Pairs;
+using HelperPE.Persistence.Extensions;
 using HelperPE.Persistence.Repositories;
 
 namespace HelperPE.Application.Services.Implementations
@@ -13,15 +15,18 @@ namespace HelperPE.Application.Services.Implementations
         private readonly DataContext _context; 
         private readonly IUserRepository _userRepository;
         private readonly IEventRepository _eventRepository;
+        private readonly IPairRepository _pairRepository;
 
         public StudentServiceImpl(
             DataContext context, 
             IUserRepository userRepository,
-            IEventRepository eventRepository)
+            IEventRepository eventRepository,
+            IPairRepository pairRepository)
         {
             _context = context;
             _userRepository = userRepository;
             _eventRepository = eventRepository;
+            _pairRepository = pairRepository;
         }
 
         public async Task SubmitApplicationToEvent(Guid eventId, Guid userId, string userRole)
@@ -81,25 +86,64 @@ namespace HelperPE.Application.Services.Implementations
             var application = foundEvent.Attendances
                 .FirstOrDefault(u => u.StudentId == userId);
 
-            if (application == null)
-                throw new NotFoundException(ErrorMessages.APPLICATION_NOT_FOUND);
-
-            return application;
+            return application ?? throw new NotFoundException(ErrorMessages.APPLICATION_NOT_FOUND);
         }
 
         public async Task SubmitAttendanceToPair(Guid pairId, Guid userId)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetStudentById(userId);
+            var pair = await _pairRepository.GetPair(pairId);
+
+            if (user.PairAttendances.Select(e => e.StudentId).Contains(userId))
+                throw new BadRequestException(ErrorMessages.USER_ALREADY_HAS_APPLICATION);
+
+            var newAttendance = new PairAttendanceEntity
+            {
+                PairId = pairId,
+                StudentId = userId,
+                Student = user,
+                Pair = pair
+            };
+
+            pair.Attendances.Add(newAttendance);
+            user.PairAttendances.Add(newAttendance);
+
+            _context.PairsAttendances.Add(newAttendance);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<PairAttendanceStatusModel> CheckPairAttendanceStatus(Guid pairId, Guid userId)
         {
-            throw new NotImplementedException();
+            var pair = await _pairRepository.GetPair(pairId);
+
+            var attendance = GetPairAttendanceEntity(pair, userId);
+
+            return new PairAttendanceStatusModel
+            {
+                Status = attendance.Status,
+            };
         }
 
         public async Task RestrictPairAttendance(Guid pairId, Guid userId)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetStudentById(userId);
+            var pair = await _pairRepository.GetPair(pairId);
+
+            var attendance = GetPairAttendanceEntity(pair, userId);
+
+            pair.Attendances.Remove(attendance);
+            user.PairAttendances.Remove(attendance);
+
+            _context.PairsAttendances.Remove(attendance);
+            await _context.SaveChangesAsync();
+        }
+
+        private PairAttendanceEntity GetPairAttendanceEntity(PairEntity pair, Guid userId)
+        {
+            var attendance = pair.Attendances
+                                .FirstOrDefault(a => a.StudentId == userId);
+
+            return attendance ?? throw new NotFoundException(ErrorMessages.ATTENDANCE_NOT_FOUND);
         }
     }
 }

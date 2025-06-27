@@ -16,5 +16,6 @@
         public const string GROUP_NOT_FOUND = "There is no students in this group";
         public const string CAN_NOT_CREATE_PAIR = "Error with pair creation";
         public const string SUBJECT_NOT_FOUND = "Subject not found";
+        public const string PAIR_NOT_FOUND = "Pair not found";
     }
 }
