@@ -173,6 +173,7 @@ namespace HelperPE.Application.Services.Implementations
             var pendingAttendances = todayPairs
                 .SelectMany(p => p.Attendances)
                 .Select(a => a.ToProfileDto())
+                .OrderBy(a => a.Student.Name)
                 .ToList();
 
             return new PairAttendanceListShortModel
