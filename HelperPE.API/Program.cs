@@ -16,4 +16,4 @@ await SetupDatabases.RunMigrations(app);
 SetupAuth.UseAuth(app);
 SetupAspNet.UseAspNet(app);
 
-app.Run();
+await app.RunAsync();

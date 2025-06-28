@@ -8,7 +8,6 @@ using HelperPE.Persistence.Entities.Pairs;
 using HelperPE.Persistence.Extensions;
 using HelperPE.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace HelperPE.Application.Services.Implementations
 {
@@ -89,26 +88,6 @@ namespace HelperPE.Application.Services.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task<PairAttendancesListModel> GetPairAttendances(Guid teacherId)
-        {
-            var teacher = await _userRepository.GetTeacherById(teacherId);
-
-            var todayPairs = teacher.Pairs
-                .Where(p => p.Date.Date == DateTime.Today)
-                .ToList();
-
-            var pendingAttendances = todayPairs
-                .SelectMany(p => p.Attendances)
-                .Where(a => a.Status == PairAttendanceStatus.Pending)
-                .Select(a => a.ToProfileDto())
-                .ToList();
-
-            return new PairAttendancesListModel
-            {
-                Attendances = pendingAttendances
-            };
-        }
-
         public async Task EditPairAttendanceStatus(
             Guid pairId, Guid userId,
             int classesAmount = 1, bool approve = true)
@@ -131,6 +110,47 @@ namespace HelperPE.Application.Services.Implementations
                 attendance.Status = PairAttendanceStatus.Declined;
 
                 await _context.SaveChangesAsync();
+        }
+
+        public async Task<PairAttendancesListModel> GetPairAttendances(Guid teacherId)
+        {
+            var teacher = await _userRepository.GetTeacherById(teacherId);
+
+            var todayPairs = teacher.Pairs
+                .Where(p => p.Date.Date == DateTime.Today)
+                .ToList();
+
+            var pendingAttendances = todayPairs
+                .SelectMany(p => p.Attendances)
+                .Where(a => a.Status == PairAttendanceStatus.Pending)
+                .Select(a => a.ToProfileDto())
+                .ToList();
+
+            return new PairAttendancesListModel
+            {
+                Attendances = pendingAttendances
+            };
+        }
+
+        public async Task<PairAttendancesListModel> GetPairAttendances(
+            Guid pairId, Guid teacherId)
+        {
+            var teacher = await _userRepository.GetTeacherById(teacherId);
+
+            var todayPairs = teacher.Pairs
+                .Where(p => p.Date.Date == DateTime.Today && p.PairId == pairId)
+                .ToList();
+
+            var pendingAttendances = todayPairs
+                .SelectMany(p => p.Attendances)
+                .Where(a => a.Status == PairAttendanceStatus.Pending)
+                .Select(a => a.ToProfileDto())
+                .ToList();
+
+            return new PairAttendancesListModel
+            {
+                Attendances = pendingAttendances
+            };
         }
     }
 }

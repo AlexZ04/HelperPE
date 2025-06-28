@@ -72,7 +72,33 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> GetActualAttendancesRequests()
         {
-            return Ok(await _teacherService.GetPairAttendances(UserDescriptor.GetUserId(User)));
+            return Ok(await _teacherService.GetPairAttendances
+                (UserDescriptor.GetUserId(User)));
+        }
+
+        [HttpGet("attendances/{pairId}")]
+        [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
+        [CheckTokens]
+        public async Task<IActionResult> GetPairAttendances([FromRoute] Guid pairId)
+        {
+            return Ok(await _teacherService.GetPairAttendances(pairId,
+                UserDescriptor.GetUserId(User))); 
+        }
+
+        [HttpGet("attendances-live")]
+        [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
+        [CheckTokens]
+        public async Task<IActionResult> GetActualAttendancesLive()
+        {   
+            if (HttpContext.WebSockets.IsWebSocketRequest)
+            {
+
+            }
+            else
+            {
+
+            }
+            return Ok();
         }
     }
 }
