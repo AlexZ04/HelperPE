@@ -10,5 +10,6 @@ namespace HelperPE.Persistence.Repositories
         public Task<SportsOrganizerEntity> GetSportsById(Guid userId);
         public Task<TeacherEntity> GetTeacherById(Guid userId);
         public Task<CuratorEntity> GetCuratorById(Guid userId);
+        public Task<UserEntity> GetUserById(Guid userId);
     }
 }

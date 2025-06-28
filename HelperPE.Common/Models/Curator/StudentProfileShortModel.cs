@@ -9,5 +9,6 @@ namespace HelperPE.Common.Models.Curator
         public int Course { get; set; }
         public required string Group { get; set; }
         public UserRole Role { get; set; }
+        public Guid? AvatarId { get; set; }
     }
 }

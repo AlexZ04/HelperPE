@@ -12,5 +12,6 @@ namespace HelperPE.Common.Models.Profile
         public required string Group { get; set; }
         public required FacultyDTO Faculty { get; set; }
         public required int ClassesAmount { get; set; }
+        public Guid? AvatarId { get; set; }
     }
 }

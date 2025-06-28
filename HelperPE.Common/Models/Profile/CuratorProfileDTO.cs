@@ -11,5 +11,6 @@ namespace HelperPE.Common.Models.Profile
         public UserRole Role { get; set; }
         public List<SubjectDTO> Subjects { get; set; } = new List<SubjectDTO>();
         public List<FacultyDTO> Faculties { get; set; } = new List<FacultyDTO>();
+        public Guid? AvatarId { get; set; }
     }
 }

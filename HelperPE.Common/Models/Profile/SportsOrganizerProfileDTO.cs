@@ -13,5 +13,6 @@ namespace HelperPE.Common.Models.Profile
         public required FacultyDTO Faculty { get; set; }
         public required int ClassesAmount { get; set; }
         public DateTime AppointmentDate { get; set; }
+        public Guid? AvatarId { get; set; }
     }
 }
