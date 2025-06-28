@@ -49,7 +49,7 @@ namespace HelperPE.Application.Services.Implementations
             return curator.ToDto();
         }
 
-        public async Task<List<CuratorProfileDTO>> GetCurators()
+        public async Task<List<CuratorProfileDTO>> GetCurators() //?
         {
             var curators = await _context.Users
                 .OfType<CuratorEntity>()
@@ -61,7 +61,7 @@ namespace HelperPE.Application.Services.Implementations
             return curators.Select(c => c.ToDto()).ToList();
         }
 
-        public async Task<List<TeacherProfileDTO>> GetTeachers()
+        public async Task<List<TeacherProfileDTO>> GetTeachers() //?
         {
             var teachers = await _context.Users
                 .OfType<TeacherEntity>()

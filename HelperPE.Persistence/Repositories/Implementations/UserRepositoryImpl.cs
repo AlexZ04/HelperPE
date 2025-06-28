@@ -28,6 +28,20 @@ namespace HelperPE.Persistence.Repositories.Implementations
             return user;
         }
 
+        public async Task<UserEntity> GetUserById(Guid userId)
+        {
+            var user = await _context.Users
+                .OfType<UserEntity>()
+                .Include(u => u.Avatar)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+                throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
+
+            return user;
+        }
+
+
         public async Task<StudentEntity> GetStudentById(Guid userId)
         {
             var user = await _context.Users
@@ -43,6 +57,7 @@ namespace HelperPE.Persistence.Repositories.Implementations
                     .ThenInclude(a => a.Teacher)
                 .Include(u => u.EventsAttendances)
                     .ThenInclude(a => a.Event)
+                .Include(u => u.Avatar)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null)
@@ -66,6 +81,7 @@ namespace HelperPE.Persistence.Repositories.Implementations
                     .ThenInclude(s => s.Faculty)
                 .Include(s => s.Events)
                     .ThenInclude(e => e.Attendances)
+                .Include(u => u.Avatar)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null) 
@@ -84,6 +100,7 @@ namespace HelperPE.Persistence.Repositories.Implementations
                     .ThenInclude(p => p.Attendances)
                         .ThenInclude(a => a.Student)
                 .Include(t => t.Subjects)
+                .Include(u => u.Avatar)
                 .FirstOrDefaultAsync(t => t.Id == userId);
 
             if (teacher == null)
@@ -100,6 +117,7 @@ namespace HelperPE.Persistence.Repositories.Implementations
                     .ThenInclude(p => p.Subject)
                 .Include(t => t.Subjects)
                 .Include(t => t.Faculties)
+                .Include(u => u.Avatar)
                 .FirstOrDefaultAsync(t => t.Id == userId);
 
             if (curator == null)

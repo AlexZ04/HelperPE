@@ -10,6 +10,7 @@ namespace HelperPE.Persistence.Entities.Users
         public UserRole Role { get; set; }
         public required string Password { get; set; }
 
+        public FileEntity? Avatar { get; set; }
         public UserEntity(UserRole role)
         {
             Role = role;

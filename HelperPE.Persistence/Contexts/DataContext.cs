@@ -1,5 +1,6 @@
 ﻿using HelperPE.Common.Enums;
 using HelperPE.Infrastructure.Utilities;
+using HelperPE.Persistence.Entities;
 using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Entities.Faculty;
 using HelperPE.Persistence.Entities.Pairs;
@@ -19,7 +20,7 @@ namespace HelperPE.Persistence.Contexts
         public DbSet<PairAttendanceEntity> PairsAttendances { get; set; }
         public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
         public DbSet<OtherActivitiesEntity> OtherActivities { get; set; }
-
+        public DbSet<FileEntity> Files { get; set; }
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

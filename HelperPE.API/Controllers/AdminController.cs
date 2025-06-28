@@ -27,8 +27,8 @@ namespace HelperPE.API.Controllers
         }
 
         [HttpGet("curators")]
-        [Authorize(Roles = RolesCombinations.ADMIN)]
-        [CheckTokens]
+        //[Authorize(Roles = RolesCombinations.ADMIN)]
+        //[CheckTokens]
         public async Task<IActionResult> GetCurators()
         {
             return Ok(await _adminService.GetCurators());

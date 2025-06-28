@@ -19,7 +19,8 @@ namespace HelperPE.Persistence.Extensions
                 Course = model.Course,
                 Group = model.Group,
                 Faculty = model.Faculty.ToDto(),
-                ClassesAmount = CalculateClassesAmount(model)
+                ClassesAmount = CalculateClassesAmount(model),
+                AvatarId = model.Avatar?.Id
             };
         }
 
@@ -61,6 +62,7 @@ namespace HelperPE.Persistence.Extensions
                 Course = model.Course,
                 Group = model.Group,
                 Role = model.Role,
+                AvatarId = model.Avatar?.Id
             };
         }
 
@@ -90,7 +92,8 @@ namespace HelperPE.Persistence.Extensions
                 Group = model.Group,
                 Faculty = model.Faculty.ToDto(),
                 ClassesAmount = classesAmount,
-                AppointmentDate = model.AppointmentDate
+                AppointmentDate = model.AppointmentDate,
+                AvatarId = model.Avatar?.Id
             };
         }
 
@@ -103,7 +106,8 @@ namespace HelperPE.Persistence.Extensions
                 FullName = model.FullName,
                 Role = model.Role,
                 Subjects = model.Subjects
-                                .Select(s => s.ToDto()).ToList()
+                                .Select(s => s.ToDto()).ToList(),
+                AvatarId = model.Avatar?.Id
             };
         }
 
@@ -115,6 +119,7 @@ namespace HelperPE.Persistence.Extensions
                 Email = model.Email,
                 FullName = model.FullName,
                 Role = model.Role,
+                AvatarId = model.Avatar?.Id
             };
         }
 
@@ -129,7 +134,8 @@ namespace HelperPE.Persistence.Extensions
                 Subjects = model.Subjects
                                 .Select(s => s.ToDto()).ToList(),
                 Faculties = model.Faculties
-                                .Select(f => f.ToDto()).ToList()
+                                .Select(f => f.ToDto()).ToList(),
+                AvatarId = model.Avatar?.Id
             };
         }
     }
