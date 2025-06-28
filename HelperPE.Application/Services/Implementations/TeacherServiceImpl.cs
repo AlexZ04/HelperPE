@@ -1,6 +1,7 @@
 ﻿using HelperPE.Common.Constants;
 using HelperPE.Common.Enums;
 using HelperPE.Common.Exceptions;
+using HelperPE.Common.Models.Pairs;
 using HelperPE.Common.Models.Teacher;
 using HelperPE.Infrastructure.Utilities;
 using HelperPE.Persistence.Contexts;
@@ -132,7 +133,7 @@ namespace HelperPE.Application.Services.Implementations
             };
         }
 
-        public async Task<PairAttendancesListModel> GetPairAttendances(
+        public async Task<PairAttendanceListShortModel> GetPairAttendances(
             Guid pairId, Guid teacherId)
         {
             var teacher = await _userRepository.GetTeacherById(teacherId);
@@ -147,9 +148,16 @@ namespace HelperPE.Application.Services.Implementations
                 .Select(a => a.ToProfileDto())
                 .ToList();
 
-            return new PairAttendancesListModel
+            return new PairAttendanceListShortModel
             {
-                Attendances = pendingAttendances
+                Attendances = pendingAttendances.Select(a =>
+                    new PairAttendanceShortModel 
+                    { 
+                        Status = a.Status,
+                        Student = a.Student,
+                        ClassesAmount = a.ClassesAmount,
+                    })
+                    .ToList(),
             };
         }
     }
