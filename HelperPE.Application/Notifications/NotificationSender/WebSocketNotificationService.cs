@@ -12,7 +12,7 @@ namespace HelperPE.Application.Notifications.NotificationSender
             _webSocketService = webSocketService;
         }
 
-        public void NotifyPairAttendanceSubmitted(PairAttendanceShortModel attendance)
+        public void NotifyPairAttendanceSubmitted(PairAttendanceProfileModel attendance)
         {
             var notification = new WebSocketNotificationModel
             {

@@ -117,7 +117,7 @@ namespace HelperPE.Application.Services.Implementations
             _context.PairsAttendances.Add(newAttendance);
             await _context.SaveChangesAsync();
 
-            var notificationObject = newAttendance.ToShortPairAttendanceDto();
+            var notificationObject = newAttendance.ToProfileDto();
 
             _notificationService.NotifyPairAttendanceSubmitted(notificationObject);
         }

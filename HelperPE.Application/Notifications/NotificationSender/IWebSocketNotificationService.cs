@@ -4,6 +4,6 @@ namespace HelperPE.Application.Notifications.NotificationSender
 {
     public interface IWebSocketNotificationService
     {
-        void NotifyPairAttendanceSubmitted(PairAttendanceShortModel attendance);
+        void NotifyPairAttendanceSubmitted(PairAttendanceProfileModel attendance);
     }
 }
