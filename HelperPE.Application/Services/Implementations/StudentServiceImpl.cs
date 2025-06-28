@@ -1,4 +1,5 @@
-﻿using HelperPE.Common.Constants;
+﻿using HelperPE.Application.Notifications.NotificationSender;
+using HelperPE.Common.Constants;
 using HelperPE.Common.Exceptions;
 using HelperPE.Common.Models;
 using HelperPE.Common.Models.Event;
@@ -18,17 +19,20 @@ namespace HelperPE.Application.Services.Implementations
         private readonly IUserRepository _userRepository;
         private readonly IEventRepository _eventRepository;
         private readonly IPairRepository _pairRepository;
+        private readonly IWebSocketNotificationService _notificationService;
 
         public StudentServiceImpl(
             DataContext context, 
             IUserRepository userRepository,
             IEventRepository eventRepository,
-            IPairRepository pairRepository)
+            IPairRepository pairRepository,
+            IWebSocketNotificationService notificationService)
         {
             _context = context;
             _userRepository = userRepository;
             _eventRepository = eventRepository;
             _pairRepository = pairRepository;
+            _notificationService = notificationService;
         }
 
         public async Task SubmitApplicationToEvent(Guid eventId, Guid userId, string userRole)
@@ -112,6 +116,10 @@ namespace HelperPE.Application.Services.Implementations
 
             _context.PairsAttendances.Add(newAttendance);
             await _context.SaveChangesAsync();
+
+            var notificationObject = newAttendance.ToShortPairAttendanceDto();
+
+            _notificationService.NotifyPairAttendanceSubmitted(notificationObject);
         }
 
         public async Task<PairAttendanceStatusModel> CheckPairAttendanceStatus(Guid pairId, Guid userId)

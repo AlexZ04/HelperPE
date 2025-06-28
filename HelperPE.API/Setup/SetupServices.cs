@@ -1,5 +1,7 @@
 ﻿using HelperPE.Application.Services;
 using HelperPE.Application.Services.Implementations;
+using HelperPE.Application.Notifications;
+using HelperPE.Application.Notifications.NotificationSender;
 
 namespace HelperPE.API.Setup
 {
@@ -17,6 +19,9 @@ namespace HelperPE.API.Setup
             services.AddTransient<ICuratorService, CuratorServiceImpl>();
             services.AddTransient<ITeacherService, TeacherServiceImpl>();
             services.AddTransient<IAvatarService, AvatarServiceImpl>();
+
+            services.AddSingleton<WebSocketService>();
+            services.AddTransient<IWebSocketNotificationService, WebSocketNotificationService>();
         }
     }
 }

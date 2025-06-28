@@ -3,9 +3,8 @@ using HelperPE.Common.Constants;
 using HelperPE.Infrastructure.Filters;
 using HelperPE.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using HelperPE.Application.Notifications.NotificationSender;
 
 namespace HelperPE.API.Controllers
 {
@@ -14,7 +13,7 @@ namespace HelperPE.API.Controllers
     public class StudentController : ControllerBase
     {
         private readonly IStudentService _studentService;
-
+        
         public StudentController(IStudentService studentService)
         {
             _studentService = studentService;
@@ -33,8 +32,10 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> SubmitApplicationToEvent([FromRoute] Guid eventId)
         {
-            await _studentService.SubmitApplicationToEvent(eventId, 
-                UserDescriptor.GetUserId(User), UserDescriptor.GetUserRole(User));
+            var userId = UserDescriptor.GetUserId(User);
+            var userRole = UserDescriptor.GetUserRole(User);
+
+            await _studentService.SubmitApplicationToEvent(eventId, userId, userRole);
 
             return Ok();
         }
@@ -70,7 +71,9 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> SubmitAttendanceToPair([FromRoute] Guid pairId)
         {
-            await _studentService.SubmitAttendanceToPair(pairId, UserDescriptor.GetUserId(User));
+            var userId = UserDescriptor.GetUserId(User);
+
+            await _studentService.SubmitAttendanceToPair(pairId, userId);
 
             return Ok();
         }
@@ -93,6 +96,5 @@ namespace HelperPE.API.Controllers
 
             return Ok();
         }
-
     }
 }

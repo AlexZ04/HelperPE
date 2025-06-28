@@ -66,5 +66,15 @@ namespace HelperPE.Persistence.Extensions
                 Profile = model.Student.ToDto()
             };
         }
+
+        public static PairAttendanceShortModel ToShortPairAttendanceDto(this PairAttendanceEntity model)
+        {
+            return new PairAttendanceShortModel
+            {
+                Student = model.Student.ToShortDto(),
+                Status = model.Status,
+                ClassesAmount = model.ClassesAmount
+            };
+        }
     }
 }

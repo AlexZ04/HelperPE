@@ -25,9 +25,9 @@ namespace HelperPE.API.Setup
 
             app.UseHttpsRedirection();
 
-            app.MapControllers();
+            app.UseStaticFiles();
 
-            app.UseWebSockets();
+            app.MapControllers();
         }
     }
 }

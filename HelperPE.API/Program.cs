@@ -1,4 +1,5 @@
 using HelperPE.API.Setup;
+using HelperPE.Application.Notifications;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +12,11 @@ SetupAuth.AddAuth(builder);
 
 var app = builder.Build();
 
+SetupWebSockets.AddWebSockets(app);
 SetupSwagger.UseSwagger(app);
 await SetupDatabases.RunMigrations(app);
 SetupAuth.UseAuth(app);
 SetupAspNet.UseAspNet(app);
+SetupWebSockets.UseWebSockets(app);
 
 await app.RunAsync();
