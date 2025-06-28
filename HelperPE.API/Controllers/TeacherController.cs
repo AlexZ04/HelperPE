@@ -85,6 +85,15 @@ namespace HelperPE.API.Controllers
                 UserDescriptor.GetUserId(User))); 
         }
 
+        [HttpGet("attendances/all/{pairId}")]
+        [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
+        [CheckTokens]
+        public async Task<IActionResult> GetAllPairAttendances([FromRoute] Guid pairId)
+        {
+            return Ok(await _teacherService.GetAllPairAttendances(pairId,
+                UserDescriptor.GetUserId(User)));
+        }
+
         [HttpGet("attendances-live")]
         [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
         [CheckTokens]

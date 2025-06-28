@@ -160,5 +160,32 @@ namespace HelperPE.Application.Services.Implementations
                     .ToList(),
             };
         }
+
+        public async Task<PairAttendanceListShortModel> GetAllPairAttendances(
+            Guid pairId, Guid teacherId)
+        {
+            var teacher = await _userRepository.GetTeacherById(teacherId);
+
+            var todayPairs = teacher.Pairs
+                .Where(p => p.Date.Date == DateTime.Today && p.PairId == pairId)
+                .ToList();
+
+            var pendingAttendances = todayPairs
+                .SelectMany(p => p.Attendances)
+                .Select(a => a.ToProfileDto())
+                .ToList();
+
+            return new PairAttendanceListShortModel
+            {
+                Attendances = pendingAttendances.Select(a =>
+                    new PairAttendanceShortModel
+                    {
+                        Status = a.Status,
+                        Student = a.Student,
+                        ClassesAmount = a.ClassesAmount,
+                    })
+                    .ToList(),
+            };
+        }
     }
 }
