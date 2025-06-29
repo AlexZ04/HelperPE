@@ -1,5 +1,4 @@
 using HelperPE.API.Setup;
-using HelperPE.Application.Notifications;
 
 var builder = WebApplication.CreateBuilder(args);
 

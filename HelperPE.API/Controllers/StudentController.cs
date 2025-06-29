@@ -32,7 +32,7 @@ namespace HelperPE.API.Controllers
         }
 
         /// <summary>
-        /// Get list of available events 
+        /// Get list of available events
         /// </summary>
         /// <response code="200">Success</response>
         /// <response code="401">Unauthorized</response>
