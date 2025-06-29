@@ -45,7 +45,15 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> CheckApplicationStatus([FromRoute] Guid eventId)
         {
-            return Ok(await _studentService.CheckApplicationStatus(eventId, UserDescriptor.GetUserId(User)));
+            try
+            {
+                return Ok(await _studentService.CheckApplicationStatus(eventId, UserDescriptor.GetUserId(User)));
+            }
+            catch
+            {
+                return Ok(new { Status = "DidNotVisited" });
+            }
+            
         }
 
         [HttpDelete("application/{eventId}")]
@@ -83,8 +91,15 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> CheckAttendanceStatus([FromRoute] Guid pairId)
         {
-            return Ok(await _studentService
-                .CheckPairAttendanceStatus(pairId, UserDescriptor.GetUserId(User)));
+            try
+            {
+                return Ok(await _studentService
+                    .CheckPairAttendanceStatus(pairId, UserDescriptor.GetUserId(User)));
+            }
+            catch
+            {
+                return Ok(new { Status = "DidNotVisited" });
+            }
         }
 
         [HttpDelete("attendance/{pairId}")]
