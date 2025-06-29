@@ -46,7 +46,9 @@ namespace HelperPE.API.Controllers
         [CheckTokens]
         public async Task<IActionResult> AddCurator(Guid userId, Guid facultyId)
         {
-            return Ok(await _adminService.AddСurator(userId, facultyId));
+            await _adminService.AddСurator(userId, facultyId);
+
+            return Ok();
         }
 
         [HttpDelete("curator")]

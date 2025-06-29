@@ -10,6 +10,6 @@ namespace HelperPE.Persistence.Repositories
 {
     public interface IFacultyRepository
     {
-        public Task<FacultyEntity> GetFaculty (Guid facultyId);
+        public Task<FacultyEntity> GetFaculty(Guid facultyId);
     }
 }

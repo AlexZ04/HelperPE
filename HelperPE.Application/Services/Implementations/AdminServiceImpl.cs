@@ -7,13 +7,7 @@ using HelperPE.Persistence.Entities.Faculty;
 using HelperPE.Persistence.Entities.Users;
 using HelperPE.Persistence.Extensions;
 using HelperPE.Persistence.Repositories;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HelperPE.Application.Services.Implementations
 {
@@ -23,7 +17,11 @@ namespace HelperPE.Application.Services.Implementations
         private readonly IProfileService _profileServiceImpl;
         private readonly IUserRepository _userRepository;
         private readonly IFacultyRepository _facultyRepository;
-        public AdminServiceImpl(DataContext context, IProfileService profileServiceImpl, IUserRepository userRepository, IFacultyRepository facultyRepository)
+
+        public AdminServiceImpl(DataContext context,
+            IProfileService profileServiceImpl,
+            IUserRepository userRepository,
+            IFacultyRepository facultyRepository)
         {
             _context = context;
             _profileServiceImpl = profileServiceImpl;
@@ -31,17 +29,26 @@ namespace HelperPE.Application.Services.Implementations
             _facultyRepository = facultyRepository;
         }
 
-
-
-        public async Task<CuratorProfileDTO> AddСurator(Guid userId, Guid facultyId)
+        public async Task AddСurator(Guid userId, Guid facultyId)
         {
-            var teacher = await GetTeacherById(userId);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+                throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
+
             var faculty = await _facultyRepository.GetFaculty(facultyId);
-            if ( teacher != null)
+
+            if (user.Role == UserRole.Curator)
             {
+                var teacher = await _userRepository.GetCuratorById(userId);
+                teacher.Faculties.Add(faculty);
+            }
+            else
+            {
+                var teacher = await _userRepository.GetTeacherById(userId);
+                
                 CuratorEntity curator = new CuratorEntity()
                 {
-                    Id = teacher.Id, 
+                    Id = teacher.Id,
                     Email = teacher.Email,
                     FullName = teacher.FullName,
                     Role = UserRole.Curator,
@@ -49,28 +56,44 @@ namespace HelperPE.Application.Services.Implementations
                     Avatar = teacher.Avatar,
                     Subjects = teacher.Subjects,
                     Pairs = teacher.Pairs,
-                    Faculties = [faculty]
+                    Faculties = new List<FacultyEntity> { faculty }
                 };
+                
                 _context.Users.Remove(teacher);
-                await _context.AddAsync(curator);    
-                await _context.SaveChangesAsync();
-                return curator.ToDto();
-            }
-            else
-            {
-                var curator = await _userRepository.GetCuratorById(userId);
-                if (curator == null) { throw new NotFoundException(ErrorMessages.USER_NOT_FOUND); }
-                curator.Faculties.Add(faculty);
-                await _context.SaveChangesAsync();
-                return curator.ToDto();
+                _context.Users.Add(curator);
             }
 
+            var currentCurator = await GetFacultyCurator(facultyId, userId);
+            if (currentCurator != null)
+            {
+                currentCurator.Faculties.Remove(faculty);
+
+                if (currentCurator.Faculties.Count == 0)
+                {
+                    TeacherEntity teacher = new TeacherEntity()
+                    {
+                        Id = currentCurator.Id,
+                        Email = currentCurator.Email,
+                        FullName = currentCurator.FullName,
+                        Role = UserRole.Teacher,
+                        Password = currentCurator.Password,
+                        Avatar = currentCurator.Avatar,
+                        Subjects = currentCurator.Subjects,
+                        Pairs = currentCurator.Pairs
+                    };
+                    
+                    _context.Users.Remove(currentCurator);
+                    _context.Users.Add(teacher);
+                }
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteСurator(Guid curatorId, Guid facultyId)
         {
             var curator = await _userRepository.GetCuratorById(curatorId);
-            if (curator == null) { throw new NotFoundException(ErrorMessages.USER_NOT_FOUND); }
+
             var facultyToRemove = curator.Faculties.FirstOrDefault(f => f.Id == facultyId);
 
             if (facultyToRemove != null)
@@ -113,28 +136,28 @@ namespace HelperPE.Application.Services.Implementations
             var teachers = await _profileServiceImpl.GetTeachers();
             return (teachers);
         }
+
         public async Task<List<FacultyEntity>> GetFaculties()
         {
             var faculties = await _context.Faculties.ToListAsync();
             return faculties;
         }
 
-        private async Task<TeacherEntity> GetTeacherById(Guid id)
+        private async Task<CuratorEntity?> GetFacultyCurator(Guid facultyId, Guid userId)
         {
-            var teacher = await _context.Users
-            .OfType<TeacherEntity>()
-            .Include(t => t.Pairs)
-                .ThenInclude(p => p.Subject)
-            .Include(t => t.Pairs)
-                .ThenInclude(p => p.Attendances)
-                    .ThenInclude(a => a.Student)
-            .Include(t => t.Subjects)
-            .Include(u => u.Avatar)
-            .FirstOrDefaultAsync(t => t.Id == id);
-            return teacher;
+            var curator = await _context.Users
+                            .OfType<CuratorEntity>()
+                            .Include(c => c.Pairs)
+                                .ThenInclude(p => p.Subject)
+                            .Include(c => c.Pairs)
+                                .ThenInclude(p => p.Attendances)
+                                    .ThenInclude(a => a.Student)
+                            .Include(c => c.Subjects)
+                            .Include(u => u.Avatar)
+                            .Include(c => c.Faculties)
+                            .FirstOrDefaultAsync(c => c.Faculties.Any(f => f.Id == facultyId) && c.Id != userId);
+
+            return curator;
         }
-
-
-
     }
 }
