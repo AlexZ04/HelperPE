@@ -19,5 +19,6 @@ namespace HelperPE.Application.Services
         public Task CreateOtherActivity(OtherActivityCreateModel activity, Guid studentId, Guid curatorId);
         public Task AddSportOrg(Guid studentId);
         public Task DeleteSportOrg(Guid sportOrgId);
+        public Task<List<StudentProfileShortModel>> GetStudents();
     }
 }

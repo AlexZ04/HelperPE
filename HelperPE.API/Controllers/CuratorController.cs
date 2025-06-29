@@ -128,5 +128,13 @@ namespace HelperPE.API.Controllers
             await _curatorService.DeleteSportOrg(studentId);
             return Ok();
         }
+
+        [HttpGet("students")]
+        [Authorize(Roles = RolesCombinations.CURATOR)]
+        [CheckTokens]
+        public async Task<IActionResult> GetStudents()
+        {
+            return Ok(await _curatorService.GetStudents());
+        }
     }
 }

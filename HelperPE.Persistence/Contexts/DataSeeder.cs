@@ -142,7 +142,7 @@ namespace HelperPE.Persistence.Contexts
                 context.Users.Add(student2);
             }
 
-            var student3Id = new Guid("57bd840f-09b8-4ce4-9350-4df1dd695644");
+            var student3Id = new Guid("8fcb6229-d955-4220-8e8a-9bfe56be0d1e");
             var student3 = context.Users.OfType<StudentEntity>()
                 .FirstOrDefault(s => s.Id == student3Id);
             if (student3 == null)
