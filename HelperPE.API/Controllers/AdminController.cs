@@ -27,12 +27,35 @@ namespace HelperPE.API.Controllers
         }
 
         [HttpGet("curators")]
-        //[Authorize(Roles = RolesCombinations.ADMIN)]
-        //[CheckTokens]
+        [Authorize(Roles = RolesCombinations.ADMIN)]
+        [CheckTokens]
         public async Task<IActionResult> GetCurators()
         {
             return Ok(await _adminService.GetCurators());
         }
+        [HttpGet("faculties")]
+        [Authorize]
+        [CheckTokens]
+        public async Task<IActionResult> GetFaculties()
+        {
+            return Ok(await _adminService.GetFaculties());
+        }
 
+        [HttpPost("curator")]
+        [Authorize(Roles = RolesCombinations.ADMIN)]
+        [CheckTokens]
+        public async Task<IActionResult> AddCurator(Guid userId, Guid facultyId)
+        {
+            return Ok(await _adminService.AddСurator(userId, facultyId));
+        }
+
+        [HttpDelete("curator")]
+        [Authorize(Roles = RolesCombinations.ADMIN)]
+        [CheckTokens]
+        public async Task<IActionResult> DeleteCurator(Guid userId, Guid facultyId)
+        {
+            await _adminService.DeleteСurator(userId, facultyId);
+            return Ok();
+        }
     }
 }

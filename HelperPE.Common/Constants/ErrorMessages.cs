@@ -20,5 +20,7 @@
         public const string YOU_ALREADY_HAVE_AVATAR = "You already have avatar";
         public const string YOU_DONT_HAVE_AVATAR = "You dont have avatar";
         public const string INVALID_FILE_TYPE = "Invalid file type";
+        public const string THERE_IS_NO_SUCH_CURATOR = "There is no such curator";
+        public const string FACULTY_NOT_FOUND = "Faculty not found";
     }
 }

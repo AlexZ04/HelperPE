@@ -55,6 +55,7 @@ namespace HelperPE.Application.Services.Implementations
                 //.Include(t => t.Pairs)
                 .Include(t => t.Subjects)
                 .Include(t => t.Faculties)
+                .Include(t => t.Avatar)
                 .ToListAsync();
 
             return curators.Select(c => c.ToDto()).ToList();
@@ -66,6 +67,7 @@ namespace HelperPE.Application.Services.Implementations
                 .OfType<TeacherEntity>()
                 //.Include(t => t.Pairs)
                 .Include(t => t.Subjects)
+                .Include(t => t.Avatar)
                 .ToListAsync();
      
             return teachers.Select(c => c.ToDto()).ToList();

@@ -10,6 +10,7 @@ namespace HelperPE.API.Setup
             services.AddScoped<IUserRepository, UserRepositoryImpl>();
             services.AddScoped<IEventRepository, EventRepositoryImpl>();
             services.AddScoped<IPairRepository, PairRepositoryImpl>();
+            services.AddScoped<IFacultyRepository, FacultyRepositoryImpl>();
         }
     }
 }
