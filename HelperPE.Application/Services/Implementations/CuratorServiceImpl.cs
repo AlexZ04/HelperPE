@@ -159,13 +159,23 @@ namespace HelperPE.Application.Services.Implementations
         public async Task AddSportOrg(Guid studentId)
         {
             var student = await _userRepository.GetStudentById(studentId);
+
+            var currentSportorg = await _context.Users
+                .FirstOrDefaultAsync(u => u.Role == UserRole.SportsOrganizer);
+
+            if (currentSportorg != null)
+                currentSportorg.Role = UserRole.Student;
+
             student.Role = UserRole.SportsOrganizer;
             await _context.SaveChangesAsync();
         }
+
         public async Task DeleteSportOrg(Guid sportOrgId)
         {
             var sportOrg = await _userRepository.GetSportsById(sportOrgId);
+
             sportOrg.Role = UserRole.Student;
+
             await _context.SaveChangesAsync();
         }
 
