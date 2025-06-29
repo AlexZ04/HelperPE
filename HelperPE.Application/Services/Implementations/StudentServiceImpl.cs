@@ -103,6 +103,8 @@ namespace HelperPE.Application.Services.Implementations
 
             var currentPairNumber = TimeUtility.GetPairNumber();
 
+            if (currentPairNumber == -1) currentPairNumber = 1;
+
             if (pair.Attendances.Any(a => a.StudentId == userId))
                 throw new BadRequestException(ErrorMessages.USER_ALREADY_HAS_APPLICATION);
 
@@ -171,6 +173,7 @@ namespace HelperPE.Application.Services.Implementations
             var tomorrow = today.AddDays(1);
 
             var currentPairNumber = TimeUtility.GetPairNumber();
+            if (currentPairNumber == -1) currentPairNumber = 1;
 
             var todayPairs = await _context.Pairs
                 .Include(p => p.Teacher)

@@ -71,11 +71,11 @@ namespace HelperPE.Application.Services.Implementations
 
             var currentPairNumber = TimeUtility.GetPairNumber();
 
-            if (currentPairNumber == -1)
-                throw new BadRequestException(ErrorMessages.CAN_NOT_CREATE_PAIR);
-
             //if (currentPairNumber == -1)
-            //    currentPairNumber = 1;
+            //    throw new BadRequestException(ErrorMessages.CAN_NOT_CREATE_PAIR);
+
+            if (currentPairNumber == -1)
+                currentPairNumber = 1;
 
             var newPair = new PairEntity
             {
