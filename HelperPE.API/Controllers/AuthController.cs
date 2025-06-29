@@ -19,6 +19,12 @@ namespace HelperPE.API.Controllers
             _authService = authService;
         }
 
+        /// <summary>
+        /// Login with email and password
+        /// </summary>
+        /// <response code="200">Get access and refresh tokens</response>
+        /// <response code="500">Internal server error</response>
+        [ProducesResponseType(typeof(List<TokenResponseModel>), StatusCodes.Status200OK)]
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> LoginUser([FromBody] LoginUserModel loginModel)
