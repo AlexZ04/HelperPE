@@ -75,7 +75,7 @@ namespace HelperPE.API.Controllers
             }
             catch
             {
-                return Ok(new { Status = "DidNotVisited" });
+                return Ok(new { Status = "DidNotVisit" });
             }
             
         }
@@ -153,7 +153,7 @@ namespace HelperPE.API.Controllers
             }
             catch
             {
-                return Ok(new { Status = "DidNotVisited" });
+                return Ok(new { Status = "DidNotVisit" });
             }
         }
 

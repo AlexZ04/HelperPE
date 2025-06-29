@@ -44,7 +44,7 @@ namespace HelperPE.Application.Services.Implementations
             if (userRole == RolesCombinations.SPORTS)
                 user = await _userRepository.GetStudentById(userId);
 
-            if (user.EventsAttendances.Select(e => e.StudentId).Contains(userId))
+            if (foundEvent.Attendances.Any(a => a.StudentId == userId))
                 throw new BadRequestException(ErrorMessages.USER_ALREADY_HAS_APPLICATION);
 
             var newEventAttendance = new EventAttendanceEntity
@@ -69,7 +69,7 @@ namespace HelperPE.Application.Services.Implementations
             var application = GetEventApplicationEntity(foundEvent, userId);
 
             return new EventAttendanceStatusModel { 
-                EventApplicationStatus = application.Status
+                Status = application.Status
             };
         }
 
@@ -103,7 +103,7 @@ namespace HelperPE.Application.Services.Implementations
 
             var currentPairNumber = TimeUtility.GetPairNumber();
 
-            if (user.PairAttendances.Select(e => e.StudentId).Contains(userId))
+            if (pair.Attendances.Any(a => a.StudentId == userId))
                 throw new BadRequestException(ErrorMessages.USER_ALREADY_HAS_APPLICATION);
 
             if (pair.PairNumber != currentPairNumber)
