@@ -10,7 +10,7 @@ namespace HelperPE.Application.Notifications
         private readonly object _lockObject = new();
         private bool _isStarted = false;
 
-        public WebSocketService(string url = "ws://0.0.0.0:8181")
+        public WebSocketService(string url = "http://0.0.0.0:8181")
         {
             _server = new WebSocketServer(url);
         }

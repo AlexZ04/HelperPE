@@ -23,7 +23,7 @@ namespace HelperPE.API.Setup
         {
             app.UseExceptionHandler();
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 

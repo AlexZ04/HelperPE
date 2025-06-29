@@ -6,5 +6,6 @@ namespace HelperPE.Application.Notifications.NotificationSender
     {
         public void NotifyPairAttendanceSubmitted(PairAttendanceProfileModel attendance);
         public void NotifyPairAttendanceDeleted(PairAttendanceProfileModel attendance);
+        public void TestMessage(string message);
     }
 }

@@ -47,7 +47,8 @@ namespace HelperPE.Persistence.Extensions
 
             foreach (var attendance in model.PairAttendances)
             {
-                if (attendance.Pair.Date >= semesterStart && attendance.Pair.Date < semesterEnd)
+                if (attendance.Pair.Date >= semesterStart && attendance.Pair.Date < semesterEnd 
+                    && attendance.Status == PairAttendanceStatus.Accepted)
                     classesAmount += attendance.ClassesAmount;
             }
 

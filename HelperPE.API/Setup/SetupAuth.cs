@@ -26,12 +26,23 @@ namespace HelperPE.API.Setup
                 });
 
             builder.Services.AddAuthorization();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyOrigin();
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                });
+            });
         }
 
         public static void UseAuth(WebApplication app)
         {
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseCors();
         }
     }
 }

@@ -15,10 +15,20 @@ namespace HelperPE.API.Controllers
     public class StudentController : ControllerBase
     {
         private readonly IStudentService _studentService;
-        
-        public StudentController(IStudentService studentService)
+        private readonly IWebSocketNotificationService _notificationService;
+
+        public StudentController(IStudentService studentService, IWebSocketNotificationService notificationService)
         {
             _studentService = studentService;
+            _notificationService = notificationService;
+        }
+
+        [HttpGet("test-socket")]
+        public IActionResult Get()
+        {
+            _notificationService.TestMessage("hello");
+
+            return Ok();
         }
 
         /// <summary>

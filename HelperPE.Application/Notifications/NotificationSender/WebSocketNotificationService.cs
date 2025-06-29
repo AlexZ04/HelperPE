@@ -34,5 +34,9 @@ namespace HelperPE.Application.Notifications.NotificationSender
             _webSocketService.BroadcastMessage(notification);
         }
 
+        public void TestMessage(string message)
+        {
+            _webSocketService.BroadcastMessage(message);
+        }
     }
 }
