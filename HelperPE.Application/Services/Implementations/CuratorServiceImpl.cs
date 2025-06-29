@@ -160,12 +160,6 @@ namespace HelperPE.Application.Services.Implementations
         {
             var student = await _userRepository.GetStudentById(studentId);
 
-            var currentSportorg = await _context.Users
-                .FirstOrDefaultAsync(u => u.Role == UserRole.SportsOrganizer);
-
-            if (currentSportorg != null)
-                currentSportorg.Role = UserRole.Student;
-
             student.Role = UserRole.SportsOrganizer;
             await _context.SaveChangesAsync();
         }
