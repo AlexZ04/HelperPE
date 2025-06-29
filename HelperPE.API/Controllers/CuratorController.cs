@@ -7,6 +7,7 @@ using HelperPE.Persistence.Contexts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace HelperPE.API.Controllers
 {
@@ -107,6 +108,24 @@ namespace HelperPE.API.Controllers
             await _curatorService.CreateOtherActivity(activity,
                 studentId, UserDescriptor.GetUserId(User));
 
+            return Ok();
+        }
+
+        [HttpPost("{studentId}")]
+        [Authorize(Roles = RolesCombinations.CURATOR)]
+        [CheckTokens]
+        public async Task<IActionResult> AddCurator([Required, FromRoute]Guid studentId)
+        {
+            await _curatorService.AddSportOrg(studentId);
+            return Ok();
+        }
+
+        [HttpDelete("{studentId}")]
+        [Authorize(Roles = RolesCombinations.CURATOR)]
+        [CheckTokens]
+        public async Task<IActionResult> DeleteCurator([Required, FromRoute] Guid studentId)
+        {
+            await _curatorService.DeleteSportOrg(studentId);
             return Ok();
         }
     }

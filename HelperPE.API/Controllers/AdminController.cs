@@ -4,6 +4,7 @@ using HelperPE.Infrastructure.Filters;
 using HelperPE.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace HelperPE.API.Controllers
 {
@@ -44,7 +45,7 @@ namespace HelperPE.API.Controllers
         [HttpPost("curator")]
         [Authorize(Roles = RolesCombinations.ADMIN)]
         [CheckTokens]
-        public async Task<IActionResult> AddCurator(Guid userId, Guid facultyId)
+        public async Task<IActionResult> AddCurator([Required] Guid userId, [Required] Guid facultyId)
         {
             await _adminService.AddСurator(userId, facultyId);
 
@@ -54,7 +55,7 @@ namespace HelperPE.API.Controllers
         [HttpDelete("curator")]
         [Authorize(Roles = RolesCombinations.ADMIN)]
         [CheckTokens]
-        public async Task<IActionResult> DeleteCurator(Guid userId, Guid facultyId)
+        public async Task<IActionResult> DeleteCurator([Required] Guid userId, [Required] Guid facultyId)
         {
             await _adminService.DeleteСurator(userId, facultyId);
             return Ok();

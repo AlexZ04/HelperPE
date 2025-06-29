@@ -29,6 +29,7 @@ namespace HelperPE.Application.Services.Implementations
             _facultyRepository = facultyRepository;
         }
 
+        
         public async Task AddСurator(Guid userId, Guid facultyId)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -39,52 +40,22 @@ namespace HelperPE.Application.Services.Implementations
 
             if (user.Role == UserRole.Curator)
             {
-                var teacher = await _userRepository.GetCuratorById(userId);
-                teacher.Faculties.Add(faculty);
+                var curator = await _userRepository.GetCuratorById(userId);
+                if (!curator.Faculties.Any(f => f.Id == faculty.Id))
+                {
+                    curator.Faculties.Add(faculty);
+                }
+                else { throw new BadRequestException(ErrorMessages.CURATOR_ALREADY_HAS_THIS_FACULTY); }
             }
             else
             {
                 var teacher = await _userRepository.GetTeacherById(userId);
-                
-                CuratorEntity curator = new CuratorEntity()
-                {
-                    Id = teacher.Id,
-                    Email = teacher.Email,
-                    FullName = teacher.FullName,
-                    Role = UserRole.Curator,
-                    Password = teacher.Password,
-                    Avatar = teacher.Avatar,
-                    Subjects = teacher.Subjects,
-                    Pairs = teacher.Pairs,
-                    Faculties = new List<FacultyEntity> { faculty }
-                };
-                
-                _context.Users.Remove(teacher);
-                _context.Users.Add(curator);
-            }
+                teacher.Role = UserRole.Curator;
+                await _context.SaveChangesAsync();
+                _context.ChangeTracker.Clear();
 
-            var currentCurator = await GetFacultyCurator(facultyId, userId);
-            if (currentCurator != null)
-            {
-                currentCurator.Faculties.Remove(faculty);
-
-                if (currentCurator.Faculties.Count == 0)
-                {
-                    TeacherEntity teacher = new TeacherEntity()
-                    {
-                        Id = currentCurator.Id,
-                        Email = currentCurator.Email,
-                        FullName = currentCurator.FullName,
-                        Role = UserRole.Teacher,
-                        Password = currentCurator.Password,
-                        Avatar = currentCurator.Avatar,
-                        Subjects = currentCurator.Subjects,
-                        Pairs = currentCurator.Pairs
-                    };
-                    
-                    _context.Users.Remove(currentCurator);
-                    _context.Users.Add(teacher);
-                }
+                var newCurator = await _userRepository.GetCuratorById(userId);
+                newCurator.Faculties.Add(faculty);
             }
 
             await _context.SaveChangesAsync();
@@ -103,19 +74,8 @@ namespace HelperPE.Application.Services.Implementations
                 await _context.SaveChangesAsync(); 
                 if(curator.Faculties.Count() == 0)
                 {
-                    TeacherEntity teacher = new TeacherEntity()
-                    {
-                        Id = curator.Id,
-                        Email = curator.Email,
-                        FullName = curator.FullName,
-                        Role = UserRole.Teacher,
-                        Password = curator.Password,
-                        Avatar = curator.Avatar,
-                        Subjects = curator.Subjects,
-                        Pairs = curator.Pairs
-                    };
-                    _context.Users.Remove(curator);
-                    await _context.AddAsync(teacher);
+                    var exCurator = await _userRepository.GetCuratorById(curatorId);
+                    exCurator.Role = UserRole.Teacher;
                     await _context.SaveChangesAsync();
                 }
             }

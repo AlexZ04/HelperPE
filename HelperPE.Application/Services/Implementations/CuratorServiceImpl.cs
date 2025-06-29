@@ -150,5 +150,18 @@ namespace HelperPE.Application.Services.Implementations
             _context.OtherActivities.Add(newActivity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task AddSportOrg(Guid studentId)
+        {
+            var student = await _userRepository.GetStudentById(studentId);
+            student.Role = UserRole.SportsOrganizer;
+            await _context.SaveChangesAsync();
+        }
+        public async Task DeleteSportOrg(Guid sportOrgId)
+        {
+            var sportOrg = await _userRepository.GetSportsById(sportOrgId);
+            sportOrg.Role = UserRole.Student;
+            await _context.SaveChangesAsync();
+        }
     }
 }
