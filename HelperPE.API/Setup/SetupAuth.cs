@@ -26,7 +26,6 @@ namespace HelperPE.API.Setup
                 });
 
             builder.Services.AddAuthorization();
-
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>

@@ -3,6 +3,7 @@ using System;
 using HelperPE.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HelperPE.Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250629174247_newDiscriminator")]
+    partial class newDiscriminator
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +40,7 @@ namespace HelperPE.Persistence.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("EventsAttendances", (string)null);
+                    b.ToTable("EventsAttendances");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Events.EventEntity", b =>
@@ -71,7 +74,7 @@ namespace HelperPE.Persistence.Migrations
 
                     b.HasIndex("SportsOrganizerEntityId");
 
-                    b.ToTable("Events", (string)null);
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Faculty.FacultyEntity", b =>
@@ -91,7 +94,7 @@ namespace HelperPE.Persistence.Migrations
 
                     b.HasIndex("CuratorEntityId");
 
-                    b.ToTable("Faculties", (string)null);
+                    b.ToTable("Faculties");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.FileEntity", b =>
@@ -110,7 +113,7 @@ namespace HelperPE.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Files", (string)null);
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Pairs.OtherActivitiesEntity", b =>
@@ -141,7 +144,7 @@ namespace HelperPE.Persistence.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("OtherActivities", (string)null);
+                    b.ToTable("OtherActivities");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Pairs.PairAttendanceEntity", b =>
@@ -162,7 +165,7 @@ namespace HelperPE.Persistence.Migrations
 
                     b.HasIndex("PairId");
 
-                    b.ToTable("PairsAttendances", (string)null);
+                    b.ToTable("PairsAttendances");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Pairs.PairEntity", b =>
@@ -189,7 +192,7 @@ namespace HelperPE.Persistence.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Pairs", (string)null);
+                    b.ToTable("Pairs");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Pairs.SubjectEntity", b =>
@@ -204,7 +207,7 @@ namespace HelperPE.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subjects", (string)null);
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.RefreshTokenEntity", b =>
@@ -227,7 +230,7 @@ namespace HelperPE.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens", (string)null);
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.UserEntity", b =>
@@ -258,7 +261,7 @@ namespace HelperPE.Persistence.Migrations
 
                     b.HasIndex("AvatarId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasDiscriminator<int>("Role");
 
@@ -277,7 +280,7 @@ namespace HelperPE.Persistence.Migrations
 
                     b.HasIndex("TeachersId");
 
-                    b.ToTable("SubjectEntityTeacherEntity", (string)null);
+                    b.ToTable("SubjectEntityTeacherEntity");
                 });
 
             modelBuilder.Entity("HelperPE.Persistence.Entities.Users.AdminEntity", b =>

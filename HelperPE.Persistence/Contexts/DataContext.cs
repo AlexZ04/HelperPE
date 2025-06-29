@@ -26,12 +26,12 @@ namespace HelperPE.Persistence.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserEntity>()
-                .HasDiscriminator<string>("UserType")
-                .HasValue<TeacherEntity>("Teacher")
-                .HasValue<CuratorEntity>("Curator")
-                .HasValue<SportsOrganizerEntity>("SportsOrganizer")
-                .HasValue<StudentEntity>("Student")
-                .HasValue<AdminEntity>("Admin");
+                .HasDiscriminator(e => e.Role)
+                .HasValue<TeacherEntity>(UserRole.Teacher)
+                .HasValue<CuratorEntity>(UserRole.Curator)
+                .HasValue<SportsOrganizerEntity>(UserRole.SportsOrganizer)
+                .HasValue<StudentEntity>(UserRole.Student)
+                .HasValue<AdminEntity>(UserRole.Admin);
 
             modelBuilder.Entity<EventEntity>()
                 .HasKey(e => e.EventId);
