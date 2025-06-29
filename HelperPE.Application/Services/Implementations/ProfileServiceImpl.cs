@@ -1,4 +1,5 @@
-﻿using HelperPE.Common.Models.Profile;
+﻿using HelperPE.Common.Enums;
+using HelperPE.Common.Models.Profile;
 using HelperPE.Infrastructure.Utilities;
 using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Entities.Users;
@@ -80,8 +81,10 @@ namespace HelperPE.Application.Services.Implementations
             {
                 Student = student.ToDto(),
                 Pairs = student.PairAttendances
+                    .Where(a => a.Status == PairAttendanceStatus.Accepted)
                     .Select(a => a.ToDto()).ToList(),
                 Events = student.EventsAttendances
+                    .Where(a => a.Status == EventApplicationStatus.Credited)
                     .Select(a => a.ToDto()).ToList(),
                 OtherActivities = student.OtherActivities
                     .Select(a => a.ToDto()).ToList()
