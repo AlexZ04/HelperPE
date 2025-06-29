@@ -54,8 +54,11 @@ namespace HelperPE.Application.Services.Implementations
         {
             var teacher = await _userRepository.GetTeacherById(teacherId);
 
+            var today = DateTime.UtcNow.Date;
+            var tomorrow = today.AddDays(1);
+
             var todayPairs = teacher.Pairs
-                .Where(p => p.Date.Date == DateTime.Today)
+                .Where(p => p.Date >= today && p.Date < tomorrow)
                 .ToList();
 
             return new TeacherPairsModel
@@ -119,8 +122,11 @@ namespace HelperPE.Application.Services.Implementations
         {
             var teacher = await _userRepository.GetTeacherById(teacherId);
 
+            var today = DateTime.UtcNow.Date;
+            var tomorrow = today.AddDays(1);
+
             var todayPairs = teacher.Pairs
-                .Where(p => p.Date.Date == DateTime.Today)
+                .Where(p => p.Date >= today && p.Date < tomorrow)
                 .ToList();
 
             var pendingAttendances = todayPairs
@@ -140,8 +146,11 @@ namespace HelperPE.Application.Services.Implementations
         {
             var teacher = await _userRepository.GetTeacherById(teacherId);
 
+            var today = DateTime.UtcNow.Date;
+            var tomorrow = today.AddDays(1);
+
             var todayPairs = teacher.Pairs
-                .Where(p => p.Date.Date == DateTime.Today && p.PairId == pairId)
+                .Where(p => p.Date >= today && p.Date < tomorrow && p.PairId == pairId)
                 .ToList();
 
             var pendingAttendances = todayPairs
@@ -168,8 +177,11 @@ namespace HelperPE.Application.Services.Implementations
         {
             var teacher = await _userRepository.GetTeacherById(teacherId);
 
+            var today = DateTime.UtcNow.Date;
+            var tomorrow = today.AddDays(1);
+
             var todayPairs = teacher.Pairs
-                .Where(p => p.Date.Date == DateTime.Today && p.PairId == pairId)
+                .Where(p => p.Date >= today && p.Date < tomorrow && p.PairId == pairId)
                 .ToList();
 
             var pendingAttendances = todayPairs
@@ -196,8 +208,11 @@ namespace HelperPE.Application.Services.Implementations
         {
             var teacher = await _userRepository.GetTeacherById(teacherId);
 
+            var today = DateTime.UtcNow.Date;
+            var tomorrow = today.AddDays(1);
+
             var todayPairs = teacher.Pairs
-                .Where(p => p.Date.Date == DateTime.Today && p.PairId == pairId)
+                .Where(p => p.Date >= today && p.Date < tomorrow && p.PairId == pairId)
                 .ToList();
 
             var pendingAttendances = todayPairs
