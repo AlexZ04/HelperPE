@@ -74,6 +74,7 @@ namespace HelperPE.Application.Services.Implementations
             var users = await _context.Users
                 .OfType<StudentEntity>()
                 .Include(u => u.Faculty)
+                .Include(u => u.Avatar)
                 .Where(u => u.Group == groupNumber)
                 .ToListAsync();
 
@@ -108,6 +109,7 @@ namespace HelperPE.Application.Services.Implementations
                 .Include(e => e.Faculty)
                 .Include(e => e.Attendances)
                     .ThenInclude(a => a.Student)
+                        .ThenInclude(s => s.Avatar)
                 .Where(e => faculties.Select(f => f.Id).Contains(e.Faculty.Id)
                             && e.Date >= monthAgo)
                 .ToListAsync();

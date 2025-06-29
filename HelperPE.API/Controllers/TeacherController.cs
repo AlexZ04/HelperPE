@@ -44,7 +44,6 @@ namespace HelperPE.API.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Subject not found</response>
         /// <response code="500">Internal server error</response>
-        [ProducesResponseType(typeof(TeacherPairsModel), StatusCodes.Status200OK)]
         [HttpPost("pairs")]
         [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
         [CheckTokens]

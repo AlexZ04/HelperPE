@@ -21,6 +21,7 @@ namespace HelperPE.Persistence.Repositories.Implementations
                 .Include(e => e.Faculty)
                 .Include(e => e.Attendances)
                     .ThenInclude(a => a.Student)
+                        .ThenInclude(s => s.Avatar)
                 .FirstOrDefaultAsync(e => e.EventId == eventId);
 
             if (foundEvent == null)

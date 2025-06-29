@@ -38,7 +38,7 @@ namespace HelperPE.Application.Services.Implementations
         public async Task<GuidResponseModel> ChangeAvatar(Guid userId, IFormFile avatar)
         {
             var user = await _userRepository.GetUserById(userId);
-            if (user.Avatar == null) { throw new BadRequestException(ErrorMessages.YOU_DONT_HAVE_AVATAR); }
+            //if (user.Avatar == null) { throw new BadRequestException(ErrorMessages.YOU_DONT_HAVE_AVATAR); }
 
             user.Avatar = await CreateFile(avatar);
             await _context.SaveChangesAsync();

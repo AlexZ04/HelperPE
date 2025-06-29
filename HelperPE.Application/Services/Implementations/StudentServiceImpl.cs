@@ -177,6 +177,7 @@ namespace HelperPE.Application.Services.Implementations
 
             var todayPairs = await _context.Pairs
                 .Include(p => p.Teacher)
+                    .ThenInclude(t => t.Avatar)
                 .Include(p => p.Subject)
                 .Where(p => p.Date >= today && p.Date < tomorrow && p.PairNumber == currentPairNumber)
                 .ToListAsync();
@@ -206,6 +207,7 @@ namespace HelperPE.Application.Services.Implementations
                 .Include(e => e.Faculty)
                 .Include(e => e.Attendances)
                     .ThenInclude(a => a.Student)
+                        .ThenInclude(s => s.Avatar)
                 .Where(e => faculty.Id == e.Faculty.Id && e.Date >= monthAgo)
                 .ToListAsync();
 
