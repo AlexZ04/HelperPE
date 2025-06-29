@@ -4,6 +4,7 @@ using HelperPE.Common.Exceptions;
 using HelperPE.Common.Models;
 using HelperPE.Common.Models.Event;
 using HelperPE.Common.Models.Pairs;
+using HelperPE.Infrastructure.Utilities;
 using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Entities.Events;
 using HelperPE.Persistence.Entities.Pairs;
@@ -100,8 +101,13 @@ namespace HelperPE.Application.Services.Implementations
             var user = await _userRepository.GetStudentById(userId);
             var pair = await _pairRepository.GetPair(pairId);
 
+            var currentPairNumber = TimeUtility.GetPairNumber();
+
             if (user.PairAttendances.Select(e => e.StudentId).Contains(userId))
                 throw new BadRequestException(ErrorMessages.USER_ALREADY_HAS_APPLICATION);
+
+            if (pair.PairNumber != currentPairNumber)
+                throw new BadRequestException(ErrorMessages.YOU_ARE_LATE);
 
             var newAttendance = new PairAttendanceEntity
             {
@@ -141,6 +147,9 @@ namespace HelperPE.Application.Services.Implementations
 
             var attendance = GetPairAttendanceEntity(pair, userId);
 
+            var notificationObject = attendance.ToProfileDto();
+            _notificationService.NotifyPairAttendanceDeleted(notificationObject);
+
             pair.Attendances.Remove(attendance);
             user.PairAttendances.Remove(attendance);
 
@@ -161,10 +170,12 @@ namespace HelperPE.Application.Services.Implementations
             var today = DateTime.UtcNow.Date;
             var tomorrow = today.AddDays(1);
 
+            var currentPairNumber = TimeUtility.GetPairNumber();
+
             var todayPairs = await _context.Pairs
                 .Include(p => p.Teacher)
                 .Include(p => p.Subject)
-                .Where(p => p.Date >= today && p.Date < tomorrow)
+                .Where(p => p.Date >= today && p.Date < tomorrow && p.PairNumber == currentPairNumber)
                 .ToListAsync();
 
             return new PairListModel
