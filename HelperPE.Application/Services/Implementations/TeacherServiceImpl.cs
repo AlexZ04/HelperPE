@@ -94,7 +94,9 @@ namespace HelperPE.Application.Services.Implementations
             int classesAmount = 1, bool approve = true)
         {
             var attendance = await _context.PairsAttendances
-                 .FirstOrDefaultAsync(a => a.StudentId == userId && a.PairId == pairId);
+                .Include(p => p.Student)
+                .Include(p => p.Pair)
+                .FirstOrDefaultAsync(a => a.StudentId == userId && a.PairId == pairId);
 
             if (attendance == null)
                 throw new DirectoryNotFoundException(ErrorMessages.ATTENDANCE_NOT_FOUND);
@@ -110,7 +112,7 @@ namespace HelperPE.Application.Services.Implementations
             else
                 attendance.Status = PairAttendanceStatus.Declined;
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<PairAttendancesListModel> GetPairAttendances(Guid teacherId)

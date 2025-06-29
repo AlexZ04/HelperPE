@@ -45,10 +45,11 @@ namespace HelperPE.Persistence.Extensions
                     classesAmount += attendance.ClassesAmount;
             }
 
-            classesAmount += model.PairAttendances
-                .Where(a => a.Status == PairAttendanceStatus.Accepted &&
-                            a.Pair.Date >= semesterStart && a.Pair.Date < semesterEnd)
-                .Count();
+            foreach (var attendance in model.PairAttendances)
+            {
+                if (attendance.Pair.Date >= semesterStart && attendance.Pair.Date < semesterEnd)
+                    classesAmount += attendance.ClassesAmount;
+            }
 
             return classesAmount;
         }
