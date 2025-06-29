@@ -11,7 +11,7 @@ namespace HelperPE.Application.Notifications.NotificationSender
         {
             _webSocketService = webSocketService;
         }
-
+        
         public void NotifyPairAttendanceSubmitted(PairAttendanceProfileModel attendance)
         {
             var notification = new WebSocketNotificationModel
@@ -22,5 +22,17 @@ namespace HelperPE.Application.Notifications.NotificationSender
 
             _webSocketService.BroadcastMessage(notification);
         }
+
+        public void NotifyPairAttendanceDeleted(PairAttendanceProfileModel attendance)
+        {
+            var notification = new WebSocketNotificationModel
+            {
+                Message = "Pair attendance deleted",
+                Data = attendance
+            };
+
+            _webSocketService.BroadcastMessage(notification);
+        }
+
     }
 }

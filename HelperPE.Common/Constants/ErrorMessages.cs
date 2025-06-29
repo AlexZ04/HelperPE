@@ -20,5 +20,6 @@
         public const string YOU_ALREADY_HAVE_AVATAR = "You already have avatar";
         public const string YOU_DONT_HAVE_AVATAR = "You dont have avatar";
         public const string INVALID_FILE_TYPE = "Invalid file type";
+        public const string YOU_ARE_LATE = "You are late";
     }
 }
