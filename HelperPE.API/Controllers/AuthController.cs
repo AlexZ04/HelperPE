@@ -32,6 +32,12 @@ namespace HelperPE.API.Controllers
             return Ok(await _authService.Login(loginModel));
         }
 
+        /// <summary>
+        /// Get new pairs of tokens with refresh token
+        /// </summary>
+        /// <response code="200">Get access and refresh tokens</response>
+        /// <response code="500">Internal server error</response>
+        [ProducesResponseType(typeof(List<TokenResponseModel>), StatusCodes.Status200OK)]
         [HttpPost("refresh")]
         [AllowAnonymous]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenModel refreshToken)
@@ -39,6 +45,12 @@ namespace HelperPE.API.Controllers
             return Ok(await _authService.RefreshToken(refreshToken));
         }
 
+        /// <summary>
+        /// Get new pairs of tokens with refresh token
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="500">Internal server error</response>
         [HttpPost("logout")]
         [Authorize]
         [CheckTokens]
@@ -50,6 +62,13 @@ namespace HelperPE.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Get info about current user session (role)
+        /// </summary>
+        /// <response code="200">Get access and refresh tokens</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="500">Internal server error</response>
+        [ProducesResponseType(typeof(SessionModel), StatusCodes.Status200OK)]
         [HttpGet("session")]
         [Authorize]
         [CheckTokens]
