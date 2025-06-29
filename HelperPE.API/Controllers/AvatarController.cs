@@ -24,6 +24,7 @@ namespace HelperPE.API.Controllers
         /// Get user avatar by id
         /// </summary>
         /// <response code="200">Success</response>
+        /// <response code="401">Unauthorized</response>
         /// <response code="500">Internal server error</response>
         [ProducesResponseType(typeof(File), StatusCodes.Status200OK)]
         [HttpGet("")]
@@ -42,6 +43,7 @@ namespace HelperPE.API.Controllers
         /// Upload avatar
         /// </summary>
         /// <response code="200">Success</response>
+        /// <response code="401">Unauthorized</response>
         /// <response code="500">Internal server error</response>
         [ProducesResponseType(typeof(GuidResponseModel), StatusCodes.Status200OK)]
         [HttpPost("")]
@@ -56,6 +58,7 @@ namespace HelperPE.API.Controllers
         /// Delete file by id
         /// </summary>
         /// <response code="200">Success</response>
+        /// <response code="401">Unauthorized</response>
         /// <response code="500">Internal server error</response>
         [HttpDelete("")]
         [Authorize]
@@ -70,6 +73,7 @@ namespace HelperPE.API.Controllers
         /// Change user avatar
         /// </summary>
         /// <response code="200">Success</response>
+        /// <response code="401">Unauthorized</response>
         /// <response code="500">Internal server error</response>
         [ProducesResponseType(typeof(GuidResponseModel), StatusCodes.Status200OK)]
         [HttpPut("")]
