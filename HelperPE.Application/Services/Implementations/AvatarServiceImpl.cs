@@ -1,5 +1,6 @@
 ﻿using HelperPE.Common.Constants;
 using HelperPE.Common.Exceptions;
+using HelperPE.Common.Models;
 using HelperPE.Persistence.Contexts;
 using HelperPE.Persistence.Entities;
 using HelperPE.Persistence.Repositories;
@@ -22,23 +23,29 @@ namespace HelperPE.Application.Services.Implementations
             _userRepository = userRepository;
         }
 
-        public async Task<Guid> AddAvatar(Guid userId, IFormFile avatar) //? CredentialsException
+        public async Task<GuidResponseModel> AddAvatar(Guid userId, IFormFile avatar) //? CredentialsException
         {
             var user = await _userRepository.GetUserById(userId);
             if(user.Avatar != null) { throw new BadRequestException(ErrorMessages.YOU_ALREADY_HAVE_AVATAR); }
             user.Avatar = await CreateFile(avatar);
             await _context.SaveChangesAsync();
-            return (user.Avatar.Id);
+            return new GuidResponseModel 
+                {
+                    Id = (user.Avatar.Id) 
+                };
         }
 
-        public async Task<Guid> ChangeAvatar(Guid userId, IFormFile avatar)
+        public async Task<GuidResponseModel> ChangeAvatar(Guid userId, IFormFile avatar)
         {
             var user = await _userRepository.GetUserById(userId);
             if (user.Avatar == null) { throw new BadRequestException(ErrorMessages.YOU_DONT_HAVE_AVATAR); }
 
             user.Avatar = await CreateFile(avatar);
             await _context.SaveChangesAsync();
-            return (user.Avatar.Id);
+            return new GuidResponseModel
+            {
+                Id = (user.Avatar.Id)
+            };
         }
 
         public async Task DeleteAvatar(Guid userId)

@@ -1,5 +1,7 @@
 ﻿using HelperPE.Application.Services;
 using HelperPE.Common.Constants;
+using HelperPE.Common.Models;
+using HelperPE.Common.Models.Auth;
 using HelperPE.Infrastructure.Filters;
 using HelperPE.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +20,12 @@ namespace HelperPE.API.Controllers
             _avatarService = avatarService;
         }
 
-
+        /// <summary>
+        /// Get user avatar by id
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="500">Internal server error</response>
+        [ProducesResponseType(typeof(File), StatusCodes.Status200OK)]
         [HttpGet("")]
         [Authorize]
         [CheckTokens]
@@ -31,7 +38,12 @@ namespace HelperPE.API.Controllers
             //return File(content, contentType); -- файл
         }
 
-
+        /// <summary>
+        /// Upload avatar
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="500">Internal server error</response>
+        [ProducesResponseType(typeof(GuidResponseModel), StatusCodes.Status200OK)]
         [HttpPost("")]
         [Authorize]
         [CheckTokens]
@@ -40,6 +52,11 @@ namespace HelperPE.API.Controllers
             return Ok(await _avatarService.AddAvatar(UserDescriptor.GetUserId(User), avatar));
         }
 
+        /// <summary>
+        /// Delete file by id
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="500">Internal server error</response>
         [HttpDelete("")]
         [Authorize]
         [CheckTokens]
@@ -48,7 +65,13 @@ namespace HelperPE.API.Controllers
             await _avatarService.DeleteAvatar(UserDescriptor.GetUserId(User));
             return Ok();
         }
-       
+
+        /// <summary>
+        /// Change user avatar
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="500">Internal server error</response>
+        [ProducesResponseType(typeof(GuidResponseModel), StatusCodes.Status200OK)]
         [HttpPut("")]
         [Authorize]
         [CheckTokens]
