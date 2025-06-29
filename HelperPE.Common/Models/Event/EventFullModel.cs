@@ -13,5 +13,7 @@ namespace HelperPE.Common.Models.Event
         public required FacultyDTO Faculty { get; set; }
         public List<ProfileAttendanceEventModel> Attendances { get; set; }
             = new List<ProfileAttendanceEventModel>();
+        public List<ProfileAttendanceEventModel> PendingAttendances { get; set; }
+            = new List<ProfileAttendanceEventModel>();
     }
 }

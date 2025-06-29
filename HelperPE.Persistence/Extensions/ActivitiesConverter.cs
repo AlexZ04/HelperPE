@@ -1,4 +1,5 @@
-﻿using HelperPE.Common.Models.Curator;
+﻿using HelperPE.Common.Enums;
+using HelperPE.Common.Models.Curator;
 using HelperPE.Common.Models.Event;
 using HelperPE.Common.Models.Pairs;
 using HelperPE.Persistence.Entities.Events;
@@ -42,7 +43,12 @@ namespace HelperPE.Persistence.Extensions
                 Description = model.Description,
                 Date = model.Date,
                 Faculty = model.Faculty.ToDto(),
-                Attendances = model.Attendances.Select(a => a.ToProfileDto()).ToList()
+                Attendances = model.Attendances
+                    .Where(a => a.Status != EventApplicationStatus.Pending)
+                    .Select(a => a.ToProfileDto()).ToList(),
+                PendingAttendances = model.Attendances
+                    .Where(a => a.Status == EventApplicationStatus.Pending)
+                    .Select(a => a.ToProfileDto()).ToList()
             };
         }
 
