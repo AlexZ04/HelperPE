@@ -76,13 +76,22 @@ namespace HelperPE.API.Controllers
                 (UserDescriptor.GetUserId(User)));
         }
 
-        [HttpGet("attendances/{pairId}")]
+        [HttpGet("attendances/pending/{pairId}")]
         [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
         [CheckTokens]
-        public async Task<IActionResult> GetPairAttendances([FromRoute] Guid pairId)
+        public async Task<IActionResult> GetPendingPairAttendances([FromRoute] Guid pairId)
         {
-            return Ok(await _teacherService.GetPairAttendances(pairId,
+            return Ok(await _teacherService.GetPendingPairAttendances(pairId,
                 UserDescriptor.GetUserId(User))); 
+        }
+
+        [HttpGet("attendances/solved/{pairId}")]
+        [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
+        [CheckTokens]
+        public async Task<IActionResult> GetSolvedPairAttendances([FromRoute] Guid pairId)
+        {
+            return Ok(await _teacherService.GetSolvedPairAttendances(pairId,
+                UserDescriptor.GetUserId(User)));
         }
 
         [HttpGet("attendances/all/{pairId}")]
@@ -92,22 +101,6 @@ namespace HelperPE.API.Controllers
         {
             return Ok(await _teacherService.GetAllPairAttendances(pairId,
                 UserDescriptor.GetUserId(User)));
-        }
-
-        [HttpGet("attendances-live")]
-        [Authorize(Roles = RolesCombinations.TEACHER_AND_CURATOR)]
-        [CheckTokens]
-        public async Task<IActionResult> GetActualAttendancesLive()
-        {   
-            if (HttpContext.WebSockets.IsWebSocketRequest)
-            {
-
-            }
-            else
-            {
-
-            }
-            return Ok();
         }
     }
 }

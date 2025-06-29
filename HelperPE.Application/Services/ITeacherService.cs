@@ -8,7 +8,8 @@ namespace HelperPE.Application.Services
         public Task<TeacherPairsModel> GetTodayPairs(Guid teacherId);
         public Task CreatePair(Guid subjectId, Guid teacherId);
         public Task<PairAttendancesListModel> GetPairAttendances(Guid teacherId);
-        public Task<PairAttendanceListShortModel> GetPairAttendances(Guid pairId, Guid teacherId);
+        public Task<PairAttendanceListShortModel> GetPendingPairAttendances(Guid pairId, Guid teacherId);
+        public Task<PairAttendanceListShortModel> GetSolvedPairAttendances(Guid pairId, Guid teacherId);
         public Task<PairAttendanceListShortModel> GetAllPairAttendances(Guid pairId, Guid teacherId);
         public Task EditPairAttendanceStatus(Guid pairId, Guid userId, int classesAmount = 1, bool approve = true);
     }

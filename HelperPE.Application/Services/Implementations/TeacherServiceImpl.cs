@@ -71,11 +71,11 @@ namespace HelperPE.Application.Services.Implementations
 
             var currentPairNumber = TimeUtility.GetPairNumber();
 
-            //if (currentPairNumber == -1)
-            //    throw new BadRequestException(ErrorMessages.CAN_NOT_CREATE_PAIR);
-
             if (currentPairNumber == -1)
-                currentPairNumber = 1;
+                throw new BadRequestException(ErrorMessages.CAN_NOT_CREATE_PAIR);
+
+            //if (currentPairNumber == -1)
+            //    currentPairNumber = 1;
 
             var newPair = new PairEntity
             {
@@ -133,7 +133,7 @@ namespace HelperPE.Application.Services.Implementations
             };
         }
 
-        public async Task<PairAttendanceListShortModel> GetPairAttendances(
+        public async Task<PairAttendanceListShortModel> GetPendingPairAttendances(
             Guid pairId, Guid teacherId)
         {
             var teacher = await _userRepository.GetTeacherById(teacherId);
@@ -153,6 +153,34 @@ namespace HelperPE.Application.Services.Implementations
                 Attendances = pendingAttendances.Select(a =>
                     new PairAttendanceShortModel 
                     { 
+                        Status = a.Status,
+                        Student = a.Student,
+                        ClassesAmount = a.ClassesAmount,
+                    })
+                    .ToList(),
+            };
+        }
+
+        public async Task<PairAttendanceListShortModel> GetSolvedPairAttendances(
+            Guid pairId, Guid teacherId)
+        {
+            var teacher = await _userRepository.GetTeacherById(teacherId);
+
+            var todayPairs = teacher.Pairs
+                .Where(p => p.Date.Date == DateTime.Today && p.PairId == pairId)
+                .ToList();
+
+            var pendingAttendances = todayPairs
+                .SelectMany(p => p.Attendances)
+                .Where(a => a.Status != PairAttendanceStatus.Pending)
+                .Select(a => a.ToProfileDto())
+                .ToList();
+
+            return new PairAttendanceListShortModel
+            {
+                Attendances = pendingAttendances.Select(a =>
+                    new PairAttendanceShortModel
+                    {
                         Status = a.Status,
                         Student = a.Student,
                         ClassesAmount = a.ClassesAmount,
