@@ -1,5 +1,8 @@
 ﻿using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Microsoft.OpenApi;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HelperPE.API.Setup
 {
@@ -20,24 +23,7 @@ namespace HelperPE.API.Setup
                     Scheme = "Bearer"
                 });
 
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            },
-
-                            Scheme = "oauth2",
-                            Name = "Bearer",
-                            In = ParameterLocation.Header
-                        },
-                        new List<string>()
-                    }
-                });
+                options.OperationFilter<SwaggerSecurityFilter>();
 
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
@@ -50,6 +36,54 @@ namespace HelperPE.API.Setup
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+            }
+        }
+    }
+
+    public class SwaggerSecurityFilter : IOperationFilter
+    {
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        {
+            var methodName = context.MethodInfo.Name;
+            var controllerName = context.MethodInfo.DeclaringType?.Name;
+
+            var hasAllowAnonymous = context.MethodInfo.GetCustomAttributes(true)
+                .OfType<AllowAnonymousAttribute>()
+                .Any();
+
+            var hasAuthorize = context.MethodInfo.GetCustomAttributes(true)
+                .OfType<AuthorizeAttribute>()
+                .Any();
+
+            if (hasAllowAnonymous)
+            {
+                operation.Security.Clear();
+                return;
+            }
+
+            if (hasAuthorize)
+            {
+                operation.Security = new List<OpenApiSecurityRequirement>
+                {
+                    new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+                        }
+                    }
+                };
+            }
+            else
+            {
+                operation.Security.Clear();
             }
         }
     }
