@@ -2,6 +2,7 @@
 using HelperPE.Common.Constants;
 using HelperPE.Common.Enums;
 using HelperPE.Common.Models.Event;
+using HelperPE.Common.Models.Profile;
 using HelperPE.Infrastructure.Filters;
 using HelperPE.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +22,13 @@ namespace HelperPE.API.Controllers
             _sportsService = sportsService;
         }
 
+        /// <summary>
+        /// Get list of events created by sports organizer
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="500">Internal server error</response>
+        [ProducesResponseType(typeof(EventListModel), StatusCodes.Status200OK)]
         [HttpGet("events")]
         [Authorize(Roles = RolesCombinations.SPORTS)]
         [CheckTokens]
@@ -29,6 +37,14 @@ namespace HelperPE.API.Controllers
             return Ok(await _sportsService.GetSportsOrgEventList(UserDescriptor.GetUserId(User)));
         }
 
+        /// <summary>
+        /// Get definite event info
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">Event not found</response>
+        /// <response code="500">Internal server error</response>
+        [ProducesResponseType(typeof(EventFullModel), StatusCodes.Status200OK)]
         [HttpGet("events/{id}")]
         [Authorize(Roles = RolesCombinations.SPORTS)]
         [CheckTokens]
@@ -37,6 +53,12 @@ namespace HelperPE.API.Controllers
             return Ok(await _sportsService.GetEventInfo(id));
         }
 
+        /// <summary>
+        /// Create info on sports organizer faculty
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="500">Internal server error</response>
         [HttpPost("events")]
         [Authorize(Roles = RolesCombinations.SPORTS)]
         [CheckTokens]
@@ -47,6 +69,13 @@ namespace HelperPE.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Delete event
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">Event not found</response>
+        /// <response code="500">Internal server error</response>
         [HttpDelete("events/{id}")]
         [Authorize(Roles = RolesCombinations.SPORTS)]
         [CheckTokens]
@@ -57,6 +86,13 @@ namespace HelperPE.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Edit application status
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">Event or student not found</response>
+        /// <response code="500">Internal server error</response>
         [HttpPut("events/{id}/application")]
         [Authorize(Roles = RolesCombinations.SPORTS)]
         [CheckTokens]
