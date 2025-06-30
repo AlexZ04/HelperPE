@@ -194,6 +194,7 @@ namespace HelperPE.Application.Services.Implementations
             var users = await _context.Users.OfType<StudentEntity>()
                 .Include(u => u.Faculty)
                 .Include(u => u.EventsAttendances)
+                    .ThenInclude(a => a.Event)
                 .Include(u => u.PairAttendances)
                     .ThenInclude(a => a.Pair)
                 .Include(u => u.OtherActivities)
