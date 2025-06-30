@@ -20,5 +20,6 @@ namespace HelperPE.Application.Services
         public Task AddSportOrg(Guid studentId);
         public Task DeleteSportOrg(Guid sportOrgId);
         public Task<List<StudentProfileShortModel>> GetStudents();
+        public Task<byte[]> DownloadFacultyTable(Guid facultyId);
     }
 }
