@@ -195,6 +195,7 @@ namespace HelperPE.Application.Services.Implementations
                 .Include(u => u.Faculty)
                 .Include(u => u.EventsAttendances)
                 .Include(u => u.PairAttendances)
+                    .ThenInclude(a => a.Pair)
                 .Include(u => u.OtherActivities)
                 .Where(u => u.Faculty != null && u.Faculty.Id == facultyId)
                 .OrderBy(u => u.Faculty.Name)
