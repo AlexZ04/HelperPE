@@ -180,7 +180,7 @@ namespace HelperPE.API.Controllers
         [HttpPost("{studentId}")]
         [Authorize(Roles = RolesCombinations.CURATOR)]
         [CheckTokens]
-        public async Task<IActionResult> AddCurator([Required, FromRoute]Guid studentId)
+        public async Task<IActionResult> AddCurator([Required, FromRoute] Guid studentId)
         {
             await _curatorService.AddSportOrg(studentId);
             return Ok();
@@ -202,5 +202,20 @@ namespace HelperPE.API.Controllers
         {
             return Ok(await _curatorService.GetStudents());
         }
+
+
+        [HttpGet("facultyTable/{facultyId}")]
+        [Authorize(Roles = RolesCombinations.CURATOR)]
+        [CheckTokens]
+        public async Task<IActionResult> GetTable([Required, FromRoute] Guid facultyId)
+        {
+            return File(
+                await _curatorService.DownloadFacultyTable(facultyId),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "peClasses.xlsx"
+            );
+        }
+
+
     }
 }
